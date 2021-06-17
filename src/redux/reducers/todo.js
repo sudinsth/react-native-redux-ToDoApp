@@ -10,8 +10,13 @@ const todo = (state=[], action)=> {
             ]
 
         case 'TOGGLE_TODO':
-            return state.map(todo=>(todo.id === action.id)?{...todo, completed:!todo.completed}: todo)
-
+            return state.map(todo=>(todo.id === action.id)?{...todo, completed:!todo.completed}: todo)    
+            
+        case 'REMOVE_TODO':
+            return state.filter(todo => {
+                return todo.id !== action.id;
+            });
+        
         default:
             return state
     }
