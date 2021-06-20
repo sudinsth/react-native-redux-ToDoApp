@@ -2,16 +2,13 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import {Header} from './component/header';
 import AddTodo from './containers/addTodo';
 import VisibleTodo from './containers/VisibleTodo';
 const ToDoApp = () => {
     return (
         <View style={styles.container}>
         <StatusBar style='auto' />
-            <Header />
             <AddTodo />
-
             <View>
                 <VisibleTodo />
             </View>
@@ -26,6 +23,7 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: '#fff',
-      marginTop: 40,
+      padding: 20,
+      paddingTop: 20,
     },
   });

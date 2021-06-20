@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { View, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, TextInput, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 import {connect, useDispatch} from 'react-redux';
 import { addTodo } from '../redux/actions';
@@ -9,12 +9,11 @@ const AddTodo = () => {
     const dispatch = useDispatch();
 
     const addToDo = (text) => {
-        // redux store
         dispatch(addTodo(text))
         setText(null)
     }
     return (
-        <View style={{ margin: 10, marginTop: 30}}>
+        <View>
             <TextInput 
                 placeholder='Add ToDo'
                 style={{borderWidth: 1, borderColor: 'orange', padding: 10}}

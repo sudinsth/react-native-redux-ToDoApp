@@ -14,7 +14,7 @@ const todo = (state=[], action)=> {
             
         case 'REMOVE_TODO':
             return state.filter(todo => {
-                return todo.id !== action.id;
+                return todo.id !== action.id
             });
         
         default:

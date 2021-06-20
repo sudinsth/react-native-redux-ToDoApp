@@ -1,4 +1,4 @@
-import {ADD_TODO, TOGGLE_TODO, REMOVE_TODO} from './actionTypes';
+import {ADD_TODO, TOGGLE_TODO, REMOVE_TODO, COMPLETED} from './actionTypes';
 
 let nextId = 0;
 export const addTodo = (text) => ({
