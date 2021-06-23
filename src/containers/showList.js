@@ -27,10 +27,9 @@ const styles = StyleSheet.create({
     item: {
         padding: 10,
         margin: 10,
-        fontSize: 16,
+        fontSize: 20,
         textAlignVertical: 'center',
         alignItems: 'center',
-        testDecorationColor: 'red',
     },
 });
 
