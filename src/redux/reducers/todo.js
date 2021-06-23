@@ -1,6 +1,6 @@
 const todo = (state=[], action)=> {
     switch(action.type){
-        case 'ADD_TODO':
+        case 'ADD_TODO_SAGA':
             return[
                 ...state,{
                     id:action.id,
@@ -9,10 +9,10 @@ const todo = (state=[], action)=> {
                 }
             ]
 
-        case 'TOGGLE_TODO':
+        case 'TOGGLE_TODO_SAGA':
             return state.map(todo=>(todo.id === action.id)?{...todo, completed:!todo.completed}: todo)    
             
-        case 'REMOVE_TODO':
+        case 'REMOVE_TODO_SAGA':
             return state.filter(todo => {
                 return todo.id !== action.id
             });

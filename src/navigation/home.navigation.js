@@ -13,7 +13,7 @@ export const AppNavigation = () => {
     return (
        <NavigationContainer>
            <Stack.Navigator>
-               <Stack.Screen 
+               <Stack.Screen
                 name="Home"
                 component={HomeScreen}
                 options={{headerShown: false}}
@@ -26,7 +26,6 @@ export const AppNavigation = () => {
                     headerStyle: {  
                         height: 110,                  
                     },
-                    
                 }}
                />
                <Stack.Screen 
@@ -37,7 +36,6 @@ export const AppNavigation = () => {
                     headerStyle: {  
                         height: 110,                  
                     },
-                    
                 }}
                />
            </Stack.Navigator>

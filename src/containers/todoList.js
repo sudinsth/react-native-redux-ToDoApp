@@ -10,7 +10,7 @@ const TodoList = ({ todo, removeTodo }) => {
                 <TouchableOpacity key={todo.id}>
                 <View style={{flexDirection: 'row', alignItems: 'center', marginHorizontal: 20}}>
                     <MaterialIcons name="delete" size={24} color="black" onPress={()=> removeTodo(todo.id)} style={styles.icon}/>
-                    <Text>{todo.text}</Text>
+                    <Text style={styles.item}>{todo.text}</Text>
                 </View>
                 </TouchableOpacity>
             )}

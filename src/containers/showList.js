@@ -2,6 +2,7 @@ import React from 'react';
 import {StyleSheet, TouchableOpacity, Text, View} from 'react-native';
 
 import {connect} from 'react-redux';
+import { toggleTodo } from '../redux/actions';
 
 const mapStateToProps = state => ({
     todo: state.todo
@@ -10,15 +11,13 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     toggleTodo: id=> dispatch(toggleTodo(id)),
 })
-const ShowList = ({todo}) => {
+const ShowList = ({todo, toggleTodo}) => {
     return(
         <View>
             {todo.map(todo =>
                 <TouchableOpacity key={todo.id} onPress={()=>toggleTodo(todo.id)}>
-                <View key={todo.id} style={{flexDirection: 'row', alignItems: 'center', marginHorizontal: 20}}>
-                    <Text style={styles.item}>{todo.text}</Text>
-                </View>
-                // </TouchableOpacity>
+                    <Text style={{textDecorationLine: todo.completed? 'line-through':'none' ,...styles.item}}>{todo.text}</Text>
+                </TouchableOpacity>
             )}
         </View>
     );
@@ -30,7 +29,8 @@ const styles = StyleSheet.create({
         margin: 10,
         fontSize: 16,
         textAlignVertical: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        testDecorationColor: 'red',
     },
 });
 

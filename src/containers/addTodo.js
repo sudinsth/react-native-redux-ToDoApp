@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { View, TextInput, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { View, TextInput, TouchableOpacity } from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 import {connect, useDispatch} from 'react-redux';
 import { addTodo } from '../redux/actions';
