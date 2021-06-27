@@ -17,7 +17,7 @@ const AddTodo = () => {
             <TextInput 
                 placeholder='Add ToDo'
                 style={{borderWidth: 1, borderColor: 'orange', padding: 10}}
-                value={text}
+                defaultValue={text}
                 onChangeText={(val) => setText(val)}
             />
             <TouchableOpacity onPress={() => addToDo(text)}>
