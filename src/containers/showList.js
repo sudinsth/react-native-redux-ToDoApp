@@ -1,23 +1,28 @@
 import React from 'react';
 import {StyleSheet, TouchableOpacity, Text, View} from 'react-native';
 
-import {connect} from 'react-redux';
-import { toggleTodo } from '../redux/actions';
+import {connect, useSelector, useDispatch} from 'react-redux';
+import { toggleItem } from '../redux/actions';
 
-const mapStateToProps = state => ({
-    todo: state.todo
-})
+import {RadioButton} from '../component/radioButton';
 
-const mapDispatchToProps = dispatch => ({
-    toggleTodo: id=> dispatch(toggleTodo(id)),
-})
-const ShowList = ({todo, toggleTodo}) => {
+const ShowList = () => {
+    const list = useSelector((state) => state.getTodo.list)
+    const dispatch = useDispatch();
+    const toggleTodo = (index) => {
+        dispatch(toggleItem(index))
+    }
     return(
         <View>
-            {todo.map(todo =>
-                <TouchableOpacity key={todo.id} onPress={()=>toggleTodo(todo.id)}>
-                    <Text style={{textDecorationLine: todo.completed? 'line-through':'none' ,...styles.item}}>{todo.text}</Text>
-                </TouchableOpacity>
+            {list.map((item, id) =>
+                    <View key={id} style={{flexDirection: 'row', alignItems: 'center', marginLeft: 30}}>
+                        <TouchableOpacity onPress={() => toggleTodo(id)}>
+                            <RadioButton selected={item.finished}/>
+                        </TouchableOpacity>
+                        <View style={{flexDirection: 'row', alignItems: 'center', marginHorizontal: 20}}>
+                            <Text style={styles.item}>{item.title}</Text>
+                        </View>
+                    </View>
             )}
         </View>
     );
@@ -33,4 +38,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default connect(mapStateToProps,mapDispatchToProps)(ShowList);
+export default connect()(ShowList);

@@ -2,16 +2,18 @@ import React, {useState} from 'react';
 import { View, TextInput, TouchableOpacity } from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 import {connect, useDispatch} from 'react-redux';
-import { addTodo } from '../redux/actions';
+import { addItem } from '../redux/actions';
+
 const AddTodo = () => {
     
     const [text, setText] = useState();
     const dispatch = useDispatch();
 
     const addToDo = (text) => {
-        dispatch(addTodo(text))
+        dispatch(addItem(text))
         setText(null)
     }
+
     return (
         <View>
             <TextInput 

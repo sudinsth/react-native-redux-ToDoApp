@@ -2,17 +2,25 @@ import React from 'react';
 import {StyleSheet, TouchableOpacity, Text, View} from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
-const TodoList = ({ todo, removeTodo }) => {
+import {connect, useSelector, useDispatch} from 'react-redux';
+import { removeItem } from '../redux/actions';
 
+const TodoList = () => {
+    const list = useSelector((state) => state.getTodo.list)
+    const dispatch = useDispatch();
+    const removeTodo = (index) => {
+        dispatch(removeItem(index))
+    }
     return(
         <View>
-            {todo.map(todo =>
-                <TouchableOpacity key={todo.id}>
-                <View style={{flexDirection: 'row', alignItems: 'center', marginHorizontal: 20}}>
-                    <MaterialIcons name="delete" size={24} color="black" onPress={()=> removeTodo(todo.id)} style={styles.icon}/>
-                    <Text style={styles.item}>{todo.text}</Text>
+            {
+            list.map((item, id) =>
+                <View key={id} style={{flexDirection: 'row', alignItems: 'center', marginHorizontal: 20}}>
+                    <TouchableOpacity onPress={()=> removeTodo(id)}>
+                        <MaterialIcons name="delete" size={24} color="orange" style={styles.icon}/>
+                    </TouchableOpacity>
+                    <Text style={styles.item}>{item.title}</Text>
                 </View>
-                </TouchableOpacity>
             )}
         </View>
     );
@@ -28,4 +36,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default TodoList;
+export default connect()(TodoList);
