@@ -1,16 +1,22 @@
-import {ADD_TODO, TOGGLE_TODO, REMOVE_TODO } from './actionTypes';
+import {ADD_TODO, REMOVE_TODO, TOGGLE_TODO} from './actionTypes';
 
-export const addTodo = (text) => ({
-    type: ADD_TODO,
-    text
-})
+export const addItem = (value) => {
+    return {
+        type: ADD_TODO,
+        value
+    }
+}
 
-export const toggleTodo = (id) => ({
-    type: TOGGLE_TODO,
-    id
-})
+export const removeItem = (index) => {
+    return {
+        type: REMOVE_TODO,
+        index
+    }
+}
 
-export const removeTodo = (id) => ({
-    type: REMOVE_TODO,
-    id
-})
+export const toggleItem = (index) => {
+    return {
+        type: TOGGLE_TODO,
+        index
+    }
+}
