@@ -1,7 +1,6 @@
 import React from 'react';
 import {View} from 'react-native';
 
-import VisibleTodo from '../containers/VisibleTodo';
 import ShowList from '../containers/showList';
 
 const ShowItem = () => {
