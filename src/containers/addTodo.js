@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
-import { View, TextInput, TouchableOpacity } from 'react-native';
+import { View, TextInput, TouchableOpacity, Alert } from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 import {connect, useDispatch} from 'react-redux';
 import { addItem } from '../redux/actions';
+import { colors } from '../constants/color';
 
 const AddTodo = () => {
     
@@ -10,24 +11,34 @@ const AddTodo = () => {
     const dispatch = useDispatch();
 
     const addToDo = (text) => {
-        dispatch(addItem(text))
+        if(text!= null){
+            dispatch(addItem(text))
+        }
         setText(null)
     }
 
     return (
-        <View>
-            <TextInput 
-                placeholder='Add ToDo'
-                style={{borderWidth: 1, borderColor: 'orange', padding: 10}}
-                defaultValue={text}
-                onChangeText={(val) => setText(val)}
-            />
-            <TouchableOpacity onPress={() => addToDo(text)}>
-                <View style={{height: 50, alignItems: 'center'}}>
-                    <Ionicons name='md-add' size={30} style={{color: 'orange', padding: 10}}/>
-                </View>
-            </TouchableOpacity>
+        <View style={{
+            backgroundColor: colors.white,
+            padding: 10,
+            elevation: 10,
+            flexDirection: 'row',
+        }}>
+            <View style={{flex: 1}}>
+                <TextInput 
+                    placeholder='Add ToDo'
+                    style={{borderWidth: 1, borderColor: colors.orange, padding: 10, fontSize: 20}}
+                    defaultValue={text}
+                    onChangeText={(val) => setText(val)}
+                />
+            </View>
+                <TouchableOpacity style={{backgroundColor: colors.orange}} onPress={() => addToDo(text)}>
+                    <View style={{height: 50, justifyContent: 'center'}}>
+                        <Ionicons name='md-add' size={40} style={{color: colors.white}}/>
+                    </View>
+                </TouchableOpacity>
         </View>
+
     );
 }
 
