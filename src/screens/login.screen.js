@@ -15,10 +15,15 @@ import {auth} from 'firebase';
 import { colors } from '../constants/color';
 import LabelInput from '../component/LabelInput';
 
-const login = (email, password) => {};
+const login = (email, password) => {
+    auth()
+        .signInWithEmailAndPassword(email, password)
+        .then(() => {
+            console.log("Logged In!");
+        })
+};
 
 const createAccount = (email, password) => {
-    console.log(email)
     auth()
         .createUserWithEmailAndPassword(email, password)
         .then(({ user }) => {
