@@ -16,7 +16,7 @@ const TodoList = () => {
         <ScrollView>
             {
             list.map((item, id) =>
-                item.finished ? <View key={id} style={styles.list}>
+                !item.finished ? <View key={id} style={styles.list}>
                 <Text>{id + 1 }</Text>
                 <View style={{flex: 1, borderBottomColor: colors.grey, borderBottomWidth: 1}}>
                     <Text style={styles.item}>{item.title}</Text>

@@ -28,11 +28,12 @@ export const HomeScreen = ({navigation}) => {
                 </View>
             </View>
             <View style={styles.footer}>
-                <View style={styles.addIcon}>
-                    <TouchableOpacity onPress={() => navigation.navigate('AddItem')}>
-                        <Ionicons name='md-add' size={30} style={{color: colors.orange}}/>
-                    </TouchableOpacity>
-                </View>
+                <TouchableOpacity onPress={() => navigation.navigate('AddItem')}>
+                    <View style={styles.addIcon}>
+                            <Ionicons name='md-add' size={30} style={{color: colors.orange}}/>
+                    </View>
+                </TouchableOpacity>
+
             </View>
         </View>
         
