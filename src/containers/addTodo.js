@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { View, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { View, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 import {connect, useDispatch} from 'react-redux';
 import { addItem } from '../redux/actions';
@@ -18,12 +18,7 @@ const AddTodo = () => {
     }
 
     return (
-        <View style={{
-            backgroundColor: colors.white,
-            padding: 10,
-            elevation: 10,
-            flexDirection: 'row',
-        }}>
+        <View style={styles.container}>
             <View style={{flex: 1}}>
                 <TextInput 
                     placeholder='Add ToDo'
@@ -49,3 +44,12 @@ const AddTodo = () => {
 }
 
 export default connect()(AddTodo);
+
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: colors.white,
+        padding: 10,
+        elevation: 10,
+        flexDirection: 'row',
+    }
+})

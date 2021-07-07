@@ -6,10 +6,12 @@ import { createStackNavigator } from '@react-navigation/stack';
 import ToDoApp from '../ToDoApp';
 import { Header } from '../component/header';
 import {HomeScreen} from '../screens/main.screen';
+import { EditScreen } from '../screens/Edit.screen';
+import { colors } from '../constants/color';
 
 const Stack = createStackNavigator();
 
-export const HomeStack = ({navigation}) => {
+export const HomeStack = ({navigation, currentTask}) => {
     return (
     //    <NavigationContainer>
         <Stack.Navigator>
@@ -36,7 +38,19 @@ export const HomeStack = ({navigation}) => {
                     </View>,
                 headerTintColor: 'orange'
             }}
-            
+            />
+            <Stack.Screen 
+                name = "EditScreen"
+                component = {EditScreen}
+                options={({route}) => {
+                    return({
+                        title: `Edit "${route.params.currentTask}"`,
+                        headerTitleStyle: {
+                            fontSize: 22
+                        },
+                        headerTintColor: colors.orange
+                    })
+                }}
             />
         </Stack.Navigator>
     //    </NavigationContainer>
