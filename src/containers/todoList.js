@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
     StyleSheet, 
     TouchableOpacity, 
@@ -13,6 +13,7 @@ import {connect, useSelector, useDispatch} from 'react-redux';
 import { removeItem } from '../redux/actions';
 import { colors } from '../constants/color';
 import { PlaceholderScreen } from '../component/placeholderScreen';
+import { TextInput } from 'react-native-gesture-handler';
 
 const TodoList = () => {
     const list = useSelector((state) => state.getTodo.list)
@@ -20,7 +21,6 @@ const TodoList = () => {
     const removeTodo = (index) => {
         dispatch(removeItem(index))
     }
-
     return(
         <View>
             {   list.length == 0
@@ -50,7 +50,6 @@ const TodoList = () => {
                 top: 25,
             }}
             />
-
             {
             list.map((item, id) =>
                 !item.finished ? <View key={id} style={styles.list}>

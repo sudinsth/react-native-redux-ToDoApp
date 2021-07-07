@@ -31,7 +31,7 @@ export const HomeScreen = ({navigation}) => {
             />
             <View style={styles.content}>
                 <View style={{flex: 1}}>
-                    <ShowList />
+                    <ShowList navigation={navigation}/>
                 </View>
             </View>
             <View style={styles.footer}>
@@ -86,4 +86,4 @@ const styles = StyleSheet.create({
     //     color: 'black',
     //     textAlign: 'center',
     // }
-  });
+});

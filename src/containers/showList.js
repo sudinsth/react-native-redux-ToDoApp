@@ -1,15 +1,30 @@
 import React, {useState} from 'react';
-import {StyleSheet, TouchableOpacity, Text, View, ScrollView} from 'react-native';
+import {
+    StyleSheet, 
+    TouchableOpacity, 
+    Text, 
+    View, 
+    ScrollView, 
+    TextInput,
+    Modal,
+    Button
+} from 'react-native';
 
 import {connect, useSelector, useDispatch} from 'react-redux';
-import {MaterialIcons, Feather} from '@expo/vector-icons';
+import {MaterialIcons, Feather, Ionicons} from '@expo/vector-icons';
 
-import { toggleItem, removeItem } from '../redux/actions';
+import { toggleItem, removeItem, editItem } from '../redux/actions';
 import {RadioButton} from '../component/radioButton';
 import {colors} from '../constants/color';
 import { PlaceholderScreen } from '../component/placeholderScreen';
 
-const ShowList = () => {
+import { EditScreen } from '../screens/Edit.screen';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+
+
+const ShowList = ({navigation}) => {
+    const [modalOpen, setModalOpen] = useState(false);
+
 
     const list = useSelector((state) => state.getTodo.list)
     const dispatch = useDispatch();
@@ -31,6 +46,7 @@ const ShowList = () => {
                         {list.length} Total Tasks
                     </Text>
                 </View>
+                {/* Tasks Lists */}
             {
                 list.map((item, id) =>
                 <View key={id} style={[styles.listContent, {backgroundColor: item.finished ? colors.grey : colors.white}]}>
@@ -52,14 +68,47 @@ const ShowList = () => {
                         flexDirection: 'row',
                         margin: 4,
                     }}>
-                        <TouchableOpacity style={{marginRight: 8}}>
+                        {/* Edit Button */}
+                        <TouchableOpacity 
+                            // onPress={()=> navigation.navigate(
+                            //     'EditScreen',
+                            //     {
+                            //         currentTask: item.title,
+                            //         currentId: item.id
+                            //     }
+                            // )} 
+                            onPress={() => setModalOpen(!modalOpen)}
+                            style={{marginRight: 8}}
+                        >
                             <Feather name="edit" size={24} color={item.finished? colors.orange_greyed : colors.orange}/>
                         </TouchableOpacity>
+                        {/* Remove Button */}
                         <TouchableOpacity onPress={()=> removeTodo(id)}>
                             <MaterialIcons name="delete" size={24} color={item.finished? colors.orange_greyed:colors.orange}/>
                         </TouchableOpacity>
                     </View>
-                </View>
+                    {/* Edit Modal */}
+                    <Modal
+                        visible={modalOpen}
+                        animationType={'fade'}
+                        transparent={true}
+                    >
+                            <View style={styles.modalWindow}>
+                                <View style={styles.modalContent}>
+                                    <Ionicons 
+                                        name="close-sharp" 
+                                        size={40} 
+                                        color={colors.orange} 
+                                        onPress={() => setModalOpen(!modalOpen)}
+                                        style={{
+                                            alignSelf: 'center'
+                                        }}
+                                    />
+                                    <EditScreen taskId={item.id} chosenList={item.title}/>
+                                </View>
+                            </View>
+                    </Modal>
+                    </View>
             )}
             </ScrollView>
             }
@@ -85,7 +134,22 @@ const styles = StyleSheet.create({
         // borderColor: colors.orange,
         elevation: 3,
         backgroundColor: colors.white
-    }
+    },
+    modalWindow: {
+        flex: 1,
+        backgroundColor: '#000000A6',
+        justifyContent: 'flex-end',
+    },
+    modalContent: {
+        height: '45%',
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
+        paddingTop: 10,
+        paddingBottom: 20,
+        paddingHorizontal: 10,
+        opacity: 0.95,
+        backgroundColor: colors.white
+    },
 });
 
 export default connect()(ShowList);
