@@ -2,56 +2,109 @@ import React from 'react';
 import {
     StyleSheet, 
     View,
+    Text,
 } from 'react-native';
 import {
     Drawer,
-    Text,
 } from 'react-native-paper';
 import {
     DrawerContentScrollView,
     DrawerItem
 } from '@react-navigation/drawer';
-import { MaterialCommunityIcons, FontAwesome5, Octicons } from '@expo/vector-icons';
+import { MaterialCommunityIcons, FontAwesome5, Octicons, Foundation } from '@expo/vector-icons';
+import { colors } from '../constants/color';
 
+import { useSelector } from 'react-redux';
 import {auth} from "firebase";
 
 export const DrawerContent = (props) => {
+    const list = useSelector((state) => state.getTodo.list)
+    let trueCount = 0;
+    let falseCount = 0;
+
+    list.forEach((object)=>{
+        object.finished === true ? trueCount++ : falseCount ++; 
+    })
+
     return (
         <View style={styles.container}>
             <DrawerContentScrollView {...props}>
+                <View style={styles.userSection}>
+                    <View style={{
+                        flexDirection: 'row'
+                    }}>
+                        <View style={{
+                            backgroundColor: colors.white,
+                            borderColor: colors.orange,
+                            borderWidth: 1,
+                            borderRadius: 50,
+                            alignSelf: 'flex-start',
+                            height: 85,
+                            width: 85,
+                            padding: 4
+                        }}>
+                            <View style={{
+                                height: 75,
+                                width: 75,
+                                borderRadius: 60,
+                                backgroundColor: colors.orange_greyed,
+                            }} />
+                        </View> 
+                        <View style={{
+                            margin: 10,
+                            marginLeft: 15,
+                            marginTop: 6,
+                            flex: 1,
+                        }}>
+                            <Text style={{fontFamily: 'Poppins-Regular'}}>
+                                {auth().currentUser.email}
+                            </Text>
+                            <Text style={{fontFamily: 'Poppins-Regular', fontSize: 12}}>
+                                {trueCount} Completed
+                            </Text>
+                            <Text style={{fontFamily: 'Poppins-Regular', fontSize: 12}}>
+                                {falseCount} Left
+                            </Text>
+                            <Text style={{fontFamily: 'Poppins-Regular', fontSize: 12}}>
+                                {list.length} Total Tasks
+                            </Text>
+                        
+                        </View>
+                    </View>
+                </View>
                 <View style={styles.drawerContent}>
                     <Drawer.Section style={styles.drawerSection}>
                         <DrawerItem 
                             icon ={({color, size}) => (
                                 <FontAwesome5 
-                                name="tasks"
-                                color={color}
-                                size={size}
+                                    name="tasks"
+                                    color={colors.orange}
+                                    size={size}
                                 />
                             )}
-                            label="All Tasks"
+                            label={`All Tasks (${list.length})`}
                             onPress={() => {props.navigation.navigate('All Tasks')}}
                         />
                         <DrawerItem 
                             icon ={({color, size}) => (
                                 <Octicons 
-                                name="tasklist"
-                                color={color}
-                                size={size}
+                                    name="tasklist"
+                                    color={colors.orange}
+                                    size={size}
                                 />
                             )}
-                            label="Completed"
+                            label={`Completed (${trueCount})`}
                             onPress={() => {props.navigation.navigate('Completed')}}
                         />
                         <DrawerItem 
                             icon ={({color, size}) => (
-                                <MaterialCommunityIcons
-                                name="alert-box-outline"
-                                color={color}
-                                size={size}
+                                <Foundation
+                                    name="clipboard-pencil"
+                                    color={colors.orange}
+                                    size={30}
                                 />
                             )}
-                            label="Not Completed"
+                            label={`Not Completed (${falseCount})`}
                             onPress={() => {props.navigation.navigate('Not Completed')}}
                         />
                     </Drawer.Section>
@@ -62,7 +115,7 @@ export const DrawerContent = (props) => {
                     icon ={({color, size}) => (
                         < MaterialCommunityIcons
                         name="exit-to-app"
-                        color={color}
+                        color={colors.orange}
                         size={size}
                         />
                     )}
@@ -81,9 +134,14 @@ const styles=StyleSheet.create({
         flex: 1,
         paddingTop: 28,
     },
+    userSection: {
+        marginLeft: 10,
+        marginBottom: 15,
+    },
     bottomDrawerSection: {
-        borderTopColor: 'black',
-        borderTopWidth: 1
+        borderTopColor: colors.orange,
+        borderTopWidth: 1,
+        backgroundColor: colors.grey,
     },
     drawerContent: {
         flex: 1,
@@ -91,6 +149,6 @@ const styles=StyleSheet.create({
     drawerSection: {
         borderBottomWidth: 1,
         borderTopWidth: 1,
-        borderColor: 'grey',
+        borderColor: colors.orange,
     }
 });

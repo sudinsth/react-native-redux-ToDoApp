@@ -42,6 +42,6 @@ const styles=StyleSheet.create({
         padding: 10,
         marginVertical: 12,
         borderColor: 'grey',
-        borderWidth: 1
+        borderBottomWidth: 1
     },
 });

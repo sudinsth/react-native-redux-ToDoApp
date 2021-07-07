@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import {View, StyleSheet, TouchableOpacity, Text} from 'react-native';
 
+import { useSelector } from 'react-redux';
 import {Ionicons} from '@expo/vector-icons';
 
 import {Header} from '../component/header'
@@ -11,7 +12,11 @@ import { ShowCompleted } from '../containers/showCompleted';
 import { ShowNotCompleted } from '../containers/showNotCompleted';
 
 const ShowCompletedScreen = ({navigation}) => {
-
+    const list = useSelector((state) => state.getTodo.list);
+    let trueCount = 0;
+    list.forEach((object) => {
+        object.finished === true ? trueCount++ : null; 
+    })
     return(
         <View style={styles.container}>
         <StatusBar style='auto' />

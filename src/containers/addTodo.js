@@ -27,7 +27,13 @@ const AddTodo = () => {
             <View style={{flex: 1}}>
                 <TextInput 
                     placeholder='Add ToDo'
-                    style={{borderWidth: 1, borderColor: colors.orange, padding: 10, fontSize: 20}}
+                    style={{
+                        borderWidth: 1, 
+                        borderColor: colors.orange, 
+                        padding: 10, 
+                        fontSize: 16,
+                        fontFamily: 'Poppins-Regular',
+                    }}
                     defaultValue={text}
                     onChangeText={(val) => setText(val)}
                 />

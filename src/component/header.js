@@ -19,7 +19,7 @@ export const Header = ({navigation}) => {
             <View style={{flex: 1, justifyContent: 'center',}}>
                 <Text style={styles.title}>
                     ToDo
-                <Text style={{color: colors.orange}}>App</Text>
+                <Text style={{color: colors.orange, fontFamily: 'Poppins-Regular'}}>App</Text>
                 </Text>
             </View>
             
@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
         fontSize: 24,
         textAlign: 'center',
         marginRight: 35,
+        fontFamily: 'Poppins-Regular'
     },
     icon: {
         marginLeft: 15,

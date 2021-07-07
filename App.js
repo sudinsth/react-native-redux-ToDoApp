@@ -12,6 +12,8 @@ import { AppNavigation } from './src/navigation/drawer.navigation';
 import {LoginScreen} from './src/screens/login.screen';
 import { AuthScreens, AuthStackScreen } from './src/screens/Auth.screen';
 
+import AppLoading from 'expo-app-loading';
+import { useFonts } from 'expo-font';
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -29,13 +31,23 @@ export default function App() {
       }
     })
   }, [])
-  return (
-    <Provider store={store}>
-        {/* <AppNavigation /> */}
-        {/* <LoginScreen /> */}
-        {isAuthenticated ? <AppNavigation /> : <AuthStackScreen />}
-    </Provider>
-  );
+
+  let [fontsLoaded] = useFonts({
+    'Poppins-Regular': require('./assets/fonts/Poppins-Regular.ttf'),
+    'Poppins-Medium' : require('./assets/fonts/Poppins-Medium.ttf'),
+  });
+
+  if(!fontsLoaded) {
+    return <AppLoading />
+  } else {
+    return (
+      <Provider store={store}>
+          {/* <AppNavigation /> */}
+          {/* <LoginScreen /> */}
+          {isAuthenticated ? <AppNavigation /> : <AuthStackScreen />}
+      </Provider>
+    );
+  }
 };
 
 !firebase.apps.length ? firebase.initializeApp(firebaseConfig) : firebase.app()

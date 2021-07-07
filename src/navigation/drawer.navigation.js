@@ -1,6 +1,6 @@
 import React from 'react';
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, DefaultTheme, DarkTheme } from "@react-navigation/native";
 import { HomeStack } from "./home.navigation";
 
 import { DrawerContent } from '../screens/DrawerContent';
@@ -11,7 +11,7 @@ const Drawer = createDrawerNavigator();
 
 export const AppNavigation = () => {
     return (
-        <NavigationContainer>
+        <NavigationContainer theme={DefaultTheme}>
             <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />}>
                 <Drawer.Screen name="All Tasks" component={HomeStack}/>
                 <Drawer.Screen name="Completed" component={ShowCompletedScreen}/>

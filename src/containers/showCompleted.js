@@ -7,7 +7,7 @@ import {MaterialIcons} from '@expo/vector-icons';
 import { toggleItem, removeItem } from '../redux/actions';
 import {RadioButton} from '../component/radioButton';
 import {colors} from '../constants/color';
-
+import { PlaceholderScreen } from '../component/placeholderScreen';
 
 
 const ShowCompleted = () => {
@@ -21,15 +21,22 @@ const ShowCompleted = () => {
         dispatch(removeItem(index))
     }
 
-    return(
-        <View>
-            <View>
-                <Text style={{textAlign: 'center', fontSize: 16}}>
-                    {list.length} Total Tasks
-                </Text>
-            </View> 
+    let trueCount = 0;
+    list.forEach((object) => {
+        object.finished ? trueCount++ : null;
+    });
 
+    return(
+        <View> 
+            {   trueCount == 0
+            ?   <PlaceholderScreen />
+            :
             <ScrollView>
+                <View>
+                    <Text style={{textAlign: 'center', fontSize: 16, fontFamily: 'Poppins-Regular'}}>
+                        {trueCount} Tasks Completed
+                    </Text>
+                </View>
             {
                 list.map((item, id) =>
                 item.finished ?
@@ -55,7 +62,7 @@ const ShowCompleted = () => {
                 : null
             )}
             </ScrollView>
-            
+            }
         </View>
     );
 };

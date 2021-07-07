@@ -2,13 +2,12 @@ import React, {useState} from 'react';
 import {StyleSheet, TouchableOpacity, Text, View, ScrollView} from 'react-native';
 
 import {connect, useSelector, useDispatch} from 'react-redux';
-import {MaterialIcons} from '@expo/vector-icons';
+import {MaterialIcons, Feather} from '@expo/vector-icons';
 
 import { toggleItem, removeItem } from '../redux/actions';
 import {RadioButton} from '../component/radioButton';
 import {colors} from '../constants/color';
-
-
+import { PlaceholderScreen } from '../component/placeholderScreen';
 
 const ShowList = () => {
 
@@ -22,38 +21,48 @@ const ShowList = () => {
     }
 
     return(
-        <View>
-            <View>
-                <Text style={{textAlign: 'center', fontSize: 16}}>
-                    {list.length} Total Tasks
-                </Text>
-            </View> 
+        <View> 
+            { list.length == 0 
+            ?   <PlaceholderScreen />
 
-            <ScrollView>
+            :   <ScrollView>
+                <View>
+                    <Text style={{textAlign: 'center', fontSize: 16, fontFamily: 'Poppins-Regular'}}>
+                        {list.length} Total Tasks
+                    </Text>
+                </View>
             {
                 list.map((item, id) =>
-                <View key={id} style={styles.listContent}>
+                <View key={id} style={[styles.listContent, {backgroundColor: item.finished ? colors.grey : colors.white}]}>
                     <TouchableOpacity onPress={() => toggleTodo(id)}>
                         <RadioButton selected={item.finished}/>
                     </TouchableOpacity>
-                    <View style={{flex: 15}}>
-                        <View style={{alignItems: 'flex-start', marginLeft: 15,}}>
+                    <View style={{flex: 13}}>
+                        <View style={{alignItems: 'flex-start', marginLeft: 15}}>
                         <Text style={{ 
                             ...styles.item,
                             textDecorationLine: item.finished? 'line-through':'none',
-                            color: item.finished? colors.orange_greyed : colors.black,
+                            color: item.finished? colors.white_greyed : colors.black,
                             }}>{item.title}</Text>
                         </View>
                     </View>
-                    <View style={{flex:1, alignItems:'flex-end'}}>
+                    <View style={{
+                        flex: 3, 
+                        alignItems:'flex-end', 
+                        flexDirection: 'row',
+                        margin: 4,
+                    }}>
+                        <TouchableOpacity style={{marginRight: 8}}>
+                            <Feather name="edit" size={24} color={item.finished? colors.orange_greyed : colors.orange}/>
+                        </TouchableOpacity>
                         <TouchableOpacity onPress={()=> removeTodo(id)}>
-                            <MaterialIcons name="delete" size={24} color="orange" style={styles.icon}/>
+                            <MaterialIcons name="delete" size={24} color={item.finished? colors.orange_greyed:colors.orange}/>
                         </TouchableOpacity>
                     </View>
                 </View>
             )}
             </ScrollView>
-            
+            }
         </View>
     );
 };

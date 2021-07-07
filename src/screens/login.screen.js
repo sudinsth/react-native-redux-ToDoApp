@@ -61,7 +61,7 @@ export const LoginScreen = () => {
                 
                 <View style={styles.bottomView}>
                     <Text style={styles.loginText}>
-                        {isCreateMode? 'Create An Account': 'Login'}
+                        {isCreateMode? 'Create An Account': 'Welcome Back!!'}
                     </Text>
                     <View style={styles.inputView}>
                         {/* icon */}
@@ -146,11 +146,15 @@ export const LoginScreen = () => {
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={()=>{setIsCreateMode(!isCreateMode)}}>
-                    {isCreateMode?    
-                        <Text style={styles.registerText}>
+                    {isCreateMode
+                    ?   <Text style={styles.registerText}>
+                            Already Have an Account?
+                            <Text style={{color: colors.orange, fontSize: 17}}> LOGIN</Text>
+                        </Text>
+                    :   <Text style={styles.registerText}>
                             Don't Have an account?
-                            <Text style={{color: colors.orange}}> Register</Text>
-                        </Text> : <Text style={styles.registerText}>Create An Account</Text>
+                            <Text style={{color: colors.orange, fontSize: 17}}> REGISTER</Text>
+                        </Text>  
                     }
                     </TouchableOpacity>
 

@@ -1,6 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { 
+    View, 
+    StyleSheet, 
+    TouchableOpacity, 
+    Text,
+    Pressable 
+
+} from 'react-native';
 
 import {Ionicons} from '@expo/vector-icons';
 
@@ -28,11 +35,11 @@ export const HomeScreen = ({navigation}) => {
                 </View>
             </View>
             <View style={styles.footer}>
-                <TouchableOpacity onPress={() => navigation.navigate('AddItem')}>
+                <Pressable onPressIn={() => navigation.navigate('AddItem')}>
                     <View style={styles.addIcon}>
                             <Ionicons name='md-add' size={30} style={{color: colors.orange}}/>
                     </View>
-                </TouchableOpacity>
+                </Pressable>
 
             </View>
         </View>
