@@ -1,6 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import {View, StyleSheet, TouchableOpacity, Text} from 'react-native';
+import {
+    View, 
+    StyleSheet, 
+    Pressable
+} from 'react-native';
 
 import { useSelector } from 'react-redux';
 import {Ionicons} from '@expo/vector-icons';
@@ -34,11 +38,11 @@ const ShowCompletedScreen = ({navigation}) => {
                 </View>
             </View>
             <View style={styles.footer}>
-                <View style={styles.addIcon}>
-                    <TouchableOpacity onPress={() => navigation.navigate('AddItem')}>
+                <Pressable onPressIn={() => navigation.navigate('AddItem')}>
+                    <View style={styles.addIcon}>
                         <Ionicons name='md-add' size={30} style={{color: colors.orange}}/>
-                    </TouchableOpacity>
-                </View>
+                    </View>
+                </Pressable>
             </View>
         </View>
     );
@@ -63,11 +67,11 @@ const ShowNotCompletedScreen = ({navigation}) => {
                 </View>
             </View>
             <View style={styles.footer}>
-                <View style={styles.addIcon}>
-                    <TouchableOpacity onPress={() => navigation.navigate('AddItem')}>
+                <Pressable onPressIn={() => navigation.navigate('AddItem')}>
+                    <View style={styles.addIcon}>
                         <Ionicons name='md-add' size={30} style={{color: colors.orange}}/>
-                    </TouchableOpacity>
-                </View>
+                    </View>
+                </Pressable>
             </View>
         </View>
     );
