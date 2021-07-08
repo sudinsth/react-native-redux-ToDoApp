@@ -11,7 +11,7 @@ import { colors } from '../constants/color';
 
 const Stack = createStackNavigator();
 
-export const HomeStack = ({navigation, currentTask}) => {
+export const HomeStack = () => {
     return (
     //    <NavigationContainer>
         <Stack.Navigator>

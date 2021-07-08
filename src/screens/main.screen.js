@@ -73,9 +73,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         padding: 15,
         backgroundColor: colors.white,
-        elevation: 3,
+        elevation: 5,
         shadowColor: colors.black,
-        shadowOffset: {width: 10, height: 10},
+        shadowOffset: {width: 30, height: 30},
         shadowOpacity: 0.86
     },
     // addItem: {

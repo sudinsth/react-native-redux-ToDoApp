@@ -6,7 +6,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import {colors} from '../constants/color';
 
 
-export const Header = ({navigation}) => {
+export const Header = ({navigation , showHeader}) => {
 
     const openMenu = () => {
         navigation.openDrawer();
@@ -14,8 +14,10 @@ export const Header = ({navigation}) => {
 
     return (
         <View style={styles.header}>
-            <MaterialIcons name='menu' size={30} onPress={openMenu} style={styles.icon}/>
-
+            {!showHeader 
+            ?   <MaterialIcons name='menu' size={30} onPress={openMenu} style={styles.icon}/>
+            :   <View style={{marginRight: 30}}/>
+            }
             <View style={{flex: 1, justifyContent: 'center',}}>
                 <Text style={styles.title}>
                     ToDo
@@ -33,6 +35,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.white,
         elevation: 5,
         flexDirection: 'row',
+        
     },
     title: {
         color: colors.black,
