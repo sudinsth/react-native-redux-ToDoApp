@@ -21,7 +21,6 @@ import { PlaceholderScreen } from '../component/placeholderScreen';
 
 import { EditScreen } from '../screens/Edit.screen';
 
-
 const ShowList = ({navigation}) => {
     // const [modalOpen, setModalOpen] = useState(false);
 
@@ -137,21 +136,21 @@ const styles = StyleSheet.create({
         elevation: 3,
         backgroundColor: colors.white
     },
-    modalWindow: {
-        flex: 1,
-        backgroundColor: 'rgba(52,52,52, 0.8)',
-        justifyContent: 'flex-end',
-    },
-    modalContent: {
-        height: '45%',
-        borderTopLeftRadius: 30,
-        borderTopRightRadius: 30,
-        paddingTop: 10,
-        paddingBottom: 20,
-        paddingHorizontal: 10,
-        opacity: 0.95,
-        backgroundColor: colors.white
-    },
+    // modalWindow: {
+    //     flex: 1,
+    //     backgroundColor: 'rgba(52,52,52, 0.8)',
+    //     justifyContent: 'flex-end',
+    // },
+    // modalContent: {
+    //     height: '45%',
+    //     borderTopLeftRadius: 30,
+    //     borderTopRightRadius: 30,
+    //     paddingTop: 10,
+    //     paddingBottom: 20,
+    //     paddingHorizontal: 10,
+    //     opacity: 0.95,
+    //     backgroundColor: colors.white
+    // },
 });
 
 export default connect()(ShowList);

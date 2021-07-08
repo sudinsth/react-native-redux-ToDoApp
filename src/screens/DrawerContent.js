@@ -142,6 +142,7 @@ const styles=StyleSheet.create({
         borderTopColor: colors.orange,
         borderTopWidth: 1,
         backgroundColor: colors.grey,
+        marginBottom: 15,
     },
     drawerContent: {
         flex: 1,

@@ -84,12 +84,12 @@ const styles = StyleSheet.create({
         marginTop: 28,
     },
     content: {
-        flex: 6,
+        flex: 1,
         justifyContent: 'center',
         padding: 10,
     },
     footer: {
-        flex: 1,
+        flex: 0.17,
     },
     addIcon: {
         alignItems: 'center',
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.white,
         elevation: 10,
         shadowColor: colors.black,
-        shadowOffset: {width: 30, height: 30},
+        shadowOffset: {width: 10, height: 10},
         shadowOpacity: 30
     },
     // addItem: {
