@@ -5,18 +5,15 @@ import {connect, useSelector, useDispatch} from 'react-redux';
 import { addItem, editItem } from '../redux/actions';
 import { colors } from '../constants/color';
 
-const EditTodo = ({chosenId, chosenTask}) => {
-    const list = useSelector((state) => state.getTodo.list);
+const EditTodo = ({editTaskId, editTaskText, navigation}) => {
     const [edited, setEdited] = useState();
     const dispatch = useDispatch();
 
     const modifyTodo = (text, index) => {
         if(text!= null){
-            const modify = dispatch(editItem(text, index))
-            // dispatch(addItem(text));
-            console.log(modify);
-            // USE REF TO CHANGE MODAL CLOSING
+            dispatch(editItem(text, index))
         }
+        navigation.goBack();
     }
 
     return (
@@ -29,7 +26,7 @@ const EditTodo = ({chosenId, chosenTask}) => {
         }}>
             <View style={{flex: 1}}>
                 <TextInput 
-                    placeholder= {chosenTask}
+                    placeholder= {editTaskText}
                     style={{
                         borderWidth: 1, 
                         borderColor: colors.orange, 
@@ -37,7 +34,7 @@ const EditTodo = ({chosenId, chosenTask}) => {
                         fontSize: 16,
                         fontFamily: 'Poppins-Regular',
                     }}
-                    defaultValue={chosenTask}
+                    defaultValue={editTaskText}
                     onChangeText={(val) => setEdited(val)}
                 />
             </View>
@@ -53,7 +50,7 @@ const EditTodo = ({chosenId, chosenTask}) => {
                     elevation: 10,
                     marginTop: 20,
                 }} 
-                onPress={() => modifyTodo(edited, chosenId)}
+                onPress={() => modifyTodo(edited, editTaskId)}
             >
                 <Text style={{
                     fontSize: 18,

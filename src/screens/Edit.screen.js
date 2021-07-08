@@ -7,16 +7,16 @@ import {
 
 import EditTodo from '../containers/editTodo';
 
-const EditScreen = ({route, taskId, chosenList}) => {
+const EditScreen = ({route, navigation}) => {
 
-    // const itemId = route.params.currentId
-    // const chosenTask = route.params.currentTask
-    const itemId = taskId
-    const chosenTask = chosenList
+    const itemId = route.params.currentId
+    const chosenTask = route.params.currentTask
+    // const itemId = taskId
+    // const chosenTask = chosenList
 
     return (
         <View style={styles.container}>
-            <EditTodo chosenId={itemId} chosenTask={chosenTask}/>
+            <EditTodo navigation={navigation} editTaskId={itemId} editTaskText={chosenTask}/>
         </View>
     );
 }

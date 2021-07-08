@@ -1,3 +1,4 @@
+import { TouchableWithoutFeedback} from 'react-native-gesture-handler';
 import React, {useState} from 'react';
 import {
     StyleSheet, 
@@ -19,11 +20,10 @@ import {colors} from '../constants/color';
 import { PlaceholderScreen } from '../component/placeholderScreen';
 
 import { EditScreen } from '../screens/Edit.screen';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 
 const ShowList = ({navigation}) => {
-    const [modalOpen, setModalOpen] = useState(false);
+    // const [modalOpen, setModalOpen] = useState(false);
 
 
     const list = useSelector((state) => state.getTodo.list)
@@ -70,14 +70,14 @@ const ShowList = ({navigation}) => {
                     }}>
                         {/* Edit Button */}
                         <TouchableOpacity 
-                            // onPress={()=> navigation.navigate(
-                            //     'EditScreen',
-                            //     {
-                            //         currentTask: item.title,
-                            //         currentId: item.id
-                            //     }
-                            // )} 
-                            onPress={() => setModalOpen(!modalOpen)}
+                            onPress={()=> navigation.navigate(
+                                'EditScreen',
+                                {
+                                    currentTask: item.title,
+                                    currentId: item.id
+                                }
+                            )} 
+                            // onPress={() => setModalOpen(!modalOpen)}
                             style={{marginRight: 8}}
                         >
                             <Feather name="edit" size={24} color={item.finished? colors.orange_greyed : colors.orange}/>
@@ -87,7 +87,9 @@ const ShowList = ({navigation}) => {
                             <MaterialIcons name="delete" size={24} color={item.finished? colors.orange_greyed:colors.orange}/>
                         </TouchableOpacity>
                     </View>
-                    {/* Edit Modal */}
+                    {/* Edit Modal
+                    <View>
+
                     <Modal
                         visible={modalOpen}
                         animationType={'fade'}
@@ -108,7 +110,9 @@ const ShowList = ({navigation}) => {
                                 </View>
                             </View>
                     </Modal>
-                    </View>
+                    </View> */}
+
+                </View>
             )}
             </ScrollView>
             }
@@ -137,7 +141,7 @@ const styles = StyleSheet.create({
     },
     modalWindow: {
         flex: 1,
-        backgroundColor: '#000000A6',
+        backgroundColor: 'rgba(52,52,52, 0.8)',
         justifyContent: 'flex-end',
     },
     modalContent: {
