@@ -11,6 +11,7 @@ import {firebaseConfig} from './src/constants/firebase_config';
 import { AppNavigation } from './src/navigation/drawer.navigation';
 import {LoginScreen} from './src/screens/login.screen';
 import { AuthScreens, AuthStackScreen } from './src/screens/Auth.screen';
+import {TabNavigation} from './src/navigation/tab.navigation';
 
 import AppLoading from 'expo-app-loading';
 import { useFonts } from 'expo-font';
@@ -44,7 +45,9 @@ export default function App() {
       <Provider store={store}>
           {/* <AppNavigation /> */}
           {/* <LoginScreen /> */}
-          {isAuthenticated ? <AppNavigation /> : <AuthStackScreen />}
+          {/* {isAuthenticated ? <AppNavigation /> : <AuthStackScreen />} */}
+          {isAuthenticated ? <TabNavigation /> : <AuthStackScreen />}
+
       </Provider>
     );
   }

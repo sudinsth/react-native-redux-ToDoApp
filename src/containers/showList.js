@@ -39,7 +39,6 @@ const ShowList = ({navigation}) => {
         <View> 
             { list.length == 0 
             ?   <PlaceholderScreen />
-
             :   <ScrollView>
                 <View>
                     <Text style={{textAlign: 'center', fontSize: 16, fontFamily: 'Poppins-Regular'}}>
@@ -89,7 +88,6 @@ const ShowList = ({navigation}) => {
                     </View>
                     {/* Edit Modal
                     <View>
-
                     <Modal
                         visible={modalOpen}
                         animationType={'fade'}
