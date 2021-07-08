@@ -1,12 +1,13 @@
-import React, {useState} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import { View, TextInput, TouchableOpacity, Text } from 'react-native';
 import {Feather} from '@expo/vector-icons';
-import {connect, useSelector, useDispatch} from 'react-redux';
-import { addItem, editItem } from '../redux/actions';
+import {connect, useDispatch} from 'react-redux';
+import { editItem } from '../redux/actions';
 import { colors } from '../constants/color';
 
 const EditTodo = ({editTaskId, editTaskText, navigation}) => {
     const [edited, setEdited] = useState();
+    const focusRef = useRef(null);
     const dispatch = useDispatch();
 
     const modifyTodo = (text, index) => {
@@ -23,9 +24,11 @@ const EditTodo = ({editTaskId, editTaskText, navigation}) => {
             padding: 10,
             elevation: 10,
             flexDirection: 'row',
+            marginTop: 20,
+            marginHorizontal: 10,
         }}>
             <View style={{flex: 1}}>
-                <TextInput 
+                <TextInput
                     placeholder= {editTaskText}
                     style={{
                         borderWidth: 1, 
@@ -36,6 +39,7 @@ const EditTodo = ({editTaskId, editTaskText, navigation}) => {
                     }}
                     defaultValue={editTaskText}
                     onChangeText={(val) => setEdited(val)}
+                    autoFocus={true}
                 />
             </View>
         </View>

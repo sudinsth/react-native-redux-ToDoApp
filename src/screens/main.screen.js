@@ -22,7 +22,8 @@ export const HomeScreen = ({navigation}) => {
         <View style={styles.container}>
         <StatusBar style='auto' />
         <Header navigation={navigation}/>
-        <View 
+            <View 
+                // Boder Line
                 style={{
                     borderWidth: 1,
                     marginTop: 5,
@@ -54,13 +55,13 @@ const styles = StyleSheet.create({
         marginTop: 30,
     },
     content: {
-        flex: 6,
+        flex: 1,
         justifyContent: 'center',
         paddingHorizontal: 10,
         marginTop: 10,
     },
     footer: {
-        flex: 1,
+        flex: 0.18,
     },
     addIcon: {
         alignItems: 'center',

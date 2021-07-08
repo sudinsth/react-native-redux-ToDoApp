@@ -53,7 +53,7 @@ const ShowList = ({navigation}) => {
                     <TouchableOpacity onPress={() => toggleTodo(id)}>
                         <RadioButton selected={item.finished}/>
                     </TouchableOpacity>
-                    <View style={{flex: 13}}>
+                    <View style={{flex: 2,}}>
                         <View style={{alignItems: 'flex-start', marginLeft: 15}}>
                         <Text style={{ 
                             ...styles.item,
@@ -63,20 +63,20 @@ const ShowList = ({navigation}) => {
                         </View>
                     </View>
                     <View style={{
-                        flex: 3, 
+                        flex: 0.36, 
                         alignItems:'flex-end', 
                         flexDirection: 'row',
                         margin: 4,
                     }}>
                         {/* Edit Button */}
                         <TouchableOpacity 
-                            onPress={()=> navigation.navigate(
+                            onPress={()=> !item.finished ? navigation.navigate(
                                 'EditScreen',
                                 {
                                     currentTask: item.title,
                                     currentId: item.id
                                 }
-                            )} 
+                            ): null} 
                             // onPress={() => setModalOpen(!modalOpen)}
                             style={{marginRight: 8}}
                         >

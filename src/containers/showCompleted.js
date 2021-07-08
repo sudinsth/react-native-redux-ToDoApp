@@ -44,7 +44,7 @@ const ShowCompleted = () => {
                     <TouchableOpacity onPress={() => toggleTodo(id)}>
                         <RadioButton selected={item.finished}/>
                     </TouchableOpacity>
-                    <View style={{flex: 15}}>
+                    <View style={{flex: 2}}>
                         <View style={{alignItems: 'flex-start', marginLeft: 15,}}>
                         <Text style={{ 
                             ...styles.item,
@@ -53,7 +53,7 @@ const ShowCompleted = () => {
                             }}>{item.title}</Text>
                         </View>
                     </View>
-                    <View style={{flex:1, alignItems:'flex-end'}}>
+                    <View style={{flex:0.2, alignItems:'flex-end'}}>
                         <TouchableOpacity onPress={()=> removeTodo(id)}>
                             <MaterialIcons name="delete" size={24} color="orange" style={styles.icon}/>
                         </TouchableOpacity>

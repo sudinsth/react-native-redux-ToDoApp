@@ -23,7 +23,7 @@ const EditScreen = ({route, navigation}) => {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#fff',
+        // backgroundColor: '#fff',
         flex: 1,
     }
 });
