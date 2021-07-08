@@ -1,4 +1,8 @@
 import React from 'react';
+import {
+    View,
+    Text
+} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {MaterialIcons, Feather, Ionicons, FontAwesome5} from '@expo/vector-icons';
@@ -23,18 +27,17 @@ const TabNavigation = () => {
                 initialRouteName="Task"
                 // activeColor= {colors.white}
                 tabBarOptions={{
-                    activeTintColor: colors.orange,
-                    inactiveTintColor: 'grey',
+                    activeTintColor: colors.white,
+                    inactiveTintColor: colors.grey,
                     style:{
-                        backgroundColor: colors.white,
-                        position: 'relative',
-                        bottom: 10,
+                        backgroundColor: colors.white_greyed,
+                        // position: 'relative',
+                        // bottom: 10,
                         height: 60,
-                        marginHorizontal: 20,
-                        borderRadius: 10,
+                        marginHorizontal: 1,
+                        borderTopLeftRadius: 10,
+                        borderTopRightRadius: 10,
                         borderTopWidth: 1,
-                        borderTopColor: colors.orange_greyed,
-                        elevation: 3,
                         shadowColor: colors.black,
                         shadowOpacity: 0.86,
                         shadowOffset: {
@@ -58,7 +61,7 @@ const TabNavigation = () => {
                     name="Task" 
                     component={AppNavigation}
                     options={{
-                        tabBarLabel: 'Tasks',
+                        tabBarLabel: 'All Tasks',
                         tarBarIcon: ({focused}) => {
                             <View >
                                 <TaskIcon />

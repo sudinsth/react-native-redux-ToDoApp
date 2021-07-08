@@ -3,7 +3,8 @@ import React from 'react';
 import {
     View, 
     StyleSheet, 
-    Pressable
+    Pressable,
+    StatusBar as BarStatus
 } from 'react-native';
 
 import { useSelector } from 'react-redux';
@@ -81,7 +82,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         // backgroundColor: colors.white,
-        marginTop: 28,
+        marginTop: BarStatus.currentHeight,
     },
     content: {
         flex: 1,

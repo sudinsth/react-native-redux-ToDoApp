@@ -5,8 +5,8 @@ import {
     StyleSheet, 
     TouchableOpacity, 
     Text,
-    Pressable 
-
+    Pressable,
+    StatusBar as BarStatus
 } from 'react-native';
 
 import {Ionicons} from '@expo/vector-icons';
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         // backgroundColor: colors.white,
-        marginTop: 30,
+        marginTop: BarStatus.currentHeight,
     },
     content: {
         flex: 1,
