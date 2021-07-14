@@ -21,6 +21,16 @@ export function* addItem(value) {
   }
 }
 
+// function* saveToStorage(date) {
+//   try {
+//     AsyncStorage.setItem("array", JSON.stringify(list))
+//       .then((json) => console.log("Success"))
+//       .catch((error) => console.log("error"));
+//   } catch (e) {
+//     console.log("Error in saving to Storage");
+//   }
+// }
+
 export function* addItemFlow() {
   while (true) {
     let request = yield take(ADD_TODO);
@@ -34,9 +44,7 @@ export function* addItemFlow() {
     tempObj.finished = false;
     tempObj.createdAt = moment().format();
     list.push(tempObj);
-    AsyncStorage.setItem("array", JSON.stringify(list))
-      .then((json) => console.log("Success"))
-      .catch((error) => console.log("error"));
+    // saveToStorage(list);
     yield put({
       type: UPDATE_TODO,
       data: list,

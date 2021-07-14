@@ -13,11 +13,6 @@ import { useSelector } from "react-redux";
 
 import { Header } from "../../component/header";
 
-// const timeToString = (time) => {
-//   const date = new Date(time);
-//   return date.toISOString().split("T")[0];
-// };
-
 const CalendarScreen = () => {
   let currentDate = moment().format();
   const list = useSelector((state) => state.getTodo.list);

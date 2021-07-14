@@ -5,8 +5,6 @@ import { connect, useDispatch } from "react-redux";
 import { addItem } from "../redux/actions";
 import { colors } from "../constants/color";
 
-import { useSelector } from "react-redux";
-
 const AddTodo = () => {
   const [text, setText] = useState();
   const dispatch = useDispatch();
@@ -17,8 +15,6 @@ const AddTodo = () => {
     }
     setText(null);
   };
-
-  const list = useSelector((state) => state.getTodo.list);
 
   return (
     <View style={styles.container}>

@@ -19,12 +19,10 @@ import { colors } from "../constants/color";
 import { PlaceholderScreen } from "../component/placeholderScreen";
 
 import { EditScreen } from "../screens/Edit.screen";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+// import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const ShowList = ({ navigation }) => {
-  // const [modalOpen, setModalOpen] = useState(false);
-  const [storage, setStorage] = useState([]);
-
+  //   const [storage, setStorage] = useState([]);
   const list = useSelector((state) => state.getTodo.list);
   const dispatch = useDispatch();
   const toggleTodo = (index) => {
@@ -34,15 +32,16 @@ const ShowList = ({ navigation }) => {
     dispatch(removeItem(index));
   };
 
-  useEffect(() => {
-    AsyncStorage.getItem("array")
-      .then((req) => JSON.parse(req))
-      .then((json) => setStorage(json))
-      .catch((error) => console.log("ERROR", error));
-  }, [storage]);
+  //   useEffect(() => {
+  //     AsyncStorage.getItem("array")
+  //       .then((req) => JSON.parse(req))
+  //       .then((json) => setStorage(json))
+  //       .catch((error) => console.log("ERROR", error));
+  //   }, [storage]);
+
   return (
     <View>
-      {storage.length == 0 ? (
+      {list.length == 0 ? (
         <PlaceholderScreen />
       ) : (
         <ScrollView>
@@ -58,7 +57,7 @@ const ShowList = ({ navigation }) => {
             </Text>
           </View>
           {/* Tasks Lists */}
-          {storage.map((item, id) => (
+          {list.map((item, id) => (
             <View
               key={id}
               style={[

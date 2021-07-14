@@ -3,7 +3,8 @@ import React, { useState, useEffect } from "react";
 
 // Redux imports
 import { Provider } from "react-redux";
-import store from "./src/redux/store";
+import store, { persistor } from "./src/redux/store";
+import { PersistGate } from "redux-persist/integration/react";
 
 // Firebase imports
 import firebase from "firebase";
@@ -19,6 +20,7 @@ import { TabNavigation } from "./src/navigation/tab.navigation";
 // Expo imports
 import AppLoading from "expo-app-loading";
 import { useFonts } from "expo-font";
+import persistStore from "redux-persist/lib/persistStore";
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -47,10 +49,12 @@ export default function App() {
   } else {
     return (
       <Provider store={store}>
-        {/* <AppNavigation /> */}
-        {/* <LoginScreen /> */}
-        {/* {isAuthenticated ? <AppNavigation /> : <AuthStackScreen />} */}
-        {isAuthenticated ? <TabNavigation /> : <AuthStackScreen />}
+        <PersistGate loading={null} persistor={persistor}>
+          {/* <AppNavigation /> */}
+          {/* <LoginScreen /> */}
+          {/* {isAuthenticated ? <AppNavigation /> : <AuthStackScreen />} */}
+          {isAuthenticated ? <TabNavigation /> : <AuthStackScreen />}
+        </PersistGate>
       </Provider>
     );
   }
