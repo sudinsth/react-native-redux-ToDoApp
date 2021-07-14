@@ -5,6 +5,8 @@ import { connect, useDispatch } from "react-redux";
 import { addItem } from "../redux/actions";
 import { colors } from "../constants/color";
 
+import { useSelector } from "react-redux";
+
 const AddTodo = () => {
   const [text, setText] = useState();
   const dispatch = useDispatch();
@@ -16,18 +18,14 @@ const AddTodo = () => {
     setText(null);
   };
 
+  const list = useSelector((state) => state.getTodo.list);
+
   return (
     <View style={styles.container}>
       <View style={{ flex: 1 }}>
         <TextInput
           placeholder="Add ToDo"
-          style={{
-            borderWidth: 1,
-            borderColor: colors.orange,
-            padding: 10,
-            fontSize: 16,
-            fontFamily: "Poppins-Regular",
-          }}
+          style={styles.textInput}
           defaultValue={text}
           onChangeText={(val) => setText(val)}
         />
@@ -36,7 +34,7 @@ const AddTodo = () => {
         style={{ backgroundColor: colors.orange }}
         onPress={() => addToDo(text)}
       >
-        <View style={{ height: 50, justifyContent: "center" }}>
+        <View style={styles.addIcon}>
           <Ionicons name="md-add" size={40} style={{ color: colors.white }} />
         </View>
       </TouchableOpacity>
@@ -52,5 +50,16 @@ const styles = StyleSheet.create({
     padding: 10,
     elevation: 10,
     flexDirection: "row",
+  },
+  textInput: {
+    borderWidth: 1,
+    borderColor: colors.orange,
+    padding: 10,
+    fontSize: 16,
+    fontFamily: "Poppins-Regular",
+  },
+  addIcon: {
+    height: 50,
+    justifyContent: "center",
   },
 });

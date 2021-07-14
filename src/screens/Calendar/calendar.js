@@ -20,7 +20,6 @@ import { Header } from "../../component/header";
 
 const CalendarScreen = () => {
   let currentDate = moment().format();
-
   const list = useSelector((state) => state.getTodo.list);
 
   const array = [];
@@ -31,32 +30,9 @@ const CalendarScreen = () => {
   });
 
   const [items, setItems] = useState({
-    "2021-07-12": [{ name: "test1", completed: "true" }],
+    "2021-07-13": [{ name: "test1" }],
+    "2021-07-14": [{ name: "rest" }],
   });
-
-  // const loadItems = (day) => {
-  //   setTimeout(() => {
-  //     for (let i = -15; i < 85; i++) {
-  //       const time = day.timestamp + i * 24 * 60 * 60 * 1000;
-  //       const strTime = timeToString(time);
-  //       if (!items[strTime]) {
-  //         items[strTime] = [];
-  //         const numItems = Math.floor(Math.random() * 3 + 1);
-  //         for (let j = 0; j < numItems; j++) {
-  //           items[strTime].push({
-  //             name: "Item for" + strTime + " #" + j,
-  //             height: Math.max(50, Math.floor(Math.random() * 150)),
-  //           });
-  //         }
-  //       }
-  //     }
-  //     const newItems = {};
-  //     Object.keys(items).forEach((key) => {
-  //       newItems[key] = items[key];
-  //     });
-  //     setItems(newItems);
-  //   }, 10);
-  // };
 
   const renderItem = (item) => {
     return (
@@ -100,13 +76,12 @@ const CalendarScreen = () => {
       <View style={styles.content}>
         <Agenda
           items={items}
-          // loadItemsForMonth={loadItems}
           selected={currentDate}
           renderItem={renderItem}
+          minDate="2021-07-01"
           maxDate="2022-12-31"
-          pastScrollRange={2}
-          futureScrollRange={2}
-          minDate={new Date()}
+          pastScrollRange={1}
+          futureScrollRange={1}
           theme={{
             // agendaDayTextColor: "yellow",
             // agendaDayNumColor: "green",
@@ -119,7 +94,12 @@ const CalendarScreen = () => {
             color: "red",
           }}
         />
-        <Text style={{ margin: 8, textAlign: "right" }}>
+        {/* <Calendar
+          current={currentDate}
+          minDate="2021-07-01"
+          maxDate="2022-12-31"
+        /> */}
+        <Text style={{ margin: 8, textAlign: "right", marginBottom: 10 }}>
           Date: {currentDate}
         </Text>
         {/* <TouchableOpacity

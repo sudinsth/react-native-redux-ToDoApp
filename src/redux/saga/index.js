@@ -7,14 +7,15 @@ import {
   UPDATE_TODO,
   EDIT_TODO,
 } from "../actions/actionTypes";
-import rsf from "../../services/reduxSagaFirebase";
-import { auth, firestore } from "firebase";
+
+import moment from "moment";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export function* addItem(value) {
   try {
-    return yield call(delay, 50);
+    return yield call(delay, 10);
   } catch (err) {
     yield put({ type: ERROR });
   }
@@ -31,11 +32,11 @@ export function* addItemFlow() {
     tempObj.title = request.value;
     tempObj.id = list.length;
     tempObj.finished = false;
-
-    // const listRef = auth().currentUser.uid;
-    // console.log("This is listRef itemss", listRef);
-    // const doc = yield call(rsf.firestore.addDocument, listRef, tempObj);
+    tempObj.createdAt = moment().format();
     list.push(tempObj);
+    AsyncStorage.setItem("array", JSON.stringify(list))
+      .then((json) => console.log("Success"))
+      .catch((error) => console.log("error"));
     yield put({
       type: UPDATE_TODO,
       data: list,
@@ -43,13 +44,9 @@ export function* addItemFlow() {
   }
 }
 
-// export function* addDocument() {
-//   const doc = yield call(rsf.firestore.addDocument, "users", tempObj);
-// }
-
 export function* removeItem() {
   try {
-    return yield call(delay, 50);
+    return yield call(delay, 10);
   } catch (err) {
     yield put({ type: ERROR });
   }
