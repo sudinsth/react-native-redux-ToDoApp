@@ -1,22 +1,26 @@
 import { StatusBar } from "expo-status-bar";
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   StyleSheet,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   Text,
   Pressable,
   StatusBar as BarStatus,
+  Modal,
 } from "react-native";
-
 import { Ionicons } from "@expo/vector-icons";
 
 import { Header } from "../component/header";
 import { colors } from "../constants/color";
 
 import ShowList from "../containers/showList";
+import AddTodo from "../containers/addTodo";
 
 export const HomeScreen = ({ navigation }) => {
+  const [modalOpen, setModalOpen] = useState(false);
+
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
@@ -35,7 +39,7 @@ export const HomeScreen = ({ navigation }) => {
         </View>
       </View>
       <View style={styles.footer}>
-        <Pressable onPressIn={() => navigation.navigate("AddItem")}>
+        <Pressable onPress={() => setModalOpen(true)}>
           <View style={styles.addIcon}>
             <Ionicons
               name="md-add"
@@ -45,6 +49,51 @@ export const HomeScreen = ({ navigation }) => {
           </View>
         </Pressable>
       </View>
+
+      <Modal visible={modalOpen} animationType="fade" transparent={true}>
+        <TouchableOpacity
+          style={{
+            flex: 1,
+            backgroundColor: "#000000AA",
+            justifyContent: "flex-end",
+          }}
+          onPress={() => setModalOpen(false)}
+        >
+          <TouchableWithoutFeedback>
+            <View
+              style={{
+                backgroundColor: "#fff",
+                paddingTop: 20,
+                borderTopLeftRadius: 15,
+                borderTopRightRadius: 15,
+              }}
+            >
+              <AddTodo />
+              <TouchableOpacity
+                onPress={() => setModalOpen(false)}
+                style={{
+                  backgroundColor: "#fff",
+                  padding: 15,
+                  marginVertical: 10,
+                  borderWidth: 1,
+                  borderRadius: 15,
+                  borderColor: colors.orange,
+                  elevation: 10,
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 20,
+                    textAlign: "center",
+                  }}
+                >
+                  Cancel
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </TouchableWithoutFeedback>
+        </TouchableOpacity>
+      </Modal>
     </View>
   );
 };
