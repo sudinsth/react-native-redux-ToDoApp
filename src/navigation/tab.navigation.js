@@ -1,19 +1,11 @@
 import React from "react";
-import { View, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import {
-  MaterialCommunityIcons,
-  Feather,
-  Ionicons,
-  FontAwesome5,
-} from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
 
 import { AppNavigation } from "./drawer.navigation";
 import { CalendarScreen } from "../screens/Calendar/calendar";
 import { colors } from "../constants/color";
-
-import { HomeScreen } from "../screens/main.screen";
 
 const Tab = createBottomTabNavigator();
 
@@ -22,7 +14,6 @@ const TabNavigation = () => {
     <NavigationContainer>
       <Tab.Navigator
         initialRouteName="Task"
-        // activeColor= {colors.white}
         tabBarOptions={{
           activeTintColor: colors.orange,
           inactiveTintColor: "grey",
@@ -33,9 +24,6 @@ const TabNavigation = () => {
             bottom: 10,
             height: 70,
             padding: 10,
-            // marginHorizontal: 10,
-            // borderTopLeftRadius: 10,
-            // borderTopRightRadius: 10,
             marginHorizontal: 10,
             borderRadius: 10,
             borderTopWidth: 1,
@@ -63,7 +51,6 @@ const TabNavigation = () => {
           component={AppNavigation}
           options={{
             tabBarLabel: "All Tasks",
-            // tabBarIcon: <FontAwesome5 name="tasks" size={25} color="white" />,
             tabBarIcon: ({ focused, color, size }) => (
               <FontAwesome5 name="tasks" color={color} size={size} />
             ),

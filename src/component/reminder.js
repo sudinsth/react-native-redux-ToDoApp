@@ -59,7 +59,6 @@ export const ReminderTab = () => {
             display="default"
             onChange={onChange}
           />
-          //   <TimePicker onChange={() => setTime(!time)} value={time} />
         )}
       </View>
     </View>
