@@ -25,9 +25,10 @@ const TabNavigation = () => {
         // activeColor= {colors.white}
         tabBarOptions={{
           activeTintColor: colors.orange,
-          inactiveTintColor: colors.grey,
+          inactiveTintColor: "grey",
           style: {
-            backgroundColor: colors.white_greyed,
+            backgroundColor: colors.white,
+            elevation: 5,
             position: "relative",
             bottom: 10,
             height: 70,
@@ -38,6 +39,7 @@ const TabNavigation = () => {
             marginHorizontal: 10,
             borderRadius: 10,
             borderTopWidth: 1,
+            borderTopColor: colors.orange,
             shadowColor: colors.black,
             shadowOpacity: 0.86,
             shadowOffset: {
