@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
     padding: 10,
     elevation: 10,
     flexDirection: "row",
+    borderRadius: 5,
   },
   textInput: {
     borderWidth: 1,
@@ -53,9 +54,11 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: 16,
     fontFamily: "Poppins-Regular",
+    borderRadius: 5,
   },
   addIcon: {
     height: 50,
     justifyContent: "center",
+    borderRadius: 5,
   },
 });
