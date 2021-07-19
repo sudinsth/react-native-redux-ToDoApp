@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import { View, TextInput, TouchableOpacity, Text } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { connect, useDispatch } from "react-redux";
@@ -7,7 +7,6 @@ import { colors } from "../constants/color";
 
 const EditTodo = ({ editTaskId, editTaskText, navigation }) => {
   const [edited, setEdited] = useState();
-  const focusRef = useRef(null);
   const dispatch = useDispatch();
 
   const modifyTodo = (text, index) => {
@@ -51,8 +50,6 @@ const EditTodo = ({ editTaskId, editTaskText, navigation }) => {
         <TouchableOpacity
           style={{
             backgroundColor: colors.orange,
-            flexDirection: "row",
-            alignItems: "center",
             elevation: 10,
             marginTop: 20,
             borderRadius: 5,
@@ -61,23 +58,31 @@ const EditTodo = ({ editTaskId, editTaskText, navigation }) => {
           }}
           onPress={() => modifyTodo(edited, editTaskId)}
         >
-          <Text
+          <View
             style={{
-              fontSize: 18,
-              color: colors.white,
-              margin: 10,
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
-            Done
-          </Text>
-          {/* <View style={{ height: 50, justifyContent: "center" }}>
-            <Feather
-              name="edit"
-              size={25}
-              color={colors.white}
-              style={{ marginRight: 7 }}
-            />
-          </View> */}
+            <Text
+              style={{
+                fontSize: 18,
+                color: colors.white,
+                margin: 10,
+              }}
+            >
+              Done
+            </Text>
+            <View style={{ height: 50, justifyContent: "center" }}>
+              <Feather
+                name="edit"
+                size={25}
+                color={colors.white}
+                style={{ marginRight: 7 }}
+              />
+            </View>
+          </View>
         </TouchableOpacity>
       </View>
     </>

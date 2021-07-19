@@ -23,8 +23,7 @@ export const ReminderTab = () => {
     setDate(currentTime);
 
     let tempDate = new Date(currentTime);
-    let fTime =
-      "Hours:" + tempDate.getHours() + "Minutes:" + tempDate.getMinutes();
+    let fTime = tempDate.getHours() + ":" + tempDate.getMinutes();
 
     setText(fTime);
 
@@ -46,7 +45,7 @@ export const ReminderTab = () => {
           >
             <Ionicons name="notifications" size={24} color={colors.orange} />
             <View style={{ flex: 1, marginLeft: 10 }}>
-              <Text style={styles.remindText}> Remind Me!</Text>
+              <Text style={styles.remindText}> Remind Me! at {text}</Text>
             </View>
           </TouchableOpacity>
         </View>
