@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   TouchableOpacity,
@@ -6,14 +6,12 @@ import {
   View,
   ScrollView,
   TextInput,
-  Modal,
-  Button,
 } from "react-native";
 
 import { connect, useSelector, useDispatch } from "react-redux";
-import { MaterialIcons, Feather } from "@expo/vector-icons";
+import { MaterialIcons, Feather, AntDesign } from "@expo/vector-icons";
 
-import { toggleItem, removeItem, editItem } from "../redux/actions";
+import { toggleItem, removeItem, importantItem } from "../redux/actions";
 import { RadioButton } from "../component/radioButton";
 import { colors } from "../constants/color";
 import { PlaceholderScreen } from "../component/placeholderScreen";
@@ -26,6 +24,10 @@ const ShowList = ({ navigation }) => {
   const dispatch = useDispatch();
   const toggleTodo = (index) => {
     dispatch(toggleItem(index));
+    console.log("Toggled");
+  };
+  const importantTodo = (index) => {
+    dispatch(importantItem(index));
   };
   const removeTodo = (index) => {
     dispatch(removeItem(index));
@@ -110,12 +112,25 @@ const ShowList = ({ navigation }) => {
                 </View>
                 <View
                   style={{
-                    flex: 0.36,
+                    flex: 0.59,
                     alignItems: "flex-end",
                     flexDirection: "row",
                     margin: 4,
                   }}
                 >
+                  {/* Important Button */}
+                  <TouchableOpacity
+                    style={{ marginRight: 8 }}
+                    onPress={() => importantTodo(id)}
+                  >
+                    <AntDesign
+                      name={item.important ? "star" : "staro"}
+                      size={24}
+                      color={colors.orange}
+                    />
+                  </TouchableOpacity>
+                  {/* Important Button */}
+
                   {/* Edit Button */}
                   <TouchableOpacity
                     onPress={() =>
@@ -126,7 +141,6 @@ const ShowList = ({ navigation }) => {
                           })
                         : null
                     }
-                    // onPress={() => setModalOpen(!modalOpen)}
                     style={{ marginRight: 8 }}
                   >
                     <Feather

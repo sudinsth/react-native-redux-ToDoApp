@@ -6,10 +6,10 @@ import {
   REMOVE_TODO,
   UPDATE_TODO,
   EDIT_TODO,
+  IMPORTANT_TODO,
 } from "../actions/actionTypes";
 
 import moment from "moment";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -21,16 +21,6 @@ export function* addItem(value) {
   }
 }
 
-// function* saveToStorage(date) {
-//   try {
-//     AsyncStorage.setItem("array", JSON.stringify(list))
-//       .then((json) => console.log("Success"))
-//       .catch((error) => console.log("error"));
-//   } catch (e) {
-//     console.log("Error in saving to Storage");
-//   }
-// }
-
 export function* addItemFlow() {
   while (true) {
     let request = yield take(ADD_TODO);
@@ -41,13 +31,46 @@ export function* addItemFlow() {
     const tempObj = {};
     tempObj.title = request.value;
     tempObj.id = list.length;
+    tempObj.important = false;
     tempObj.finished = false;
     tempObj.createdAt = moment().format();
     list.push(tempObj);
-    // saveToStorage(list);
     yield put({
       type: UPDATE_TODO,
       data: list,
+    });
+  }
+}
+
+export function* importantItem(value) {
+  try {
+    return yield call(delay, 10);
+  } catch (err) {
+    yield put({ type: ERROR });
+  }
+}
+export function* importantItemFlow() {
+  while (true) {
+    let request = yield take(IMPORTANT_TODO);
+    let response = yield call(importantItem, request.index);
+    let tempList = yield select((state) => state.getTodo.list);
+    let list = [];
+    list = list.concat(tempList);
+    let obj = list[request.index];
+    obj.important = !obj.important;
+    yield put({
+      type: UPDATE_TODO,
+      data: list,
+    });
+  }
+}
+
+export function* modifyItem(value) {
+  try {
+    return yield call(delay, 10);
+  } catch (err) {
+    yield put({
+      type: ERROR,
     });
   }
 }
@@ -79,7 +102,7 @@ export function* toggleItem(value) {
   try {
     return yield call(delay, 10);
   } catch (err) {
-    yield put({ type: actionTypes.ERROR });
+    yield put({ type: ERROR });
   }
 }
 
@@ -95,16 +118,6 @@ export function* toggleItemFlow() {
     yield put({
       type: UPDATE_TODO,
       data: list,
-    });
-  }
-}
-
-export function* modifyItem(value) {
-  try {
-    return yield call(delay, 10);
-  } catch (err) {
-    yield put({
-      type: ERROR,
     });
   }
 }

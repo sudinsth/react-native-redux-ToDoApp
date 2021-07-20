@@ -7,6 +7,7 @@ import {
   FontAwesome5,
   Octicons,
   Foundation,
+  AntDesign,
 } from "@expo/vector-icons";
 import { colors } from "../constants/color";
 
@@ -57,26 +58,78 @@ export const DrawerContent = (props) => {
               style={{
                 margin: 10,
                 marginLeft: 15,
-                marginTop: 6,
-                flex: 1,
+                justifyContent: "center",
               }}
             >
               <Text style={{ fontFamily: "Poppins-Regular" }}>
                 {auth().currentUser.email}
               </Text>
+            </View>
+          </View>
 
-              <Text style={{ fontFamily: "Poppins-Regular", fontSize: 12 }}>
-                {trueCount} Completed
+          <View
+            style={{
+              flexDirection: "row",
+              paddingHorizontal: 20,
+              paddingVertical: 10,
+              marginVertical: 10,
+            }}
+          >
+            <View
+              style={{
+                flex: 1,
+                alignItems: "flex-start",
+              }}
+            >
+              <Text
+                style={{
+                  fontFamily: "Poppins-Regular",
+                  fontSize: 20,
+                  textAlign: "center",
+                }}
+              >
+                {trueCount}{" "}
+                <View>
+                  <Text>Completed</Text>
+                </View>
               </Text>
-              <Text style={{ fontFamily: "Poppins-Regular", fontSize: 12 }}>
-                {falseCount} Left
+            </View>
+            <View style={{ flex: 1, alignItems: "center" }}>
+              <Text
+                style={{
+                  fontFamily: "Poppins-Regular",
+                  fontSize: 20,
+                  textAlign: "center",
+                }}
+              >
+                {falseCount}{" "}
+                <View>
+                  <Text>Remaining</Text>
+                </View>
               </Text>
-              <Text style={{ fontFamily: "Poppins-Regular", fontSize: 12 }}>
-                {list.length} Total Tasks
+            </View>
+            <View
+              style={{
+                flex: 1,
+                alignItems: "flex-end",
+              }}
+            >
+              <Text
+                style={{
+                  fontFamily: "Poppins-Regular",
+                  fontSize: 20,
+                  textAlign: "center",
+                }}
+              >
+                {list.length}{" "}
+                <View>
+                  <Text>Total Tasks</Text>
+                </View>
               </Text>
             </View>
           </View>
         </View>
+
         <View style={styles.drawerContent}>
           <Drawer.Section style={styles.drawerSection}>
             <DrawerItem
@@ -108,6 +161,15 @@ export const DrawerContent = (props) => {
               label={`Not Completed (${falseCount})`}
               onPress={() => {
                 props.navigation.navigate("Not Completed");
+              }}
+            />
+            <DrawerItem
+              icon={({ color, size }) => (
+                <AntDesign name="staro" color={colors.orange} size={22} />
+              )}
+              label="Important Tasks"
+              onPress={() => {
+                props.navigation.navigate("Important Tasks");
               }}
             />
           </Drawer.Section>

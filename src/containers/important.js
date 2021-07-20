@@ -1,38 +1,42 @@
 import React, { useState } from "react";
 import {
-  StyleSheet,
-  TouchableOpacity,
-  Text,
   View,
+  TouchableOpacity,
+  StyleSheet,
   ScrollView,
+  Text,
+  TouchableOpacityBase,
 } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 
-import { useSelector, useDispatch } from "react-redux";
-import { MaterialIcons } from "@expo/vector-icons";
+import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 
-import { toggleItem, removeItem } from "../redux/actions";
+import { toggleItem, removeItem, importantItem } from "../redux/actions";
 import { RadioButton } from "../component/radioButton";
 import { colors } from "../constants/color";
 import { PlaceholderScreen } from "../component/placeholderScreen";
 
-const ShowCompleted = () => {
+const ImportantTodo = () => {
   const list = useSelector((state) => state.getTodo.list);
   const dispatch = useDispatch();
   const toggleTodo = (index) => {
     dispatch(toggleItem(index));
   };
+  const importantTodo = (index) => {
+    dispatch(importantItem(index));
+  };
   const removeTodo = (index) => {
     dispatch(removeItem(index));
   };
 
-  let trueCount = 0;
+  let importantCount = 0;
   list.forEach((object) => {
-    object.finished ? trueCount++ : null;
+    object.important ? importantCount++ : null;
   });
 
   return (
     <View>
-      {trueCount == 0 ? (
+      {importantCount == 0 ? (
         <PlaceholderScreen />
       ) : (
         <ScrollView>
@@ -44,11 +48,11 @@ const ShowCompleted = () => {
                 fontFamily: "Poppins-Regular",
               }}
             >
-              {trueCount} Tasks Completed
+              {importantCount} Important Tasks
             </Text>
           </View>
           {list.map((item, id) =>
-            item.finished ? (
+            item.important ? (
               <View key={id} style={styles.listContent}>
                 <TouchableOpacity onPress={() => toggleTodo(id)}>
                   <RadioButton selected={item.finished} />
@@ -70,7 +74,25 @@ const ShowCompleted = () => {
                     </Text>
                   </View>
                 </View>
-                <View style={{ flex: 0.2, alignItems: "flex-end" }}>
+                <View
+                  style={{
+                    flex: 0.36,
+                    alignItems: "flex-end",
+                    flexDirection: "row",
+                  }}
+                >
+                  {/* Important Button */}
+                  <TouchableOpacity
+                    style={{ marginRight: 8 }}
+                    onPress={() => importantTodo(id)}
+                  >
+                    <AntDesign
+                      name={item.important ? "star" : "staro"}
+                      size={24}
+                      color={colors.orange}
+                    />
+                  </TouchableOpacity>
+                  {/* Important Button */}
                   <TouchableOpacity onPress={() => removeTodo(id)}>
                     <MaterialIcons
                       name="delete"
@@ -107,4 +129,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export { ShowCompleted };
+export { ImportantTodo };

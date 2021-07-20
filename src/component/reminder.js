@@ -6,10 +6,14 @@ import {
   Platform,
   Button,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { colors } from "../constants/color";
+import moment from "moment";
+
+const presentTime = moment().format("HH:m");
 
 export const ReminderTab = () => {
   const [date, setDate] = useState(new Date());
@@ -59,6 +63,8 @@ export const ReminderTab = () => {
             onChange={onChange}
           />
         )}
+        {text == presentTime ? Alert.alert("RMEINDED") : null}
+        {console.log(presentTime)}
       </View>
     </View>
   );
