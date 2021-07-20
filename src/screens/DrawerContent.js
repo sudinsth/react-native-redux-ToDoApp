@@ -13,14 +13,11 @@ import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import {
   MaterialCommunityIcons,
   FontAwesome5,
-  Octicons,
-  Foundation,
   AntDesign,
 } from "@expo/vector-icons";
 import { colors } from "../constants/color";
 
 import { useSelector } from "react-redux";
-// import auth from "@react-native-firebase/auth";
 import { auth } from "firebase";
 
 const userAvatar = {
@@ -75,14 +72,6 @@ export const DrawerContent = (props) => {
                 padding: 4,
               }}
             >
-              {/* <View
-                style={{
-                  height: 75,
-                  width: 75,
-                  borderRadius: 60,
-                  backgroundColor: colors.orange_greyed,
-                }}
-              /> */}
               <TouchableOpacity onPress={() => setUserModal(true)}>
                 <Image source={avatarPin} style={{ height: 75, width: 75 }} />
               </TouchableOpacity>
@@ -150,6 +139,8 @@ export const DrawerContent = (props) => {
                         marginTop: 20,
                         backgroundColor: "white",
                         elevation: 15,
+                        borderBottomColor: colors.orange,
+                        borderBottomWidth: 1,
                       }}
                     >
                       <Text style={{ textAlign: "center", fontSize: 16 }}>
@@ -160,6 +151,7 @@ export const DrawerContent = (props) => {
                 </View>
               </View>
             </Modal>
+
             <View
               style={{
                 margin: 10,

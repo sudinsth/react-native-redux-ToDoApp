@@ -90,12 +90,14 @@ export const HomeScreen = ({ navigation }) => {
                 onPress={() => setModalOpen(false)}
                 style={{
                   backgroundColor: "#fff",
-                  padding: 15,
+                  padding: 10,
                   margin: 10,
+                  marginTop: 20,
                   borderBottomWidth: 1,
-                  borderRadius: 15,
+                  borderRadius: 5,
                   borderColor: colors.orange,
-                  elevation: 10,
+                  elevation: 15,
+                  marginBottom: 20,
                 }}
               >
                 <Text
@@ -118,7 +120,6 @@ export const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: colors.white,
     marginTop: BarStatus.currentHeight,
   },
   content: {
@@ -145,13 +146,4 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 30, height: 30 },
     shadowOpacity: 0.86,
   },
-  // addItem: {
-  //     borderWidth: 1,
-  //     borderColor: colors.orange,
-  //     padding: 20,
-  //     marginHorizontal: 20,
-  //     marginTop: 15,
-  //     color: 'black',
-  //     textAlign: 'center',
-  // }
 });
