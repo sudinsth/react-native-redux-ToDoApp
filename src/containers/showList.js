@@ -5,7 +5,6 @@ import {
   Text,
   View,
   ScrollView,
-  TextInput,
 } from "react-native";
 
 import { connect, useSelector, useDispatch } from "react-redux";
@@ -24,7 +23,6 @@ const ShowList = ({ navigation }) => {
   const dispatch = useDispatch();
   const toggleTodo = (index) => {
     dispatch(toggleItem(index));
-    console.log("Toggled");
   };
   const importantTodo = (index) => {
     dispatch(importantItem(index));
@@ -126,7 +124,9 @@ const ShowList = ({ navigation }) => {
                     <AntDesign
                       name={item.important ? "star" : "staro"}
                       size={24}
-                      color={colors.orange}
+                      color={
+                        item.finished ? colors.orange_greyed : colors.orange
+                      }
                     />
                   </TouchableOpacity>
                   {/* Important Button */}

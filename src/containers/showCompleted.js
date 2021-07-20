@@ -75,7 +75,7 @@ const ShowCompleted = () => {
                     <MaterialIcons
                       name="delete"
                       size={24}
-                      color="orange"
+                      color={colors.orange}
                       style={styles.icon}
                     />
                   </TouchableOpacity>

@@ -64,7 +64,7 @@ export const ReminderTab = () => {
           />
         )}
         {text == presentTime ? Alert.alert("RMEINDED") : null}
-        {console.log(presentTime)}
+        {console.log("Present Time", presentTime)}
       </View>
     </View>
   );

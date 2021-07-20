@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   View,
   TouchableOpacity,
   StyleSheet,
   ScrollView,
   Text,
-  TouchableOpacityBase,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -53,7 +52,15 @@ const ImportantTodo = () => {
           </View>
           {list.map((item, id) =>
             item.important ? (
-              <View key={id} style={styles.listContent}>
+              <View
+                key={id}
+                style={[
+                  styles.listContent,
+                  {
+                    backgroundColor: item.finished ? colors.grey : colors.white,
+                  },
+                ]}
+              >
                 <TouchableOpacity onPress={() => toggleTodo(id)}>
                   <RadioButton selected={item.finished} />
                 </TouchableOpacity>
@@ -89,7 +96,9 @@ const ImportantTodo = () => {
                     <AntDesign
                       name={item.important ? "star" : "staro"}
                       size={24}
-                      color={colors.orange}
+                      color={
+                        item.finished ? colors.orange_greyed : colors.orange
+                      }
                     />
                   </TouchableOpacity>
                   {/* Important Button */}
@@ -97,7 +106,9 @@ const ImportantTodo = () => {
                     <MaterialIcons
                       name="delete"
                       size={24}
-                      color="orange"
+                      color={
+                        item.finished ? colors.orange_greyed : colors.orange
+                      }
                       style={styles.icon}
                     />
                   </TouchableOpacity>

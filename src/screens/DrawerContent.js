@@ -1,5 +1,13 @@
-import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  Modal,
+  TouchableOpacity,
+  FlatList,
+} from "react-native";
 import { Drawer } from "react-native-paper";
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import {
@@ -15,7 +23,29 @@ import { useSelector } from "react-redux";
 // import auth from "@react-native-firebase/auth";
 import { auth } from "firebase";
 
+const userAvatar = {
+  defaultUser: require("../../assets/Images/default_user.png"),
+  userPin1: require("../../assets/Images/user_1.png"),
+  userPin2: require("../../assets/Images/user_2.png"),
+  userPin3: require("../../assets/Images/user_3.png"),
+  userPin4: require("../../assets/Images/user_4.png"),
+  userPin5: require("../../assets/Images/user_5.png"),
+};
+
 export const DrawerContent = (props) => {
+  const [userModal, setUserModal] = useState(false);
+  const [avatarPin, setAvatarPin] = useState(userAvatar.defaultUser);
+  const [userImage, setUserImage] = useState([
+    {
+      id: 1,
+      name: userAvatar.defaultUser,
+    },
+    { id: 2, name: userAvatar.userPin1 },
+    { id: 3, name: userAvatar.userPin2 },
+    { id: 4, name: userAvatar.userPin3 },
+    { id: 5, name: userAvatar.userPin4 },
+    { id: 6, name: userAvatar.userPin5 },
+  ]);
   const list = useSelector((state) => state.getTodo.list);
   let trueCount = 0;
   let falseCount = 0;
@@ -45,15 +75,91 @@ export const DrawerContent = (props) => {
                 padding: 4,
               }}
             >
-              <View
+              {/* <View
                 style={{
                   height: 75,
                   width: 75,
                   borderRadius: 60,
                   backgroundColor: colors.orange_greyed,
                 }}
-              />
+              /> */}
+              <TouchableOpacity onPress={() => setUserModal(true)}>
+                <Image source={avatarPin} style={{ height: 75, width: 75 }} />
+              </TouchableOpacity>
             </View>
+
+            <Modal visible={userModal} animationType="fade" transparent={true}>
+              <View
+                style={{
+                  flex: 1,
+                  backgroundColor: "#000000AA",
+                  justifyContent: "flex-end",
+                }}
+              >
+                <View
+                  style={{
+                    backgroundColor: "#fff",
+                    paddingVertical: 20,
+                  }}
+                >
+                  <View
+                    style={{
+                      borderBottomWidth: 1,
+                      borderBottomColor: colors.orange,
+                      marginBottom: 20,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        margin: 10,
+                        fontFamily: "Poppins-Regular",
+                      }}
+                    >
+                      Select a User Pin
+                    </Text>
+                  </View>
+
+                  <FlatList
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
+                    data={userImage}
+                    renderItem={({ item }) => (
+                      <TouchableOpacity
+                        onPress={() => {
+                          setAvatarPin(item.name);
+                          setUserModal(false);
+                        }}
+                      >
+                        <Image
+                          key={item.id}
+                          source={item.name}
+                          style={{ height: 75, width: 75 }}
+                        />
+                      </TouchableOpacity>
+                    )}
+                    keyExtractor={(item) => item.id.toString()}
+                  />
+                  <View>
+                    <TouchableOpacity
+                      onPress={() => setUserModal(false)}
+                      style={{
+                        borderRadius: 5,
+                        padding: 10,
+                        margin: 10,
+                        marginTop: 20,
+                        backgroundColor: "white",
+                        elevation: 15,
+                      }}
+                    >
+                      <Text style={{ textAlign: "center", fontSize: 16 }}>
+                        Cancel
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
+            </Modal>
             <View
               style={{
                 margin: 10,
@@ -71,14 +177,15 @@ export const DrawerContent = (props) => {
             style={{
               flexDirection: "row",
               paddingHorizontal: 20,
-              paddingVertical: 10,
+              paddingVertical: 5,
+              paddingLeft: 4,
               marginVertical: 10,
             }}
           >
             <View
               style={{
                 flex: 1,
-                alignItems: "flex-start",
+                marginRight: 10,
               }}
             >
               <Text
@@ -112,6 +219,7 @@ export const DrawerContent = (props) => {
               style={{
                 flex: 1,
                 alignItems: "flex-end",
+                marginLeft: 10,
               }}
             >
               <Text
