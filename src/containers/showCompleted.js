@@ -104,6 +104,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     elevation: 3,
     backgroundColor: colors.white,
+    borderRadius: 5,
+    borderBottomColor: colors.orange,
+    borderBottomWidth: 1,
   },
 });
 
