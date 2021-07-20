@@ -4,7 +4,6 @@ import {
   Text,
   View,
   Image,
-  TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
   Dimensions,
@@ -12,8 +11,6 @@ import {
 } from "react-native";
 
 import { auth, firestore } from "firebase";
-// import auth from '@react-native-firebase/auth';
-// import firestore from '@react-native-firebase/firestore';
 
 import { colors } from "../constants/color";
 import LabelInput from "../component/LabelInput";

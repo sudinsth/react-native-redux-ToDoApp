@@ -68,14 +68,31 @@ export const HomeScreen = ({ navigation }) => {
                 borderTopRightRadius: 15,
               }}
             >
+              <View
+                style={{
+                  borderBottomWidth: 1,
+                  borderBottomColor: colors.orange,
+                  marginBottom: 20,
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 20,
+                    margin: 10,
+                    fontFamily: "Poppins-Regular",
+                  }}
+                >
+                  Add a Task
+                </Text>
+              </View>
               <AddTodo />
               <TouchableOpacity
                 onPress={() => setModalOpen(false)}
                 style={{
                   backgroundColor: "#fff",
                   padding: 15,
-                  marginVertical: 10,
-                  borderWidth: 1,
+                  margin: 10,
+                  borderBottomWidth: 1,
                   borderRadius: 15,
                   borderColor: colors.orange,
                   elevation: 10,
@@ -83,7 +100,7 @@ export const HomeScreen = ({ navigation }) => {
               >
                 <Text
                   style={{
-                    fontSize: 20,
+                    fontSize: 16,
                     textAlign: "center",
                   }}
                 >
