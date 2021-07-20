@@ -25,8 +25,8 @@ const CalendarScreen = () => {
   });
 
   const [items, setItems] = useState({
-    "2021-07-13": [{ name: "test1" }],
-    "2021-07-14": [{ name: "rest" }],
+    "2021-07-20": [{ name: "test1" }],
+    "2021-07-21": [{ name: "rest" }],
   });
 
   const renderItem = (item) => {
@@ -72,7 +72,7 @@ const CalendarScreen = () => {
         <Agenda
           items={items}
           selected={currentDate}
-          renderItem={renderItem}
+          renderDay={renderItem}
           minDate="2021-07-01"
           maxDate="2022-12-31"
           pastScrollRange={1}
