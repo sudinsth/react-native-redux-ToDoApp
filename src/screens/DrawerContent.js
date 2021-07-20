@@ -136,12 +136,13 @@ export const DrawerContent = (props) => {
               icon={({ color, size }) => (
                 <FontAwesome5 name="tasks" color={colors.orange} size={size} />
               )}
-              label={`All Tasks (${list.length})`}
+              // label={`All Tasks (${list.length})`}
+              label="Home"
               onPress={() => {
                 props.navigation.navigate("All Tasks");
               }}
             />
-            <DrawerItem
+            {/* <DrawerItem
               icon={({ color, size }) => (
                 <Octicons name="tasklist" color={colors.orange} size={size} />
               )}
@@ -162,7 +163,7 @@ export const DrawerContent = (props) => {
               onPress={() => {
                 props.navigation.navigate("Not Completed");
               }}
-            />
+            /> */}
             <DrawerItem
               icon={({ color, size }) => (
                 <AntDesign name="staro" color={colors.orange} size={22} />
