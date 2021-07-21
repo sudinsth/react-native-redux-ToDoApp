@@ -14,6 +14,7 @@ import { auth, firestore } from "firebase";
 
 import { colors } from "../constants/color";
 import LabelInput from "../component/LabelInput";
+import { MaterialIcons } from "@expo/vector-icons";
 
 const login = (email, password) => {
   auth()
@@ -135,9 +136,9 @@ export const LoginScreen = () => {
               />
             </View>
           ) : null}
-          <Text style={styles.fpText}>
+          {/* <Text style={styles.fpText}>
             {isCreateMode ? null : "Forgot Password?"}
-          </Text>
+          </Text> */}
 
           <TouchableOpacity
             style={styles.loginButton}
@@ -220,13 +221,12 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   inputView: {
-    height: 40,
     borderRadius: 10,
     backgroundColor: "#f1f3f6",
     marginTop: 10,
     display: "flex",
     flexDirection: "row",
-    alignItems: "center",
+    alignItems: "flex-end",
   },
   inputIcon: {
     paddingHorizontal: 8,
