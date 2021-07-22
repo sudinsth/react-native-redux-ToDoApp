@@ -10,11 +10,27 @@ import {
   Keyboard,
 } from "react-native";
 
+import validator from "validator";
+
 import { auth, firestore } from "firebase";
 
 import { colors } from "../constants/color";
 import LabelInput from "../component/LabelInput";
-import { MaterialIcons } from "@expo/vector-icons";
+
+const validateFields = (email, password) => {
+  const isValid = {
+    email: validator.isEmail(email),
+    password: validator.isStrongPassword(password, {
+      minLength: 8,
+      minUppercase: 1,
+      minLowercase: 1,
+      minNumbers: 1,
+      minSymbols: 1,
+    }),
+  };
+
+  return isValid;
+};
 
 const login = (email, password) => {
   auth()
@@ -53,36 +69,37 @@ export const LoginScreen = () => {
         <View style={{ flex: 1, backgroundColor: "grey" }}>
           {/* Image Background */}
           <Image
-            style={{ flex: 1, width: null, marginTop: -500 }}
+            style={{
+              flex: 1,
+              // marginTop: -500,
+              position: "absolute",
+            }}
             source={require("../../assets/Images/todoBackground.jpg")}
           />
+          <View style={{}}>
+            <Image
+              source={require("../../assets/adaptive-icon.png")}
+              style={{
+                height: "50%",
+                width: "50%",
+                position: "relative",
+                top: "40%",
+                alignSelf: "center",
+              }}
+            />
+            <Text style={styles.titleText}>
+              {" "}
+              ToDo
+              <Text style={{ color: colors.orange }}>APP</Text>
+            </Text>
+          </View>
         </View>
-        <Text style={styles.titleText}>
-          {" "}
-          ToDo
-          <Text style={{ color: colors.orange }}>APP</Text>
-        </Text>
 
         <View style={styles.bottomView}>
           <Text style={styles.loginText}>
             {isCreateMode ? "Create An Account" : "Welcome Back!!"}
           </Text>
           <View style={styles.inputView}>
-            {/* icon */}
-            {/* <TextInput 
-                            style={styles.input}
-                            placeholder='Username'
-                            autoCapitalize='none'
-                            keyboardType='email-address'
-                            textContentType='emailAddress'
-                            value={emailField.text}
-                            onChangeText={(text) => setEmailField({text: text})}
-                        />
-                        <View style={{backgroundColor: 'red'}}>
-
-                        <Text style={{fontSize: 24}}>{emailField.text} Hello</Text>
-                        </View> */}
-
             <LabelInput
               placeholder="Email"
               errorMessage={emailField.errorMessage}
@@ -99,13 +116,6 @@ export const LoginScreen = () => {
             />
           </View>
           <View style={styles.inputView}>
-            {/* Icon */}
-            {/* <TextInput 
-                            style={styles.input}
-                            placeholder='Password'
-                            secureTextEntry={true}
-                            autoCapitalize='none'
-                        /> */}
             <LabelInput
               placeholder="Password"
               errorMessage={passwordField.errorMessage}
@@ -142,11 +152,39 @@ export const LoginScreen = () => {
 
           <TouchableOpacity
             style={styles.loginButton}
-            onPress={() =>
-              isCreateMode
-                ? createAccount(emailField.text, passwordField.text)
-                : login(emailField.text, passwordField.text)
-            }
+            onPress={() => {
+              const isValid = validateFields(
+                emailField.text,
+                passwordField.text
+              );
+              let isAllValid = true;
+              if (!isValid.email) {
+                emailField.errorMessage = "Please enter a valid Email.";
+                setEmailField({ ...emailField });
+                isAllValid = false;
+              }
+
+              console.log(isValid.password, "Before password validation");
+              if (!isValid.password) {
+                passwordField.errorMessage =
+                  "Must be at least 4 letters long with a number.";
+                setPasswordField({ ...passwordField });
+                isAllValid = false;
+              }
+              console.log(passwordField.text, passwordField.errorMessage);
+
+              if (isCreateMode && rePasswordField.text != passwordField.text) {
+                rePasswordField.errorMessage = "Passwords do not match.";
+                setRePasswordField({ ...rePasswordField });
+                isAllValid = false;
+              }
+
+              if (isAllValid) {
+                isCreateMode
+                  ? createAccount(emailField.text, passwordField.text)
+                  : login(emailField.text, passwordField.text);
+              }
+            }}
           >
             <Text style={styles.loginButtonText}>
               {isCreateMode ? "Create Account" : "Login"}
@@ -156,6 +194,8 @@ export const LoginScreen = () => {
           <TouchableOpacity
             onPress={() => {
               setIsCreateMode(!isCreateMode);
+              setEmailField({ text: "", errorMessage: "" });
+              setPasswordField({ text: "", errorMessage: "" });
             }}
           >
             {isCreateMode ? (
