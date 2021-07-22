@@ -25,7 +25,7 @@ Notifications.setNotificationHandler({
   }),
 });
 
-export const ReminderTab = () => {
+export const ReminderTab = ({ notify }) => {
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
   const [mode, setMode] = useState("date");
@@ -62,15 +62,20 @@ export const ReminderTab = () => {
 
   const schedulePushNotification = async () => {
     await Notifications.scheduleNotificationAsync({
+      // await Notifications.getNextTriggerDateAsync({
       content: {
-        title: "Reminder! 📬",
-        body: "Here is the notification body",
+        title: "REMINDER!!!! 📬",
+        body: `Task ToDo: ${notify}`,
         data: { data: "goes here" },
       },
-      trigger: { seconds: 2 },
+      trigger: { seconds: 2 * 2, repeats: true },
     });
+    console.log(notify);
   };
 
+  const cancelScheduleNotification = async () => {
+    await Notifications.cancelAllScheduledNotificationsAsync();
+  };
   const registerForPushNotificationsAsync = async () => {
     let token;
     if (Constants.isDevice) {
@@ -88,7 +93,8 @@ export const ReminderTab = () => {
       token = (await Notifications.getExpoPushTokenAsync()).data;
       console.log(token);
     } else {
-      alert("Must use physical device for Push Notifications");
+      // alert("Must use physical device for Push Notifications");
+      console.log("Must use physical device for Push Notifications");
     }
 
     if (Platform.OS === "android") {
@@ -103,13 +109,20 @@ export const ReminderTab = () => {
     return token;
   };
 
+  let customSeconds;
+
   const onChange = (event, selectedTime) => {
     const currentTime = selectedTime || date;
     setShow(Platform.OS === "ios");
     setDate(currentTime);
 
     let tempDate = new Date(currentTime);
-    let fTime = tempDate.getHours() + ":" + tempDate.getMinutes();
+    let fTime =
+      tempDate.getHours() +
+      ":" +
+      tempDate.getMinutes() +
+      ":" +
+      tempDate.getSeconds();
 
     setText(fTime);
 
@@ -141,10 +154,31 @@ export const ReminderTab = () => {
             }}
           >
             <View style={{ flex: 1, marginLeft: 10 }}>
-              <Text>Notification</Text>
+              <Text>In the next 5 seconds</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.remindMe}
+            onPress={async () => {
+              await schedulePushNotification();
+            }}
+          >
+            <View style={{ flex: 1, marginLeft: 10 }}>
+              <Text>In every 2 seconds</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.remindMe}
+            onPress={async () => {
+              await cancelScheduleNotification();
+            }}
+          >
+            <View style={{ flex: 1, marginLeft: 10 }}>
+              <Text>Cancel all Reminders</Text>
             </View>
           </TouchableOpacity>
         </View>
+
         {show && (
           <DateTimePicker
             testID="dateTimePicker"
