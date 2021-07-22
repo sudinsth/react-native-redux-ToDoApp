@@ -33,10 +33,7 @@ export const DrawerContent = (props) => {
   const [userModal, setUserModal] = useState(false);
   const [avatarPin, setAvatarPin] = useState(userAvatar.defaultUser);
   const [userImage, setUserImage] = useState([
-    {
-      id: 1,
-      name: userAvatar.defaultUser,
-    },
+    { id: 1, name: userAvatar.defaultUser },
     { id: 2, name: userAvatar.userPin1 },
     { id: 3, name: userAvatar.userPin2 },
     { id: 4, name: userAvatar.userPin3 },
