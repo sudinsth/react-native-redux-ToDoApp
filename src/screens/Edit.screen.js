@@ -18,7 +18,7 @@ const EditScreen = ({ route, navigation }) => {
         editTaskText={chosenTask}
       />
       <View style={styles.reminderTab}>
-        <ReminderTab />
+        <ReminderTab notify={chosenTask} />
       </View>
     </View>
   );

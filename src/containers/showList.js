@@ -119,7 +119,7 @@ const ShowList = ({ navigation }) => {
                   {/* Important Button */}
                   <TouchableOpacity
                     style={{ marginRight: 8 }}
-                    onPress={() => importantTodo(id)}
+                    onPress={() => (!item.finished ? importantTodo(id) : null)}
                   >
                     <AntDesign
                       name={item.important ? "star" : "staro"}
@@ -152,7 +152,9 @@ const ShowList = ({ navigation }) => {
                     />
                   </TouchableOpacity>
                   {/* Remove Button */}
-                  <TouchableOpacity onPress={() => removeTodo(id)}>
+                  <TouchableOpacity
+                    onPress={() => (!item.finished ? removeTodo(id) : null)}
+                  >
                     <MaterialIcons
                       name="delete"
                       size={24}

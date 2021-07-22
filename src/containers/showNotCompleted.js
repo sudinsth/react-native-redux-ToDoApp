@@ -62,7 +62,7 @@ const ShowNotCompleted = () => {
                           ? "line-through"
                           : "none",
                         color: item.finished
-                          ? colors.orange_greyed
+                          ? colors.white_greyed
                           : colors.black,
                       }}
                     >

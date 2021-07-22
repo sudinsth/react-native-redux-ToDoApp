@@ -49,7 +49,15 @@ const ShowCompleted = () => {
           </View>
           {list.map((item, id) =>
             item.finished ? (
-              <View key={id} style={styles.listContent}>
+              <View
+                key={id}
+                style={[
+                  styles.listContent,
+                  {
+                    backgroundColor: item.finished ? colors.grey : colors.white,
+                  },
+                ]}
+              >
                 <TouchableOpacity onPress={() => toggleTodo(id)}>
                   <RadioButton selected={item.finished} />
                 </TouchableOpacity>
@@ -62,7 +70,7 @@ const ShowCompleted = () => {
                           ? "line-through"
                           : "none",
                         color: item.finished
-                          ? colors.orange_greyed
+                          ? colors.white_greyed
                           : colors.black,
                       }}
                     >

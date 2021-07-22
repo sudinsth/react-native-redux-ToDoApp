@@ -14,7 +14,7 @@ import { useSelector } from "react-redux";
 import { Header } from "../../component/header";
 
 const CalendarScreen = () => {
-  let currentDate = moment().format();
+  let currentDate = moment().format("YYYY-MM-DD");
   const list = useSelector((state) => state.getTodo.list);
 
   const array = [];
@@ -72,7 +72,7 @@ const CalendarScreen = () => {
         <Agenda
           items={items}
           selected={currentDate}
-          renderDay={renderItem}
+          renderItem={renderItem}
           minDate="2021-07-01"
           maxDate="2022-12-31"
           pastScrollRange={1}
@@ -94,7 +94,7 @@ const CalendarScreen = () => {
           minDate="2021-07-01"
           maxDate="2022-12-31"
         /> */}
-        <Text style={{ margin: 8, textAlign: "right", marginBottom: 10 }}>
+        <Text style={{ margin: 8, textAlign: "right", marginBottom: 20 }}>
           Date: {currentDate}
         </Text>
         {/* <TouchableOpacity

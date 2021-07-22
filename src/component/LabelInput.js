@@ -13,11 +13,13 @@ export default ({
 }) => {
   return (
     <View style={{ flex: 1 }}>
-      <View>
-        <Text style={{ color: colors.red }}>
-          {errorMessage && `*${errorMessage}`}
-        </Text>
-      </View>
+      {errorMessage ? (
+        <View>
+          <Text style={{ color: colors.red }}>
+            {errorMessage && `*${errorMessage}`}
+          </Text>
+        </View>
+      ) : null}
       <View>
         <TextInput
           placeholder={placeholder}
@@ -39,6 +41,5 @@ const styles = StyleSheet.create({
     padding: 10,
     borderColor: "grey",
     borderBottomWidth: 1,
-    // backgroundColor: "red",
   },
 });
