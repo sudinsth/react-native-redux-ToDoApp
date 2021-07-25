@@ -24,7 +24,7 @@ export function* addItem(value) {
 export function* addItemFlow() {
   while (true) {
     let request = yield take(ADD_TODO);
-    let response = yield call(addItem, request.value);
+    // let response = yield call(addItem, request.value);
     let tempList = yield select((state) => state.getTodo.list);
     let list = [];
     list = list.concat(tempList);
@@ -33,7 +33,7 @@ export function* addItemFlow() {
     tempObj.id = list.length;
     tempObj.important = false;
     tempObj.finished = false;
-    tempObj.createdAt = moment().format();
+    tempObj.createdAt = moment().format("YYYY-MM-DD");
     list.push(tempObj);
     yield put({
       type: UPDATE_TODO,
@@ -52,7 +52,7 @@ export function* importantItem(value) {
 export function* importantItemFlow() {
   while (true) {
     let request = yield take(IMPORTANT_TODO);
-    let response = yield call(importantItem, request.index);
+    // let response = yield call(importantItem, request.index);
     let tempList = yield select((state) => state.getTodo.list);
     let list = [];
     list = list.concat(tempList);
@@ -86,7 +86,7 @@ export function* removeItem() {
 export function* removeItemFlow() {
   while (true) {
     let request = yield take(REMOVE_TODO);
-    let response = yield call(removeItem, request.index);
+    // let response = yield call(removeItem, request.index);
     let tempList = yield select((state) => state.getTodo.list);
     let list = [];
     list = list.concat(tempList);
@@ -109,7 +109,7 @@ export function* toggleItem(value) {
 export function* toggleItemFlow() {
   while (true) {
     let request = yield take(TOGGLE_TODO);
-    let response = yield call(toggleItem, request.index);
+    // let response = yield call(toggleItem, request.index);
     let tempList = yield select((state) => state.getTodo.list);
     let list = [];
     list = list.concat(tempList);
@@ -125,7 +125,7 @@ export function* toggleItemFlow() {
 export function* modifyItemFlow() {
   while (true) {
     let request = yield take(EDIT_TODO);
-    let response = yield call(modifyItem, request.index);
+    // let response = yield call(modifyItem, request.index);
     let tempList = yield select((state) => state.getTodo.list);
     let list = [];
     list = list.concat(tempList);

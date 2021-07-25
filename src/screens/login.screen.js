@@ -12,6 +12,7 @@ import {
 
 import validator from "validator";
 
+import firebase from "firebase";
 import { auth, firestore } from "firebase";
 
 import { colors } from "../constants/color";
@@ -30,14 +31,6 @@ const validateFields = (email, password) => {
   };
 
   return isValid;
-};
-
-const login = (email, password) => {
-  auth()
-    .signInWithEmailAndPassword(email, password)
-    .then(() => {
-      console.log("Logged In!");
-    });
 };
 
 const createAccount = (email, password) => {
@@ -63,6 +56,19 @@ export const LoginScreen = () => {
     errorMessage: "",
   });
   const [isCreateMode, setIsCreateMode] = useState(false);
+
+  const login = (email, password) => {
+    auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(() => {
+        console.log("Logged In!");
+      })
+      .catch(() => {
+        console.log("No such user.");
+        emailField.errorMessage = "No user found with that email.";
+        setEmailField({ ...emailField });
+      });
+  };
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container}>
@@ -153,31 +159,40 @@ export const LoginScreen = () => {
           <TouchableOpacity
             style={styles.loginButton}
             onPress={() => {
-              const isValid = validateFields(
-                emailField.text,
-                passwordField.text
-              );
               let isAllValid = true;
-              if (!isValid.email) {
-                emailField.errorMessage = "Please enter a valid Email.";
-                setEmailField({ ...emailField });
-                isAllValid = false;
-              }
 
-              console.log(isValid.password, "Before password validation");
-              if (!isValid.password) {
-                passwordField.errorMessage =
-                  "Must be at least 4 letters long with a number.";
-                setPasswordField({ ...passwordField });
-                isAllValid = false;
-              }
-              console.log(passwordField.text, passwordField.errorMessage);
+              if (isCreateMode) {
+                const isValid = validateFields(
+                  emailField.text,
+                  passwordField.text
+                );
+                if (!isValid.email) {
+                  emailField.errorMessage = "Please enter a valid Email.";
+                  setEmailField({ ...emailField });
+                  isAllValid = false;
+                }
 
-              if (isCreateMode && rePasswordField.text != passwordField.text) {
-                rePasswordField.errorMessage = "Passwords do not match.";
-                setRePasswordField({ ...rePasswordField });
-                isAllValid = false;
+                if (!isValid.password) {
+                  passwordField.errorMessage =
+                    "Must be at least 4 letters long with a number.";
+                  setPasswordField({ ...passwordField });
+                  isAllValid = false;
+                }
+                console.log(passwordField.text, passwordField.errorMessage);
+
+                if (
+                  isCreateMode &&
+                  rePasswordField.text != passwordField.text
+                ) {
+                  rePasswordField.errorMessage = "Passwords do not match.";
+                  setRePasswordField({ ...rePasswordField });
+                  isAllValid = false;
+                }
               }
+              // else if (emailField.text === auth().currentUser.email) {
+              //   emailField.errorMessage = "No such email.";
+              //   setEmailField({ ...emailField });
+              // }
 
               if (isAllValid) {
                 isCreateMode

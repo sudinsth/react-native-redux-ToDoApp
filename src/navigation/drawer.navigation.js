@@ -11,7 +11,11 @@ const Drawer = createDrawerNavigator();
 
 export const AppNavigation = () => {
   return (
-    <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props} />}>
+    <Drawer.Navigator
+      drawerContent={(props) => <DrawerContent {...props} />}
+      drawerType={"slide"}
+      initialRouteName={"All Tasks"}
+    >
       <Drawer.Screen name="All Tasks" component={HomeStack} />
       <Drawer.Screen name="Completed" component={ShowCompletedScreen} />
       <Drawer.Screen name="Not Completed" component={ShowNotCompletedScreen} />

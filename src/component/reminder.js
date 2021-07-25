@@ -38,19 +38,22 @@ export const ReminderTab = ({ notify }) => {
   const responseListener = useRef();
 
   useEffect(() => {
-    registerForPushNotificationsAsync().then((token) =>
-      setExpoPushToken(token)
-    );
+    let isMounted = true;
+    if (isMounted) {
+      registerForPushNotificationsAsync().then((token) =>
+        setExpoPushToken(token)
+      );
 
-    notificationListener.current =
-      Notifications.addNotificationReceivedListener((notification) => {
-        setNotification(notification);
-      });
+      notificationListener.current =
+        Notifications.addNotificationReceivedListener((notification) => {
+          setNotification(notification);
+        });
 
-    responseListener.current =
-      Notifications.addNotificationResponseReceivedListener((response) => {
-        console.log(response);
-      });
+      responseListener.current =
+        Notifications.addNotificationResponseReceivedListener((response) => {
+          console.log(response);
+        });
+    }
 
     return () => {
       Notifications.removeNotificationSubscription(
@@ -58,6 +61,7 @@ export const ReminderTab = ({ notify }) => {
       );
       Notifications.removeNotificationSubscription(responseListener.current);
     };
+    isMounted = false;
   }, []);
 
   const schedulePushNotification = async () => {
@@ -71,6 +75,26 @@ export const ReminderTab = ({ notify }) => {
       trigger: { seconds: 2 * 2, repeats: true },
     });
     console.log(notify);
+  };
+
+  const scheduleNotification3Second = async () => {
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: "REMINDER!!!!",
+        body: `Task TODO: ${notify}`,
+      },
+      trigger: { seconds: 3 },
+    });
+  };
+
+  const scheduleNotification5Min = async () => {
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: "REMINDER!!!!",
+        body: `Task TODO: ${notify}`,
+      },
+      trigger: { seconds: 60 * 5 },
+    });
   };
 
   const cancelScheduleNotification = async () => {
@@ -91,7 +115,7 @@ export const ReminderTab = ({ notify }) => {
         return;
       }
       token = (await Notifications.getExpoPushTokenAsync()).data;
-      console.log(token);
+      // console.log(token);
     } else {
       // alert("Must use physical device for Push Notifications");
       console.log("Must use physical device for Push Notifications");
@@ -108,8 +132,6 @@ export const ReminderTab = ({ notify }) => {
 
     return token;
   };
-
-  let customSeconds;
 
   const onChange = (event, selectedTime) => {
     const currentTime = selectedTime || date;
@@ -150,11 +172,21 @@ export const ReminderTab = ({ notify }) => {
           <TouchableOpacity
             style={styles.remindMe}
             onPress={async () => {
-              await schedulePushNotification();
+              await scheduleNotification3Second();
             }}
           >
             <View style={{ flex: 1, marginLeft: 10 }}>
-              <Text>In the next 5 seconds</Text>
+              <Text>In the next 3 seconds</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.remindMe}
+            onPress={async () => {
+              await scheduleNotification5Min();
+            }}
+          >
+            <View style={{ flex: 1, marginLeft: 10 }}>
+              <Text>In the next 5 minutes</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity

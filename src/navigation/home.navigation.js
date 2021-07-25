@@ -1,3 +1,5 @@
+import { enableScreens } from "react-native-screens";
+import { createNativeStackNavigator } from "react-native-screens/native-stack";
 import React from "react";
 
 import { View, Text } from "react-native";
@@ -7,7 +9,8 @@ import { HomeScreen } from "../screens/main.screen";
 import { EditScreen } from "../screens/Edit.screen";
 import { colors } from "../constants/color";
 
-const Stack = createStackNavigator();
+enableScreens();
+const Stack = createNativeStackNavigator();
 
 export const HomeStack = () => {
   return (

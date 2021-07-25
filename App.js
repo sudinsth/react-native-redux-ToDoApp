@@ -25,18 +25,24 @@ import persistStore from "redux-persist/lib/persistStore";
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   useEffect(() => {
-    if (firebase.auth().currentUser) {
-      setIsAuthenticated(true);
-    }
-    firebase.auth().onAuthStateChanged((user) => {
-      console.log("Checking auth state...");
-      let isAuthenticated = false;
-      if (user) {
+    let isMounted = true;
+    if (isMounted) {
+      if (firebase.auth().currentUser) {
         setIsAuthenticated(true);
-      } else {
-        setIsAuthenticated(false);
       }
-    });
+      firebase.auth().onAuthStateChanged((user) => {
+        console.log("Checking auth state...");
+        let isAuthenticated = false;
+        if (user) {
+          setIsAuthenticated(true);
+        } else {
+          setIsAuthenticated(false);
+        }
+      });
+    }
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   let [fontsLoaded] = useFonts({

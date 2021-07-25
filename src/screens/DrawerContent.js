@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
   FlatList,
 } from "react-native";
-import { Drawer } from "react-native-paper";
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import {
   MaterialCommunityIcons,
@@ -228,7 +227,7 @@ export const DrawerContent = (props) => {
         </View>
 
         <View style={styles.drawerContent}>
-          <Drawer.Section style={styles.drawerSection}>
+          <View style={styles.drawerSection}>
             <DrawerItem
               icon={({ color, size }) => (
                 <FontAwesome5 name="tasks" color={colors.orange} size={size} />
@@ -239,28 +238,6 @@ export const DrawerContent = (props) => {
                 props.navigation.navigate("All Tasks");
               }}
             />
-            {/* <DrawerItem
-              icon={({ color, size }) => (
-                <Octicons name="tasklist" color={colors.orange} size={size} />
-              )}
-              label={`Completed (${trueCount})`}
-              onPress={() => {
-                props.navigation.navigate("Completed");
-              }}
-            />
-            <DrawerItem
-              icon={({ color, size }) => (
-                <Foundation
-                  name="clipboard-pencil"
-                  color={colors.orange}
-                  size={30}
-                />
-              )}
-              label={`Not Completed (${falseCount})`}
-              onPress={() => {
-                props.navigation.navigate("Not Completed");
-              }}
-            /> */}
             <DrawerItem
               icon={({ color, size }) => (
                 <AntDesign name="staro" color={colors.orange} size={22} />
@@ -270,10 +247,10 @@ export const DrawerContent = (props) => {
                 props.navigation.navigate("Important Tasks");
               }}
             />
-          </Drawer.Section>
+          </View>
         </View>
       </DrawerContentScrollView>
-      <Drawer.Section style={styles.bottomDrawerSection}>
+      <View style={styles.bottomDrawerSection}>
         <DrawerItem
           icon={({ color, size }) => (
             <MaterialCommunityIcons
@@ -287,7 +264,7 @@ export const DrawerContent = (props) => {
             auth().signOut();
           }}
         />
-      </Drawer.Section>
+      </View>
     </View>
   );
 };
