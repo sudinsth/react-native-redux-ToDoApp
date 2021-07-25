@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -6,7 +6,7 @@ import {
   StatusBar,
   TouchableOpacity,
 } from "react-native";
-import { Calendar, CalendarList, Agenda } from "react-native-calendars";
+import { Agenda } from "react-native-calendars";
 
 import moment from "moment";
 import { useSelector } from "react-redux";
@@ -29,6 +29,27 @@ const CalendarScreen = () => {
     "2021-07-21": [{ name: "rest" }],
   });
 
+  useEffect(() => {
+    const mappedData = list.map((post) => {
+      const date = moment().format("YYYY-MM-DD");
+
+      return {
+        ...post,
+        date,
+      };
+    });
+
+    const reduced = mappedData.reduce((acc, currenItem) => {
+      const { date, ...jestItem } = currenItem;
+
+      acc[date] = [jestItem];
+
+      return acc;
+    }, {});
+
+    console.log(reduced);
+    setItems(reduced);
+  }, []);
   const renderItem = (item) => {
     return (
       <View
@@ -89,21 +110,10 @@ const CalendarScreen = () => {
             color: "red",
           }}
         />
-        {/* <Calendar
-          current={currentDate}
-          minDate="2021-07-01"
-          maxDate="2022-12-31"
-        /> */}
+
         <Text style={{ margin: 8, textAlign: "right", marginBottom: 20 }}>
           Date: {currentDate}
         </Text>
-        {/* <TouchableOpacity
-          onPress={() => {
-            console.log(list);
-          }}
-        >
-          <Text>Console</Text>
-        </TouchableOpacity> */}
       </View>
     </View>
   );
