@@ -24,7 +24,7 @@ export default ({
         <TextInput
           placeholder={placeholder}
           style={[styles.input, inputStyle]}
-          value={text}
+          defaultvalue={text}
           onChangeText={onChangeText}
           {...inputProps}
         />

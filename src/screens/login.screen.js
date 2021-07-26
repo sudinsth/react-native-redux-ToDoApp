@@ -8,11 +8,11 @@ import {
   TouchableWithoutFeedback,
   Dimensions,
   Keyboard,
+  ActivityIndicator,
 } from "react-native";
 
 import validator from "validator";
 
-import firebase from "firebase";
 import { auth, firestore } from "firebase";
 
 import { colors } from "../constants/color";
@@ -33,15 +33,6 @@ const validateFields = (email, password) => {
   return isValid;
 };
 
-const createAccount = (email, password) => {
-  auth()
-    .createUserWithEmailAndPassword(email, password)
-    .then(({ user }) => {
-      console.log("Creating user...");
-      firestore().collection("users").doc(user.uid).set({});
-    });
-};
-
 export const LoginScreen = () => {
   const [emailField, setEmailField] = useState({
     text: "",
@@ -56,8 +47,9 @@ export const LoginScreen = () => {
     errorMessage: "",
   });
   const [isCreateMode, setIsCreateMode] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(false);
   const login = (email, password) => {
+    setIsLoading(!isLoading);
     auth()
       .signInWithEmailAndPassword(email, password)
       .then(() => {
@@ -65,8 +57,17 @@ export const LoginScreen = () => {
       })
       .catch(() => {
         console.log("No such user.");
-        emailField.errorMessage = "No user found with that email.";
+        emailField.errorMessage = "Email or Password entered wrong.";
         setEmailField({ ...emailField });
+      });
+  };
+  const createAccount = (email, password) => {
+    setIsLoading(!isLoading);
+    auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then(({ user }) => {
+        console.log("Creating user...");
+        firestore().collection("users").doc(user.uid).set({});
       });
   };
   return (
@@ -83,16 +84,6 @@ export const LoginScreen = () => {
             source={require("../../assets/Images/todoBackground.jpg")}
           />
           <View style={{}}>
-            <Image
-              source={require("../../assets/adaptive-icon.png")}
-              style={{
-                height: "50%",
-                width: "50%",
-                position: "relative",
-                top: "40%",
-                alignSelf: "center",
-              }}
-            />
             <Text style={styles.titleText}>
               {" "}
               ToDo
@@ -174,7 +165,7 @@ export const LoginScreen = () => {
 
                 if (!isValid.password) {
                   passwordField.errorMessage =
-                    "Must be at least 4 letters long with a number.";
+                    "Password must be at least 8 letters long with a number, capital letter and symbol.";
                   setPasswordField({ ...passwordField });
                   isAllValid = false;
                 }
@@ -202,7 +193,21 @@ export const LoginScreen = () => {
             }}
           >
             <Text style={styles.loginButtonText}>
-              {isCreateMode ? "Create Account" : "Login"}
+              {/* {!isLoading ? (isCreateMode ? "Create Account" : "Login") : null} */}
+
+              {!isLoading ? (
+                isCreateMode ? (
+                  "Create Account"
+                ) : (
+                  "Login"
+                )
+              ) : emailField.errorMessage == null ? (
+                <ActivityIndicator color="#fff" />
+              ) : isCreateMode ? (
+                "Create Account"
+              ) : (
+                "Login"
+              )}
             </Text>
           </TouchableOpacity>
 
@@ -297,11 +302,13 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 8,
     marginTop: 10,
+    flexDirection: "row",
+    justifyContent: "center",
   },
   loginButtonText: {
     color: "#fff",
     alignSelf: "center",
-    fontSize: 18,
+    fontSize: 17,
   },
   registerText: {
     alignSelf: "center",

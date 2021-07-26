@@ -18,6 +18,7 @@ import { colors } from "../constants/color";
 
 import { useSelector } from "react-redux";
 import { auth } from "firebase";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const userAvatar = {
   defaultUser: require("../../assets/Images/default_user.png"),
@@ -261,7 +262,12 @@ export const DrawerContent = (props) => {
           )}
           label="Log Out"
           onPress={() => {
-            auth().signOut();
+            auth()
+              .signOut()
+              .then(() => {
+                AsyncStorage.clear();
+                console.log("State Cleared");
+              });
           }}
         />
       </View>
