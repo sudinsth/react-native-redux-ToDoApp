@@ -33,7 +33,7 @@ const validateFields = (email, password) => {
   return isValid;
 };
 
-export const LoginScreen = () => {
+export const LoginScreen = ({ navigation }) => {
   const [emailField, setEmailField] = useState({
     text: "",
     errorMessage: "",
@@ -180,10 +180,6 @@ export const LoginScreen = () => {
                   isAllValid = false;
                 }
               }
-              // else if (emailField.text === auth().currentUser.email) {
-              //   emailField.errorMessage = "No such email.";
-              //   setEmailField({ ...emailField });
-              // }
 
               if (isAllValid) {
                 isCreateMode
