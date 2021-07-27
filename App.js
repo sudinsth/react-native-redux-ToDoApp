@@ -1,5 +1,7 @@
 import "react-native-gesture-handler";
+import "react-native-reanimated";
 import React, { useState, useEffect } from "react";
+import { enableScreens } from "react-native-screens";
 
 // Redux imports
 import { Provider } from "react-redux";
@@ -20,9 +22,10 @@ import { TabNavigation } from "./src/navigation/tab.navigation";
 // Expo imports
 import AppLoading from "expo-app-loading";
 import { useFonts } from "expo-font";
-import persistStore from "redux-persist/lib/persistStore";
 
 export default function App() {
+  enableScreens();
+
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   useEffect(() => {
     let isMounted = true;
@@ -58,8 +61,8 @@ export default function App() {
         <PersistGate loading={null} persistor={persistor}>
           {/* <AppNavigation /> */}
           {/* <LoginScreen /> */}
-          {/* {isAuthenticated ? <AppNavigation /> : <AuthStackScreen />} */}
-          {isAuthenticated ? <TabNavigation /> : <AuthStackScreen />}
+          {isAuthenticated ? <AppNavigation /> : <AuthStackScreen />}
+          {/* {isAuthenticated ? <TabNavigation /> : <AuthStackScreen />} */}
         </PersistGate>
       </Provider>
     );

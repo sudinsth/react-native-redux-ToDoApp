@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   View,
@@ -7,6 +7,8 @@ import {
   Modal,
   TouchableOpacity,
   FlatList,
+  InteractionManager,
+  ActivityIndicator,
 } from "react-native";
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import {
@@ -30,6 +32,7 @@ const userAvatar = {
 };
 
 export const DrawerContent = (props) => {
+  const [isReady, setIsReady] = useState(false);
   const [userModal, setUserModal] = useState(false);
   const [avatarPin, setAvatarPin] = useState(userAvatar.defaultUser);
   const [userImage, setUserImage] = useState([
@@ -48,6 +51,15 @@ export const DrawerContent = (props) => {
     object.finished === true ? trueCount++ : falseCount++;
   });
 
+  useEffect(() => {
+    InteractionManager.runAfterInteractions(() => {
+      setIsReady(true);
+    });
+  }, []);
+
+  if (!isReady) {
+    return <ActivityIndicator color="orange" />;
+  }
   return (
     <View style={styles.container}>
       <DrawerContentScrollView {...props}>
@@ -262,12 +274,11 @@ export const DrawerContent = (props) => {
           )}
           label="Log Out"
           onPress={() => {
-            auth()
-              .signOut()
-              .then(() => {
-                AsyncStorage.clear();
-                console.log("State Cleared");
-              });
+            AsyncStorage.clear();
+            auth().signOut();
+            // .then(() => {
+            //   AsyncStorage.multiRemove(key);
+            // });
           }}
         />
       </View>

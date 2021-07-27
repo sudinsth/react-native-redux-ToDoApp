@@ -24,10 +24,7 @@ const CalendarScreen = () => {
     array.push(listObj);
   });
 
-  const [items, setItems] = useState({
-    "2021-07-20": [{ name: "test1" }],
-    "2021-07-21": [{ name: "rest" }],
-  });
+  const [items, setItems] = useState({});
 
   useEffect(() => {
     const mappedData = list.map((post) => {
@@ -40,9 +37,9 @@ const CalendarScreen = () => {
     });
 
     const reduced = mappedData.reduce((acc, currenItem) => {
-      const { date, ...jestItem } = currenItem;
+      const { createdAt, ...jestItem } = currenItem;
 
-      acc[date] = [jestItem];
+      acc[createdAt] = [jestItem];
 
       return acc;
     }, {});
