@@ -2,6 +2,7 @@ import "react-native-gesture-handler";
 import "react-native-reanimated";
 import React, { useState, useEffect } from "react";
 import { enableScreens } from "react-native-screens";
+import { LogBox } from "react-native";
 
 // Redux imports
 import { Provider } from "react-redux";
@@ -23,6 +24,7 @@ import { TabNavigation } from "./src/navigation/tab.navigation";
 import AppLoading from "expo-app-loading";
 import { useFonts } from "expo-font";
 
+LogBox.ignoreLogs(["Setting a timer"]);
 export default function App() {
   enableScreens();
 
@@ -71,5 +73,6 @@ export default function App() {
 
 // firebase Initialization
 !firebase.apps.length ? firebase.initializeApp(firebaseConfig) : firebase.app();
+firebase.firestore().settings({ experimentalForceLongPolling: true });
 // firebase.firestore().settings({ timestampsInSnapshots: true });
 // firebase.initializeApp(firebaseConfig);

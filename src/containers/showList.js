@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   TouchableOpacity,
@@ -7,7 +7,7 @@ import {
   ScrollView,
 } from "react-native";
 
-import { connect, useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { MaterialIcons, Feather, AntDesign } from "@expo/vector-icons";
 
 import { toggleItem, removeItem, importantItem } from "../redux/actions";
@@ -17,8 +17,12 @@ import { PlaceholderScreen } from "../component/placeholderScreen";
 import { ShowNotCompleted } from "./showNotCompleted";
 import { ShowCompleted } from "./showCompleted";
 
+import { onSnapshot } from "../services/collection";
+import { auth, firestore } from "firebase";
+
 const ShowList = ({ navigation }) => {
   const [clicked, setClicked] = useState(0);
+  const [firebaseList, setFirebaseList] = useState([]);
   const list = useSelector((state) => state.getTodo.list);
   const dispatch = useDispatch();
   const toggleTodo = (index) => {
@@ -34,6 +38,21 @@ const ShowList = ({ navigation }) => {
   const pressHandler = (item, id) => {
     setClicked(id);
   };
+
+  let firestoreRef = firestore()
+    .collection("users")
+    .doc(auth().currentUser.uid)
+    .collection("lists");
+
+  useEffect(() => {
+    try {
+      onSnapshot(firestoreRef, (newLists) => {
+        setFirebaseList(newLists);
+      });
+    } catch (err) {
+      console.log("Not found");
+    }
+  }, []);
 
   const buttons = ["All", "Completed", "Remaining"];
 
@@ -62,7 +81,7 @@ const ShowList = ({ navigation }) => {
       {/* BUtton ENd */}
 
       {clicked === 0 ? (
-        list.length == 0 ? (
+        firebaseList.length == 0 ? (
           <PlaceholderScreen />
         ) : (
           <ScrollView>
@@ -74,11 +93,12 @@ const ShowList = ({ navigation }) => {
                   fontFamily: "Poppins-Regular",
                 }}
               >
-                {list.length} Total Tasks
+                {firebaseList.length} Total Tasks
               </Text>
             </View>
             {/* Tasks Lists */}
-            {list.map((item, id) => (
+
+            {firebaseList.map((item, id) => (
               <View
                 key={id}
                 style={[
@@ -236,4 +256,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect()(ShowList);
+export default ShowList;

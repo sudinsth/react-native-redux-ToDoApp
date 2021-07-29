@@ -10,6 +10,8 @@ import {
 } from "../actions/actionTypes";
 
 import moment from "moment";
+import { auth, firestore } from "firebase";
+import { onSnapshot } from "../../services/collection";
 
 export const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -35,6 +37,17 @@ export function* addItemFlow() {
     tempObj.finished = false;
     tempObj.createdAt = moment().format("YYYY-MM-DD");
     list.push(tempObj);
+
+    let firestoreRef = firestore()
+      .collection("users")
+      .doc(auth().currentUser.uid)
+      .collection("lists");
+    firestoreRef.doc(`${tempObj.id}`).set(tempObj);
+
+    // let respon = yield call(onSnapshot, firestoreRef, (newLists) => {
+    //   list = newLists;
+    //   console.log("from firebase", list);
+    // });
     yield put({
       type: UPDATE_TODO,
       data: list,
@@ -58,6 +71,11 @@ export function* importantItemFlow() {
     list = list.concat(tempList);
     let obj = list[request.index];
     obj.important = !obj.important;
+    let firestoreRef = firestore()
+      .collection("users")
+      .doc(auth().currentUser.uid)
+      .collection("lists");
+    firestoreRef.doc(`${request.index}`).update({ finished: obj.important });
     yield put({
       type: UPDATE_TODO,
       data: list,
@@ -91,6 +109,13 @@ export function* removeItemFlow() {
     let list = [];
     list = list.concat(tempList);
     list.splice(request.index, 1);
+
+    let firestoreRef = firestore()
+      .collection("users")
+      .doc(auth().currentUser.uid)
+      .collection("lists");
+    firestoreRef.doc(`${request.index}`).delete();
+
     yield put({
       type: UPDATE_TODO,
       data: list,
@@ -115,6 +140,12 @@ export function* toggleItemFlow() {
     list = list.concat(tempList);
     let obj = list[request.index];
     obj.finished = !obj.finished;
+
+    let firestoreRef = firestore()
+      .collection("users")
+      .doc(auth().currentUser.uid)
+      .collection("lists");
+    firestoreRef.doc(`${request.index}`).update({ finished: obj.finished });
     yield put({
       type: UPDATE_TODO,
       data: list,
@@ -131,6 +162,11 @@ export function* modifyItemFlow() {
     list = list.concat(tempList);
     let obj = list[request.index];
     obj.title = request.value;
+    let firestoreRef = firestore()
+      .collection("users")
+      .doc(auth().currentUser.uid)
+      .collection("lists");
+    firestoreRef.doc(`${request.index}`).update({ title: obj.title });
     yield put({
       type: UPDATE_TODO,
       data: list,
