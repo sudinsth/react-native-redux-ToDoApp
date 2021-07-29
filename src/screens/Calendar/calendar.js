@@ -6,6 +6,7 @@ import {
   StatusBar,
   TouchableOpacity,
 } from "react-native";
+import { useIsFocused } from "@react-navigation/native";
 import { Agenda } from "react-native-calendars";
 
 import moment from "moment";
@@ -14,6 +15,7 @@ import { useSelector } from "react-redux";
 import { Header } from "../../component/header";
 
 const CalendarScreen = () => {
+  const isFocused = useIsFocused();
   let currentDate = moment().format("YYYY-MM-DD");
   const list = useSelector((state) => state.getTodo.list);
 
@@ -27,26 +29,28 @@ const CalendarScreen = () => {
   const [items, setItems] = useState({});
 
   useEffect(() => {
-    const mappedData = list.map((post) => {
-      const date = moment().format("YYYY-MM-DD");
+    if (isFocused) {
+      const mappedData = list.map((post) => {
+        const date = moment().format("YYYY-MM-DD");
 
-      return {
-        ...post,
-        date,
-      };
-    });
+        return {
+          ...post,
+          date,
+        };
+      });
 
-    const reduced = mappedData.reduce((acc, currenItem) => {
-      const { createdAt, ...jestItem } = currenItem;
+      const reduced = mappedData.reduce((acc, currenItem) => {
+        const { createdAt, ...jestItem } = currenItem;
 
-      acc[createdAt] = [jestItem];
+        acc[createdAt] = [jestItem];
 
-      return acc;
-    }, {});
+        return acc;
+      }, {});
 
-    console.log(reduced);
-    setItems(reduced);
-  }, []);
+      // console.log(reduced);
+      setItems(reduced);
+    }
+  }, [isFocused]);
   const renderItem = (item) => {
     return (
       <View
