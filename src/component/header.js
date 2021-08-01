@@ -22,14 +22,7 @@ export const Header = ({ navigation, showHeader }) => {
       ) : (
         <View style={{ marginRight: 30 }} />
       )}
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          flexDirection: "row",
-          alignItems: "center",
-        }}
-      >
+      <View style={styles.logo}>
         <Image
           source={require("../../assets/adaptive-icon.png")}
           style={{ height: 35, width: 35, marginRight: 5 }}
@@ -62,5 +55,11 @@ const styles = StyleSheet.create({
   },
   icon: {
     marginLeft: 15,
+  },
+  logo: {
+    flex: 1,
+    justifyContent: "center",
+    flexDirection: "row",
+    alignItems: "center",
   },
 });

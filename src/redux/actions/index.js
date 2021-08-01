@@ -4,6 +4,7 @@ import {
   TOGGLE_TODO,
   EDIT_TODO,
   IMPORTANT_TODO,
+  UPDATE_TODO,
 } from "./actionTypes";
 
 export const addItem = (value) => {
@@ -39,5 +40,12 @@ export const importantItem = (index) => {
   return {
     type: IMPORTANT_TODO,
     index,
+  };
+};
+
+export const updateTodo = (data) => {
+  return {
+    type: UPDATE_TODO,
+    data,
   };
 };

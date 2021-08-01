@@ -11,14 +11,12 @@ import { PersistGate } from "redux-persist/integration/react";
 
 // Firebase imports
 import firebase from "firebase";
-// import firebase from "@react-native-firebase/app";
+import { firestore } from "firebase";
 import { firebaseConfig } from "./src/constants/firebase_config";
 
 // Navigation imports
 import { AppNavigation } from "./src/navigation/drawer.navigation";
-import { LoginScreen } from "./src/screens/login.screen";
-import { AuthScreens, AuthStackScreen } from "./src/screens/Auth.screen";
-import { TabNavigation } from "./src/navigation/tab.navigation";
+import { AuthStackScreen } from "./src/screens/Auth.screen";
 
 // Expo imports
 import AppLoading from "expo-app-loading";
@@ -61,10 +59,7 @@ export default function App() {
     return (
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          {/* <AppNavigation /> */}
-          {/* <LoginScreen /> */}
           {isAuthenticated ? <AppNavigation /> : <AuthStackScreen />}
-          {/* {isAuthenticated ? <TabNavigation /> : <AuthStackScreen />} */}
         </PersistGate>
       </Provider>
     );
@@ -73,6 +68,4 @@ export default function App() {
 
 // firebase Initialization
 !firebase.apps.length ? firebase.initializeApp(firebaseConfig) : firebase.app();
-firebase.firestore().settings({ experimentalForceLongPolling: true });
-// firebase.firestore().settings({ timestampsInSnapshots: true });
-// firebase.initializeApp(firebaseConfig);
+// firestore().settings({ experimentalForceLongPolling: true });

@@ -33,7 +33,7 @@ const validateFields = (email, password) => {
   return isValid;
 };
 
-export const LoginScreen = ({ navigation }) => {
+export const LoginScreen = () => {
   const [emailField, setEmailField] = useState({
     text: "",
     errorMessage: "",

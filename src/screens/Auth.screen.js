@@ -3,7 +3,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { AppNavigation } from "../navigation/drawer.navigation";
 import { LoginScreen } from "./login.screen";
-import { TabNavigation } from "../navigation/tab.navigation";
 
 const AuthStack = createStackNavigator();
 

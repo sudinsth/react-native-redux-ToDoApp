@@ -1,10 +1,6 @@
 import { enableScreens } from "react-native-screens";
 import { createNativeStackNavigator } from "react-native-screens/native-stack";
 import React from "react";
-
-import { View, Text } from "react-native";
-import { createStackNavigator } from "@react-navigation/stack";
-import ToDoApp from "../ToDoApp";
 import { HomeScreen } from "../screens/main.screen";
 import { EditScreen } from "../screens/Edit.screen";
 import { colors } from "../constants/color";
@@ -20,26 +16,6 @@ export const HomeStack = () => {
         component={HomeScreen}
         options={{
           headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="AddItem"
-        component={ToDoApp}
-        options={{
-          headerTitle: () => (
-            <View>
-              <Text
-                style={{
-                  fontWeight: "bold",
-                  fontSize: 24,
-                }}
-              >
-                ToDo
-                <Text style={{ color: "orange" }}>App</Text>
-              </Text>
-            </View>
-          ),
-          headerTintColor: "orange",
         }}
       />
       <Stack.Screen

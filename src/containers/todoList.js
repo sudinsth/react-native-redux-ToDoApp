@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
   StyleSheet,
   TouchableOpacity,
-  Button,
   ScrollView,
   View,
   Text,
@@ -13,7 +12,6 @@ import { connect, useSelector, useDispatch } from "react-redux";
 import { removeItem } from "../redux/actions";
 import { colors } from "../constants/color";
 import { PlaceholderScreen } from "../component/placeholderScreen";
-import { TextInput } from "react-native-gesture-handler";
 
 const TodoList = () => {
   const list = useSelector((state) => state.getTodo.list);

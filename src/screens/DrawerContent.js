@@ -19,8 +19,7 @@ import {
 import { colors } from "../constants/color";
 
 import { useSelector } from "react-redux";
-import { auth } from "firebase";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { auth, firestore } from "firebase";
 
 const userAvatar = {
   defaultUser: require("../../assets/Images/default_user.png"),
@@ -64,58 +63,18 @@ export const DrawerContent = (props) => {
     <View style={styles.container}>
       <DrawerContentScrollView {...props}>
         <View style={styles.userSection}>
-          <View
-            style={{
-              flexDirection: "row",
-            }}
-          >
-            <View
-              style={{
-                backgroundColor: colors.white,
-                borderColor: colors.orange,
-                borderWidth: 1,
-                borderRadius: 50,
-                alignSelf: "flex-start",
-                height: 85,
-                width: 85,
-                padding: 4,
-              }}
-            >
+          <View>
+            <View style={styles.userAvatarPin}>
               <TouchableOpacity onPress={() => setUserModal(true)}>
                 <Image source={avatarPin} style={{ height: 75, width: 75 }} />
               </TouchableOpacity>
             </View>
 
             <Modal visible={userModal} animationType="fade" transparent={true}>
-              <View
-                style={{
-                  flex: 1,
-                  backgroundColor: "#000000AA",
-                  justifyContent: "flex-end",
-                }}
-              >
-                <View
-                  style={{
-                    backgroundColor: "#fff",
-                    paddingVertical: 20,
-                  }}
-                >
-                  <View
-                    style={{
-                      borderBottomWidth: 1,
-                      borderBottomColor: colors.orange,
-                      marginBottom: 20,
-                    }}
-                  >
-                    <Text
-                      style={{
-                        fontSize: 20,
-                        margin: 10,
-                        fontFamily: "Poppins-Regular",
-                      }}
-                    >
-                      Select a User Pin
-                    </Text>
+              <View style={styles.userAvatarModal}>
+                <View style={styles.userModalView}>
+                  <View style={styles.userPinTextView}>
+                    <Text style={styles.userPinText}>Select a User Pin</Text>
                   </View>
 
                   <FlatList
@@ -138,64 +97,31 @@ export const DrawerContent = (props) => {
                     )}
                     keyExtractor={(item) => item.id.toString()}
                   />
-                  <View>
-                    <TouchableOpacity
-                      onPress={() => setUserModal(false)}
-                      style={{
-                        borderRadius: 5,
-                        padding: 10,
-                        margin: 10,
-                        marginTop: 20,
-                        backgroundColor: "white",
-                        elevation: 15,
-                        borderBottomColor: colors.orange,
-                        borderBottomWidth: 1,
-                      }}
-                    >
-                      <Text style={{ textAlign: "center", fontSize: 16 }}>
-                        Cancel
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
+                  <TouchableOpacity
+                    onPress={() => setUserModal(false)}
+                    style={styles.cancelButton}
+                  >
+                    <Text style={styles.cancelText}>Cancel</Text>
+                  </TouchableOpacity>
                 </View>
               </View>
             </Modal>
 
-            <View
-              style={{
-                margin: 10,
-                marginLeft: 15,
-                justifyContent: "center",
-              }}
-            >
-              <Text style={{ fontFamily: "Poppins-Regular" }}>
+            <View style={styles.userEmailTitle}>
+              <Text style={styles.userEmailText}>
                 {auth().currentUser.email}
               </Text>
             </View>
           </View>
 
-          <View
-            style={{
-              flexDirection: "row",
-              paddingHorizontal: 20,
-              paddingVertical: 5,
-              paddingLeft: 4,
-              marginVertical: 10,
-            }}
-          >
+          <View style={styles.taskCount}>
             <View
               style={{
                 flex: 1,
                 marginRight: 10,
               }}
             >
-              <Text
-                style={{
-                  fontFamily: "Poppins-Regular",
-                  fontSize: 20,
-                  textAlign: "center",
-                }}
-              >
+              <Text style={styles.taskCountText}>
                 {trueCount}{" "}
                 <View>
                   <Text>Completed</Text>
@@ -203,13 +129,7 @@ export const DrawerContent = (props) => {
               </Text>
             </View>
             <View style={{ flex: 1, alignItems: "center" }}>
-              <Text
-                style={{
-                  fontFamily: "Poppins-Regular",
-                  fontSize: 20,
-                  textAlign: "center",
-                }}
-              >
+              <Text style={styles.taskCountText}>
                 {falseCount}{" "}
                 <View>
                   <Text>Remaining</Text>
@@ -223,13 +143,7 @@ export const DrawerContent = (props) => {
                 marginLeft: 10,
               }}
             >
-              <Text
-                style={{
-                  fontFamily: "Poppins-Regular",
-                  fontSize: 20,
-                  textAlign: "center",
-                }}
-              >
+              <Text style={styles.taskCountText}>
                 {list.length}{" "}
                 <View>
                   <Text>Total Tasks</Text>
@@ -245,7 +159,6 @@ export const DrawerContent = (props) => {
               icon={({ color, size }) => (
                 <FontAwesome5 name="tasks" color={colors.orange} size={size} />
               )}
-              // label={`All Tasks (${list.length})`}
               label="Home"
               onPress={() => {
                 props.navigation.navigate("All Tasks");
@@ -253,7 +166,7 @@ export const DrawerContent = (props) => {
             />
             <DrawerItem
               icon={({ color, size }) => (
-                <AntDesign name="staro" color={colors.orange} size={22} />
+                <AntDesign name="staro" color={colors.orange} size={size} />
               )}
               label="Important Tasks"
               onPress={() => {
@@ -274,11 +187,7 @@ export const DrawerContent = (props) => {
           )}
           label="Log Out"
           onPress={() => {
-            AsyncStorage.clear();
             auth().signOut();
-            // .then(() => {
-            //   AsyncStorage.multiRemove(key);
-            // });
           }}
         />
       </View>
@@ -291,9 +200,46 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 28,
   },
+  userAvatarPin: {
+    backgroundColor: colors.white,
+    borderColor: colors.orange,
+    borderWidth: 1,
+    borderRadius: 50,
+    alignSelf: "center",
+    height: 85,
+    width: 85,
+    padding: 4,
+  },
+  userAvatarModal: {
+    flex: 1,
+    backgroundColor: "#000000AA",
+    justifyContent: "flex-end",
+  },
+  userModalView: {
+    backgroundColor: "#fff",
+    paddingVertical: 20,
+  },
+  userPinTextView: {
+    borderBottomWidth: 1,
+    borderBottomColor: colors.orange,
+    marginBottom: 20,
+  },
+  userPinText: {
+    fontSize: 20,
+    margin: 10,
+    fontFamily: "Poppins-Regular",
+  },
   userSection: {
     marginLeft: 10,
     marginBottom: 15,
+  },
+  userEmailTitle: {
+    margin: 10,
+    justifyContent: "center",
+  },
+  userEmailText: {
+    fontFamily: "Poppins-Regular",
+    textAlign: "center",
   },
   bottomDrawerSection: {
     borderTopColor: colors.orange,
@@ -308,5 +254,31 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderTopWidth: 1,
     borderColor: colors.orange,
+  },
+
+  cancelButton: {
+    borderRadius: 5,
+    padding: 10,
+    margin: 10,
+    marginTop: 20,
+    backgroundColor: "white",
+    elevation: 15,
+    borderBottomColor: colors.orange,
+    borderBottomWidth: 1,
+  },
+  cancelText: {
+    textAlign: "center",
+    fontSize: 16,
+  },
+  taskCount: {
+    flexDirection: "row",
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    marginVertical: 10,
+  },
+  taskCountText: {
+    fontFamily: "Poppins-Regular",
+    fontSize: 20,
+    textAlign: "center",
   },
 });

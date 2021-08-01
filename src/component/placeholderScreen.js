@@ -12,7 +12,7 @@ const PlaceholderScreen = () => {
       </View>
       <Foundation
         name="clipboard-pencil"
-        size={300}
+        size={250}
         color={colors.orange_greyed}
       />
     </View>
@@ -33,7 +33,6 @@ const styles = StyleSheet.create({
     marginRight: 20,
   },
   textView: {
-    // alignSelf: 'center',
     marginRight: 20,
   },
 });

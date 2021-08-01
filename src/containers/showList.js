@@ -10,7 +10,12 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import { MaterialIcons, Feather, AntDesign } from "@expo/vector-icons";
 
-import { toggleItem, removeItem, importantItem } from "../redux/actions";
+import {
+  toggleItem,
+  removeItem,
+  importantItem,
+  updateTodo,
+} from "../redux/actions";
 import { RadioButton } from "../component/radioButton";
 import { colors } from "../constants/color";
 import { PlaceholderScreen } from "../component/placeholderScreen";
@@ -22,7 +27,8 @@ import { auth, firestore } from "firebase";
 
 const ShowList = ({ navigation }) => {
   const [clicked, setClicked] = useState(0);
-  const [firebaseList, setFirebaseList] = useState([]);
+  // const [firebaseList, setFirebaseList] = useState([]);
+  const firebaseList = useSelector((state) => state.getTodo.list);
   const list = useSelector((state) => state.getTodo.list);
   const dispatch = useDispatch();
   const toggleTodo = (index) => {
@@ -47,7 +53,9 @@ const ShowList = ({ navigation }) => {
   useEffect(() => {
     try {
       onSnapshot(firestoreRef, (newLists) => {
-        setFirebaseList(newLists);
+        console.log(newLists);
+        dispatch(updateTodo(newLists));
+        // setFirebaseList(newLists);
       });
     } catch (err) {
       console.log("Not found");

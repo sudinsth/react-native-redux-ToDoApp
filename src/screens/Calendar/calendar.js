@@ -17,19 +17,21 @@ const CalendarScreen = () => {
   let currentDate = moment().format("YYYY-MM-DD");
   const list = useSelector((state) => state.getTodo.list);
 
-  const array = [];
-  const listObj = {};
-  list.forEach((object) => {
-    listObj.title = object.id;
-    array.push(listObj);
-  });
+  // const array = [];
+  // const listObj = {};
+  // list.forEach((object) => {
+  //   listObj.title = object.id;
+  //   array.push(listObj);
+  // });
 
-  const [items, setItems] = useState({});
+  const [items, setItems] = useState({
+    // "2021-08-1": [{ title: "hello" }],
+    // "2021-08-2": [{ title: "hello" }],
+  });
 
   useEffect(() => {
     const mappedData = list.map((post) => {
       const date = moment().format("YYYY-MM-DD");
-
       return {
         ...post,
         date,
@@ -40,11 +42,11 @@ const CalendarScreen = () => {
       const { createdAt, ...jestItem } = currenItem;
 
       acc[createdAt] = [jestItem];
-
+      // console.log("from", acc);
       return acc;
     }, {});
 
-    console.log(reduced);
+    // console.log(reduced);
     setItems(reduced);
   }, []);
   const renderItem = (item) => {
@@ -82,7 +84,36 @@ const CalendarScreen = () => {
       </View>
     );
   };
-
+  // const loadItems = (day) => {
+  //   setTimeout(() => {
+  //     for (let i = -15; i < 85; i++) {
+  //       const time = day.timestamp + i * 24 * 60 * 60 * 1000;
+  //       const strTime = timeToString(time);
+  //       if (!items[strTime]) {
+  //         items[strTime] = [];
+  //         const numItems = Math.floor(Math.random() * 3 + 1);
+  //         for (let j = 0; j < numItems; j++) {
+  //           items[strTime].push({
+  //             name: "Item for " + strTime + " #" + j,
+  //             height: Math.max(50, Math.floor(Math.random() * 150)),
+  //           });
+  //         }
+  //       }
+  //     }
+  //     const newItems = {};
+  //     Object.keys(items).forEach((key) => {
+  //       newItems[key] = items[key];
+  //     });
+  //     setItems(newItems);
+  //   }, 1000);
+  // };
+  // const renderEmptyDate = () => {
+  //   return (
+  //     <View>
+  //       <Text>Empty Data</Text>
+  //     </View>
+  //   );
+  // };
   return (
     <View style={styles.container}>
       <Header showHeader={"false"} />
@@ -91,6 +122,7 @@ const CalendarScreen = () => {
           items={items}
           selected={currentDate}
           renderItem={renderItem}
+          // renderEmptyDate={renderEmptyDate}
           minDate="2021-07-01"
           maxDate="2022-12-31"
           pastScrollRange={1}

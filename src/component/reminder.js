@@ -15,8 +15,6 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { colors } from "../constants/color";
 import moment from "moment";
 
-const presentTime = moment().format("HH:m");
-
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
@@ -70,7 +68,6 @@ export const ReminderTab = ({ notify }) => {
       content: {
         title: "REMINDER!!!! 📬",
         body: `Task ToDo: ${notify}`,
-        data: { data: "goes here" },
       },
       trigger: { seconds: 2 * 2, repeats: true },
     });
@@ -115,10 +112,9 @@ export const ReminderTab = ({ notify }) => {
         return;
       }
       token = (await Notifications.getExpoPushTokenAsync()).data;
-      // console.log(token);
     } else {
       // alert("Must use physical device for Push Notifications");
-      console.log("Must use physical device for Push Notifications");
+      // console.log("Must use physical device for Push Notifications");
     }
 
     if (Platform.OS === "android") {

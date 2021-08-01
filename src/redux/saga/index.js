@@ -11,7 +11,6 @@ import {
 
 import moment from "moment";
 import { auth, firestore } from "firebase";
-import { onSnapshot } from "../../services/collection";
 
 export const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -71,20 +70,10 @@ export function* importantItemFlow() {
       .collection("users")
       .doc(auth().currentUser.uid)
       .collection("lists");
-    firestoreRef.doc(`${request.index}`).update({ finished: obj.important });
+    firestoreRef.doc(`${request.index}`).update({ important: obj.important });
     yield put({
       type: UPDATE_TODO,
       data: list,
-    });
-  }
-}
-
-export function* modifyItem(value) {
-  try {
-    return yield call(delay, 10);
-  } catch (err) {
-    yield put({
-      type: ERROR,
     });
   }
 }
@@ -131,26 +120,34 @@ export function* toggleItemFlow() {
   while (true) {
     let request = yield take(TOGGLE_TODO);
     // let response = yield call(toggleItem, request.index);
-    // let tempList = yield select((state) => state.getTodo.list);
+    let tempList = yield select((state) => state.getTodo.list);
     let list = [];
-    // list = list.concat(tempList);
+    list = list.concat(tempList);
 
     let firestoreRef = firestore()
       .collection("users")
       .doc(auth().currentUser.uid)
       .collection("lists");
 
-    let respon = yield call(onSnapshot, firestoreRef, (newLists) => {
-      list = newLists;
-      console.log("from firebase", list, newLists);
-    });
+    // console.log(list);
     let obj = list[request.index];
+    // console.log(obj);
     obj.finished = !obj.finished;
 
     firestoreRef.doc(`${request.index}`).update({ finished: obj.finished });
     yield put({
       type: UPDATE_TODO,
       data: list,
+    });
+  }
+}
+
+export function* modifyItem(value) {
+  try {
+    return yield call(delay, 10);
+  } catch (err) {
+    yield put({
+      type: ERROR,
     });
   }
 }
