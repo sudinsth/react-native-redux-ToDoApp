@@ -26,7 +26,10 @@ const CalendarScreen = () => {
     array.push(listObj);
   });
 
-  const [items, setItems] = useState({});
+  const [items, setItems] = useState({
+    "2021-08-01": [{ title: "hello" }, { title: "add" }],
+    "2021-08-02": [{ title: "from" }, { title: "other" }],
+  });
 
   useEffect(() => {
     if (isFocused) {
@@ -57,11 +60,13 @@ const CalendarScreen = () => {
         style={{
           backgroundColor: "white",
           margin: 5,
-          borderRadius: 15,
+          borderRadius: 5,
           // justifyContent: "center",
           // alignItems: "center",
+          // flex: 1,
         }}
       >
+        {/* <Text>{item.title}</Text> */}
         {list.map((item, id) => (
           <View
             style={{
