@@ -46,9 +46,11 @@ export const DrawerContent = (props) => {
   let trueCount = 0;
   let falseCount = 0;
 
-  list.forEach((object) => {
-    object.finished === true ? trueCount++ : falseCount++;
-  });
+  if (list != null) {
+    list.forEach((object) => {
+      object.finished === true ? trueCount++ : falseCount++;
+    });
+  }
 
   useEffect(() => {
     InteractionManager.runAfterInteractions(() => {

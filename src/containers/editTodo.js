@@ -11,13 +11,13 @@ import { useDispatch } from "react-redux";
 import { editItem } from "../redux/actions";
 import { colors } from "../constants/color";
 
-const EditTodo = ({ editTaskId, editTaskText, navigation }) => {
+const EditTodo = ({ editTaskId, editTaskText, dbIdentify, navigation }) => {
   const [edited, setEdited] = useState();
   const dispatch = useDispatch();
 
-  const modifyTodo = (text, index) => {
+  const modifyTodo = (text, index, currentValue) => {
     if (text != null) {
-      dispatch(editItem(text, index));
+      dispatch(editItem(text, index, currentValue));
     }
     navigation.goBack();
   };
@@ -38,7 +38,7 @@ const EditTodo = ({ editTaskId, editTaskText, navigation }) => {
       <View>
         <TouchableOpacity
           style={styles.editButton}
-          onPress={() => modifyTodo(edited, editTaskId)}
+          onPress={() => modifyTodo(edited, editTaskId, dbIdentify)}
         >
           <Text style={styles.buttonText}>Done</Text>
           <View style={styles.editIcon}>

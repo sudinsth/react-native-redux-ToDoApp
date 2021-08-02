@@ -67,7 +67,7 @@ export const LoginScreen = () => {
       .createUserWithEmailAndPassword(email, password)
       .then(({ user }) => {
         console.log("Creating user...");
-        firestore().collection("users").doc(user.uid).set({});
+        firestore().collection("users").doc(user.uid).set({ email, password });
       });
   };
   return (

@@ -7,6 +7,7 @@ import { ReminderTab } from "../component/reminder";
 export const EditScreen = ({ route, navigation }) => {
   const itemId = route.params.currentId;
   const chosenTask = route.params.currentTask;
+  const identify = route.params.identify;
 
   return (
     <View style={styles.container}>
@@ -14,6 +15,7 @@ export const EditScreen = ({ route, navigation }) => {
         navigation={navigation}
         editTaskId={itemId}
         editTaskText={chosenTask}
+        dbIdentify={identify}
       />
       <View style={styles.reminderTab}>
         <ReminderTab notify={chosenTask} />

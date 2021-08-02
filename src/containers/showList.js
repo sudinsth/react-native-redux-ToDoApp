@@ -29,16 +29,18 @@ const ShowList = ({ navigation }) => {
   const [clicked, setClicked] = useState(0);
   // const [firebaseList, setFirebaseList] = useState([]);
   const firebaseList = useSelector((state) => state.getTodo.list);
+  // console.log("firebase", firebaseList);
   const list = useSelector((state) => state.getTodo.list);
   const dispatch = useDispatch();
-  const toggleTodo = (index) => {
-    dispatch(toggleItem(index));
+  const toggleTodo = (value, index) => {
+    console.log("toggleIndex", index);
+    dispatch(toggleItem(value, index));
   };
-  const importantTodo = (index) => {
-    dispatch(importantItem(index));
+  const importantTodo = (value, index) => {
+    dispatch(importantItem(value, index));
   };
-  const removeTodo = (index) => {
-    dispatch(removeItem(index));
+  const removeTodo = (value, index) => {
+    dispatch(removeItem(value, index));
   };
 
   const pressHandler = (item, id) => {
@@ -53,8 +55,11 @@ const ShowList = ({ navigation }) => {
   useEffect(() => {
     try {
       onSnapshot(firestoreRef, (newLists) => {
-        console.log(newLists);
-        dispatch(updateTodo(newLists));
+        // console.log("newlist", newLists);
+        if (newLists != null) {
+          // console.log("newlist not null", newLists);
+          dispatch(updateTodo(newLists));
+        }
         // setFirebaseList(newLists);
       });
     } catch (err) {
@@ -87,7 +92,6 @@ const ShowList = ({ navigation }) => {
         })}
       </View>
       {/* BUtton ENd */}
-
       {clicked === 0 ? (
         firebaseList.length == 0 ? (
           <PlaceholderScreen />
@@ -116,7 +120,7 @@ const ShowList = ({ navigation }) => {
                   },
                 ]}
               >
-                <TouchableOpacity onPress={() => toggleTodo(id)}>
+                <TouchableOpacity onPress={() => toggleTodo(item.identify, id)}>
                   <RadioButton selected={item.finished} />
                 </TouchableOpacity>
                 <View style={{ flex: 2 }}>
@@ -147,7 +151,9 @@ const ShowList = ({ navigation }) => {
                   {/* Important Button */}
                   <TouchableOpacity
                     style={{ marginRight: 8 }}
-                    onPress={() => (!item.finished ? importantTodo(id) : null)}
+                    onPress={() =>
+                      !item.finished ? importantTodo(item.identify, id) : null
+                    }
                   >
                     <AntDesign
                       name={item.important ? "star" : "staro"}
@@ -166,6 +172,7 @@ const ShowList = ({ navigation }) => {
                         ? navigation.navigate("EditScreen", {
                             currentTask: item.title,
                             currentId: item.id,
+                            identify: item.identify,
                           })
                         : null
                     }
@@ -181,7 +188,9 @@ const ShowList = ({ navigation }) => {
                   </TouchableOpacity>
                   {/* Remove Button */}
                   <TouchableOpacity
-                    onPress={() => (!item.finished ? removeTodo(id) : null)}
+                    onPress={() =>
+                      !item.finished ? removeTodo(item.identify, id) : null
+                    }
                   >
                     <MaterialIcons
                       name="delete"
