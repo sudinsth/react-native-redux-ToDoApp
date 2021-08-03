@@ -9,7 +9,6 @@ import {
   IMPORTANT_TODO,
 } from "../actions/actionTypes";
 
-import moment from "moment";
 import { auth, firestore } from "firebase";
 
 export const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -34,7 +33,6 @@ export function* addItemFlow() {
     tempObj.id = list.length;
     tempObj.important = false;
     tempObj.finished = false;
-    tempObj.createdAt = moment().format("YYYY-MM-DD");
     tempObj.identify = request.value;
     list.push(tempObj);
 
@@ -43,6 +41,7 @@ export function* addItemFlow() {
       .doc(auth().currentUser.uid)
       .collection("lists");
     firestoreRef.doc(`${tempObj.identify}`).set(tempObj);
+    // firestoreRef.doc(`${tempObj.id}`).set(tempObj);
 
     yield put({
       type: UPDATE_TODO,

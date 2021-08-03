@@ -18,11 +18,11 @@ import { PlaceholderScreen } from "../component/placeholderScreen";
 const ShowCompleted = () => {
   const list = useSelector((state) => state.getTodo.list);
   const dispatch = useDispatch();
-  const toggleTodo = (index) => {
-    dispatch(toggleItem(index));
+  const toggleTodo = (value, index) => {
+    dispatch(toggleItem(value, index));
   };
-  const removeTodo = (index) => {
-    dispatch(removeItem(index));
+  const removeTodo = (value, index) => {
+    dispatch(removeItem(value, index));
   };
 
   let trueCount = 0;
@@ -58,7 +58,7 @@ const ShowCompleted = () => {
                   },
                 ]}
               >
-                <TouchableOpacity onPress={() => toggleTodo(id)}>
+                <TouchableOpacity onPress={() => toggleTodo(item.identify, id)}>
                   <RadioButton selected={item.finished} />
                 </TouchableOpacity>
                 <View style={{ flex: 2 }}>
@@ -79,7 +79,9 @@ const ShowCompleted = () => {
                   </View>
                 </View>
                 <View style={{ flex: 0.2, alignItems: "flex-end" }}>
-                  <TouchableOpacity onPress={() => removeTodo(id)}>
+                  <TouchableOpacity
+                    onPress={() => removeTodo(item.identify, id)}
+                  >
                     <MaterialIcons
                       name="delete"
                       size={24}

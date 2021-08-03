@@ -34,7 +34,6 @@ export default function App() {
         setIsAuthenticated(true);
       }
       firebase.auth().onAuthStateChanged((user) => {
-        console.log("Checking auth state...");
         let isAuthenticated = false;
         if (user) {
           setIsAuthenticated(true);

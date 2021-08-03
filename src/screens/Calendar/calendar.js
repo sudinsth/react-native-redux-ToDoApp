@@ -40,9 +40,9 @@ const CalendarScreen = () => {
       });
 
       const reduced = mappedData.reduce((acc, currenItem) => {
-        const { createdAt, ...jestItem } = currenItem;
+        const { date, ...jestItem } = currenItem;
 
-        acc[createdAt] = [jestItem];
+        acc[date] = [jestItem];
 
         return acc;
       }, {});
@@ -53,34 +53,10 @@ const CalendarScreen = () => {
   }, [isFocused]);
   const renderItem = (item) => {
     return (
-      <View
-        style={{
-          backgroundColor: "white",
-          margin: 5,
-          borderRadius: 15,
-          // justifyContent: "center",
-          // alignItems: "center",
-        }}
-      >
+      <View style={styles.renderItemView}>
         {list.map((item, id) => (
-          <View
-            style={{
-              backgroundColor: "#d0dbd0",
-              marginVertical: 2,
-            }}
-            key={id}
-          >
-            <Text
-              style={{
-                fontSize: 16,
-                fontFamily: "Poppins-Regular",
-                margin: 3,
-                textAlign: "center",
-                textAlignVertical: "center",
-              }}
-            >
-              {item.title}
-            </Text>
+          <View style={styles.taskView} key={id}>
+            <Text style={styles.taskText}>{item.title}</Text>
           </View>
         ))}
       </View>
@@ -127,6 +103,22 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
+  },
+  renderItemView: {
+    backgroundColor: "white",
+    margin: 5,
+    borderRadius: 15,
+  },
+  taskView: {
+    backgroundColor: "#d0dbd0",
+    marginVertical: 2,
+  },
+  taskText: {
+    fontSize: 16,
+    fontFamily: "Poppins-Regular",
+    margin: 3,
+    textAlign: "center",
+    textAlignVertical: "center",
   },
 });
 

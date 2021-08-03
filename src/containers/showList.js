@@ -27,13 +27,10 @@ import { auth, firestore } from "firebase";
 
 const ShowList = ({ navigation }) => {
   const [clicked, setClicked] = useState(0);
-  // const [firebaseList, setFirebaseList] = useState([]);
-  const firebaseList = useSelector((state) => state.getTodo.list);
-  // console.log("firebase", firebaseList);
+  // const firebaseList = useSelector((state) => state.getTodo.list);
   const list = useSelector((state) => state.getTodo.list);
   const dispatch = useDispatch();
   const toggleTodo = (value, index) => {
-    console.log("toggleIndex", index);
     dispatch(toggleItem(value, index));
   };
   const importantTodo = (value, index) => {
@@ -54,16 +51,27 @@ const ShowList = ({ navigation }) => {
 
   useEffect(() => {
     try {
-      onSnapshot(firestoreRef, (newLists) => {
-        // console.log("newlist", newLists);
-        if (newLists != null) {
-          // console.log("newlist not null", newLists);
+      onSnapshot(
+        firestoreRef,
+        (newLists) => {
+          // console.log("newlist", newLists);
+
           dispatch(updateTodo(newLists));
+        },
+        {
+          sort: (a, b) => {
+            if (a.id < b.id) {
+              return -1;
+            }
+            if (a.id > b.id) {
+              return 1;
+            }
+            return 0;
+          },
         }
-        // setFirebaseList(newLists);
-      });
+      );
     } catch (err) {
-      console.log("Not found");
+      console.log("Not found", err);
     }
   }, []);
 
@@ -93,24 +101,16 @@ const ShowList = ({ navigation }) => {
       </View>
       {/* BUtton ENd */}
       {clicked === 0 ? (
-        firebaseList.length == 0 ? (
+        list.length == 0 ? (
           <PlaceholderScreen />
         ) : (
           <ScrollView>
             <View>
-              <Text
-                style={{
-                  textAlign: "center",
-                  fontSize: 16,
-                  fontFamily: "Poppins-Regular",
-                }}
-              >
-                {firebaseList.length} Total Tasks
-              </Text>
+              <Text style={styles.labelText}>{list.length} Total Tasks</Text>
             </View>
             {/* Tasks Lists */}
 
-            {firebaseList.map((item, id) => (
+            {list.map((item, id) => (
               <View
                 key={id}
                 style={[
@@ -124,7 +124,7 @@ const ShowList = ({ navigation }) => {
                   <RadioButton selected={item.finished} />
                 </TouchableOpacity>
                 <View style={{ flex: 2 }}>
-                  <View style={{ alignItems: "flex-start", marginLeft: 15 }}>
+                  <View style={styles.taskView}>
                     <Text
                       style={{
                         ...styles.item,
@@ -140,14 +140,7 @@ const ShowList = ({ navigation }) => {
                     </Text>
                   </View>
                 </View>
-                <View
-                  style={{
-                    flex: 0.59,
-                    alignItems: "flex-end",
-                    flexDirection: "row",
-                    margin: 4,
-                  }}
-                >
+                <View style={styles.icons}>
                   {/* Important Button */}
                   <TouchableOpacity
                     style={{ marginRight: 8 }}
@@ -189,7 +182,7 @@ const ShowList = ({ navigation }) => {
                   {/* Remove Button */}
                   <TouchableOpacity
                     onPress={() =>
-                      !item.finished ? removeTodo(item.identify, id) : null
+                      !item.finished ? removeTodo(item.identify, item.id) : null
                     }
                   >
                     <MaterialIcons
@@ -270,6 +263,21 @@ const styles = StyleSheet.create({
   textInactive: {
     color: "black",
     fontSize: 16,
+  },
+  labelText: {
+    textAlign: "center",
+    fontSize: 16,
+    fontFamily: "Poppins-Regular",
+  },
+  icons: {
+    flex: 0.59,
+    alignItems: "flex-end",
+    flexDirection: "row",
+    margin: 4,
+  },
+  taskView: {
+    alignItems: "flex-start",
+    marginLeft: 15,
   },
 });
 

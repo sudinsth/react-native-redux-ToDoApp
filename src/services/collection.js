@@ -3,10 +3,10 @@ export const onSnapshot = (ref, callback, options) => {
     (snapshot) => {
       let items = snapshot.docs.map((doc) => {
         const data = doc.data();
-        data.id = doc.id;
+        data.id = doc.data().id;
         return data;
       });
-      // items = options && options.sort ? items.sort(options.sort) : items;
+      items = options && options.sort ? items.sort(options.sort) : items;
       callback(items);
     },
     (error) => {
