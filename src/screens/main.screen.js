@@ -25,14 +25,7 @@ export const HomeScreen = ({ navigation }) => {
     <View style={styles.container}>
       <StatusBar style="auto" />
       <Header navigation={navigation} />
-      <View
-        // Boder Line
-        style={{
-          borderWidth: 1,
-          marginTop: 5,
-          borderColor: "#d9dbda",
-        }}
-      />
+      <View style={styles.borderLine} />
       <View style={styles.content}>
         <View style={{ flex: 1 }}>
           <ShowList navigation={navigation} />
@@ -52,62 +45,20 @@ export const HomeScreen = ({ navigation }) => {
 
       <Modal visible={modalOpen} animationType="fade" transparent={true}>
         <TouchableOpacity
-          style={{
-            flex: 1,
-            backgroundColor: "#000000AA",
-            justifyContent: "flex-end",
-          }}
+          style={styles.addTaskModal}
           onPress={() => setModalOpen(false)}
         >
           <TouchableWithoutFeedback>
-            <View
-              style={{
-                backgroundColor: "#fff",
-                paddingTop: 20,
-                borderTopLeftRadius: 15,
-                borderTopRightRadius: 15,
-              }}
-            >
-              <View
-                style={{
-                  borderBottomWidth: 1,
-                  borderBottomColor: colors.orange,
-                  marginBottom: 20,
-                }}
-              >
-                <Text
-                  style={{
-                    fontSize: 20,
-                    margin: 10,
-                    fontFamily: "Poppins-Regular",
-                  }}
-                >
-                  Add a Task
-                </Text>
+            <View style={styles.addTaskView}>
+              <View style={styles.addTaskButton}>
+                <Text style={styles.addTaskText}>Add a Task</Text>
               </View>
               <AddTodo />
               <TouchableOpacity
                 onPress={() => setModalOpen(false)}
-                style={{
-                  backgroundColor: "#fff",
-                  padding: 10,
-                  margin: 10,
-                  marginTop: 20,
-                  borderBottomWidth: 1,
-                  borderRadius: 5,
-                  borderColor: colors.orange,
-                  elevation: 15,
-                  marginBottom: 20,
-                }}
+                style={styles.cancelButton}
               >
-                <Text
-                  style={{
-                    fontSize: 16,
-                    textAlign: "center",
-                  }}
-                >
-                  Cancel
-                </Text>
+                <Text style={styles.cancelText}>Cancel</Text>
               </TouchableOpacity>
             </View>
           </TouchableWithoutFeedback>
@@ -131,6 +82,11 @@ const styles = StyleSheet.create({
   footer: {
     flex: 0.17,
   },
+  borderLine: {
+    borderWidth: 1,
+    marginTop: 5,
+    borderColor: "#d9dbda",
+  },
   addIcon: {
     alignItems: "center",
     borderWidth: 3,
@@ -145,5 +101,41 @@ const styles = StyleSheet.create({
     shadowColor: colors.black,
     shadowOffset: { width: 30, height: 30 },
     shadowOpacity: 0.86,
+  },
+  addTaskModal: {
+    flex: 1,
+    backgroundColor: "#000000AA",
+    justifyContent: "flex-end",
+  },
+  addTaskView: {
+    backgroundColor: "#fff",
+    paddingTop: 20,
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+  },
+  addTaskButton: {
+    borderBottomWidth: 1,
+    borderBottomColor: colors.orange,
+    marginBottom: 20,
+  },
+  addTaskText: {
+    fontSize: 20,
+    margin: 10,
+    fontFamily: "Poppins-Regular",
+  },
+  cancelButton: {
+    backgroundColor: "#fff",
+    padding: 10,
+    margin: 10,
+    marginTop: 20,
+    borderBottomWidth: 1,
+    borderRadius: 5,
+    borderColor: colors.orange,
+    elevation: 15,
+    marginBottom: 20,
+  },
+  cancelText: {
+    fontSize: 16,
+    textAlign: "center",
   },
 });

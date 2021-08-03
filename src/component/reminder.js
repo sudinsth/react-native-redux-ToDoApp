@@ -15,8 +15,6 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { colors } from "../constants/color";
 import moment from "moment";
 
-const presentTime = moment().format("HH:m");
-
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
@@ -50,9 +48,7 @@ export const ReminderTab = ({ notify }) => {
         });
 
       responseListener.current =
-        Notifications.addNotificationResponseReceivedListener((response) => {
-          console.log(response);
-        });
+        Notifications.addNotificationResponseReceivedListener((response) => {});
     }
 
     return () => {
@@ -64,42 +60,23 @@ export const ReminderTab = ({ notify }) => {
     isMounted = false;
   }, []);
 
-  const schedulePushNotification = async () => {
+  const scheduleNotification3Second = async (sec, repeatSec, repeat) => {
     await Notifications.scheduleNotificationAsync({
-      // await Notifications.getNextTriggerDateAsync({
       content: {
         title: "REMINDER!!!! 📬",
-        body: `Task ToDo: ${notify}`,
-        data: { data: "goes here" },
-      },
-      trigger: { seconds: 2 * 2, repeats: true },
-    });
-    console.log(notify);
-  };
-
-  const scheduleNotification3Second = async () => {
-    await Notifications.scheduleNotificationAsync({
-      content: {
-        title: "REMINDER!!!!",
         body: `Task TODO: ${notify}`,
       },
-      trigger: { seconds: 3 },
-    });
-  };
-
-  const scheduleNotification5Min = async () => {
-    await Notifications.scheduleNotificationAsync({
-      content: {
-        title: "REMINDER!!!!",
-        body: `Task TODO: ${notify}`,
+      trigger: {
+        seconds: sec * repeatSec,
+        repeats: repeat,
       },
-      trigger: { seconds: 60 * 5 },
     });
   };
 
   const cancelScheduleNotification = async () => {
     await Notifications.cancelAllScheduledNotificationsAsync();
   };
+
   const registerForPushNotificationsAsync = async () => {
     let token;
     if (Constants.isDevice) {
@@ -115,10 +92,8 @@ export const ReminderTab = ({ notify }) => {
         return;
       }
       token = (await Notifications.getExpoPushTokenAsync()).data;
-      // console.log(token);
     } else {
       // alert("Must use physical device for Push Notifications");
-      console.log("Must use physical device for Push Notifications");
     }
 
     if (Platform.OS === "android") {
@@ -147,8 +122,6 @@ export const ReminderTab = ({ notify }) => {
       tempDate.getSeconds();
 
     setText(fTime);
-
-    console.log(fTime);
   };
 
   const showMode = (currentMode) => {
@@ -165,38 +138,39 @@ export const ReminderTab = ({ notify }) => {
             style={styles.remindMe}
           >
             <Ionicons name="notifications" size={24} color={colors.orange} />
-            <View style={{ flex: 1, marginLeft: 10 }}>
-              <Text style={styles.remindText}> Remind Me! at {text}</Text>
+            <View style={styles.scheduleView}>
+              <Text style={styles.remindText}> Remind Me! {/*at {text}*/}</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.remindMe}
             onPress={async () => {
-              await scheduleNotification3Second();
+              await scheduleNotification3Second(3, 1, false);
             }}
           >
-            <View style={{ flex: 1, marginLeft: 10 }}>
-              <Text>In the next 3 seconds</Text>
+            <View style={styles.scheduleView}>
+              <Text style={styles.scheduleText}>In the next 3 seconds</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.remindMe}
             onPress={async () => {
-              await scheduleNotification5Min();
+              await scheduleNotification3Second(60, 5, false);
             }}
           >
-            <View style={{ flex: 1, marginLeft: 10 }}>
-              <Text>In the next 5 minutes</Text>
+            <View style={styles.scheduleView}>
+              <Text style={styles.scheduleText}>In the next 5 minutes</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.remindMe}
             onPress={async () => {
-              await schedulePushNotification();
+              // await schedulePushNotification(5);
+              await scheduleNotification3Second(60, 5, true);
             }}
           >
-            <View style={{ flex: 1, marginLeft: 10 }}>
-              <Text>In every 2 seconds</Text>
+            <View style={styles.scheduleView}>
+              <Text style={styles.scheduleText}>In every 5 minutes</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity
@@ -205,8 +179,8 @@ export const ReminderTab = ({ notify }) => {
               await cancelScheduleNotification();
             }}
           >
-            <View style={{ flex: 1, marginLeft: 10 }}>
-              <Text>Cancel all Reminders</Text>
+            <View style={styles.cancelReminders}>
+              <Text style={styles.cancelText}>Cancel All Reminders</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -250,5 +224,19 @@ const styles = StyleSheet.create({
   },
   remindText: {
     fontFamily: "Poppins-Regular",
+  },
+  scheduleView: {
+    flex: 1,
+    marginLeft: 10,
+  },
+  scheduleText: {
+    textAlign: "center",
+  },
+  cancelReminders: {
+    flex: 1,
+    marginLeft: 10,
+  },
+  cancelText: {
+    textAlign: "center",
   },
 });

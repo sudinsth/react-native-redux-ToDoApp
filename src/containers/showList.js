@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   TouchableOpacity,
@@ -7,33 +7,73 @@ import {
   ScrollView,
 } from "react-native";
 
-import { connect, useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { MaterialIcons, Feather, AntDesign } from "@expo/vector-icons";
 
-import { toggleItem, removeItem, importantItem } from "../redux/actions";
+import {
+  toggleItem,
+  removeItem,
+  importantItem,
+  updateTodo,
+} from "../redux/actions";
 import { RadioButton } from "../component/radioButton";
 import { colors } from "../constants/color";
 import { PlaceholderScreen } from "../component/placeholderScreen";
 import { ShowNotCompleted } from "./showNotCompleted";
 import { ShowCompleted } from "./showCompleted";
 
+import { onSnapshot } from "../services/collection";
+import { auth, firestore } from "firebase";
+
 const ShowList = ({ navigation }) => {
   const [clicked, setClicked] = useState(0);
+  // const firebaseList = useSelector((state) => state.getTodo.list);
   const list = useSelector((state) => state.getTodo.list);
   const dispatch = useDispatch();
-  const toggleTodo = (index) => {
-    dispatch(toggleItem(index));
+  const toggleTodo = (value, index) => {
+    dispatch(toggleItem(value, index));
   };
-  const importantTodo = (index) => {
-    dispatch(importantItem(index));
+  const importantTodo = (value, index) => {
+    dispatch(importantItem(value, index));
   };
-  const removeTodo = (index) => {
-    dispatch(removeItem(index));
+  const removeTodo = (value, index) => {
+    dispatch(removeItem(value, index));
   };
 
   const pressHandler = (item, id) => {
     setClicked(id);
   };
+
+  let firestoreRef = firestore()
+    .collection("users")
+    .doc(auth().currentUser.uid)
+    .collection("lists");
+
+  useEffect(() => {
+    try {
+      onSnapshot(
+        firestoreRef,
+        (newLists) => {
+          // console.log("newlist", newLists);
+
+          dispatch(updateTodo(newLists));
+        },
+        {
+          sort: (a, b) => {
+            if (a.id < b.id) {
+              return -1;
+            }
+            if (a.id > b.id) {
+              return 1;
+            }
+            return 0;
+          },
+        }
+      );
+    } catch (err) {
+      console.log("Not found", err);
+    }
+  }, []);
 
   const buttons = ["All", "Completed", "Remaining"];
 
@@ -60,24 +100,16 @@ const ShowList = ({ navigation }) => {
         })}
       </View>
       {/* BUtton ENd */}
-
       {clicked === 0 ? (
         list.length == 0 ? (
           <PlaceholderScreen />
         ) : (
           <ScrollView>
             <View>
-              <Text
-                style={{
-                  textAlign: "center",
-                  fontSize: 16,
-                  fontFamily: "Poppins-Regular",
-                }}
-              >
-                {list.length} Total Tasks
-              </Text>
+              <Text style={styles.labelText}>{list.length} Total Tasks</Text>
             </View>
             {/* Tasks Lists */}
+
             {list.map((item, id) => (
               <View
                 key={id}
@@ -88,11 +120,11 @@ const ShowList = ({ navigation }) => {
                   },
                 ]}
               >
-                <TouchableOpacity onPress={() => toggleTodo(id)}>
+                <TouchableOpacity onPress={() => toggleTodo(item.identify, id)}>
                   <RadioButton selected={item.finished} />
                 </TouchableOpacity>
                 <View style={{ flex: 2 }}>
-                  <View style={{ alignItems: "flex-start", marginLeft: 15 }}>
+                  <View style={styles.taskView}>
                     <Text
                       style={{
                         ...styles.item,
@@ -108,18 +140,13 @@ const ShowList = ({ navigation }) => {
                     </Text>
                   </View>
                 </View>
-                <View
-                  style={{
-                    flex: 0.59,
-                    alignItems: "flex-end",
-                    flexDirection: "row",
-                    margin: 4,
-                  }}
-                >
+                <View style={styles.icons}>
                   {/* Important Button */}
                   <TouchableOpacity
                     style={{ marginRight: 8 }}
-                    onPress={() => (!item.finished ? importantTodo(id) : null)}
+                    onPress={() =>
+                      !item.finished ? importantTodo(item.identify, id) : null
+                    }
                   >
                     <AntDesign
                       name={item.important ? "star" : "staro"}
@@ -138,6 +165,7 @@ const ShowList = ({ navigation }) => {
                         ? navigation.navigate("EditScreen", {
                             currentTask: item.title,
                             currentId: item.id,
+                            identify: item.identify,
                           })
                         : null
                     }
@@ -153,7 +181,9 @@ const ShowList = ({ navigation }) => {
                   </TouchableOpacity>
                   {/* Remove Button */}
                   <TouchableOpacity
-                    onPress={() => (!item.finished ? removeTodo(id) : null)}
+                    onPress={() =>
+                      !item.finished ? removeTodo(item.identify, item.id) : null
+                    }
                   >
                     <MaterialIcons
                       name="delete"
@@ -234,6 +264,21 @@ const styles = StyleSheet.create({
     color: "black",
     fontSize: 16,
   },
+  labelText: {
+    textAlign: "center",
+    fontSize: 16,
+    fontFamily: "Poppins-Regular",
+  },
+  icons: {
+    flex: 0.59,
+    alignItems: "flex-end",
+    flexDirection: "row",
+    margin: 4,
+  },
+  taskView: {
+    alignItems: "flex-start",
+    marginLeft: 15,
+  },
 });
 
-export default connect()(ShowList);
+export default ShowList;

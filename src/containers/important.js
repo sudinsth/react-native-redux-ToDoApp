@@ -40,13 +40,7 @@ const ImportantTodo = () => {
       ) : (
         <ScrollView>
           <View>
-            <Text
-              style={{
-                textAlign: "center",
-                fontSize: 16,
-                fontFamily: "Poppins-Regular",
-              }}
-            >
+            <Text style={styles.labelText}>
               {importantCount} Important Tasks
             </Text>
           </View>
@@ -81,13 +75,7 @@ const ImportantTodo = () => {
                     </Text>
                   </View>
                 </View>
-                <View
-                  style={{
-                    flex: 0.36,
-                    alignItems: "flex-end",
-                    flexDirection: "row",
-                  }}
-                >
+                <View style={styles.icons}>
                   {/* Important Button */}
                   <TouchableOpacity
                     style={{ marginRight: 8 }}
@@ -140,6 +128,16 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     elevation: 3,
     backgroundColor: colors.white,
+  },
+  labelText: {
+    textAlign: "center",
+    fontSize: 16,
+    fontFamily: "Poppins-Regular",
+  },
+  icons: {
+    flex: 0.36,
+    alignItems: "flex-end",
+    flexDirection: "row",
   },
 });
 

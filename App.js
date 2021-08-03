@@ -2,6 +2,7 @@ import "react-native-gesture-handler";
 import "react-native-reanimated";
 import React, { useState, useEffect } from "react";
 import { enableScreens } from "react-native-screens";
+import { LogBox } from "react-native";
 
 // Redux imports
 import { Provider } from "react-redux";
@@ -10,19 +11,18 @@ import { PersistGate } from "redux-persist/integration/react";
 
 // Firebase imports
 import firebase from "firebase";
-// import firebase from "@react-native-firebase/app";
+import { firestore } from "firebase";
 import { firebaseConfig } from "./src/constants/firebase_config";
 
 // Navigation imports
 import { AppNavigation } from "./src/navigation/drawer.navigation";
-import { LoginScreen } from "./src/screens/login.screen";
-import { AuthScreens, AuthStackScreen } from "./src/screens/Auth.screen";
-import { TabNavigation } from "./src/navigation/tab.navigation";
+import { AuthStackScreen } from "./src/screens/Auth.screen";
 
 // Expo imports
 import AppLoading from "expo-app-loading";
 import { useFonts } from "expo-font";
 
+LogBox.ignoreLogs(["Setting a timer"]);
 export default function App() {
   enableScreens();
 
@@ -34,7 +34,6 @@ export default function App() {
         setIsAuthenticated(true);
       }
       firebase.auth().onAuthStateChanged((user) => {
-        console.log("Checking auth state...");
         let isAuthenticated = false;
         if (user) {
           setIsAuthenticated(true);
@@ -59,10 +58,7 @@ export default function App() {
     return (
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          {/* <AppNavigation /> */}
-          {/* <LoginScreen /> */}
           {isAuthenticated ? <AppNavigation /> : <AuthStackScreen />}
-          {/* {isAuthenticated ? <TabNavigation /> : <AuthStackScreen />} */}
         </PersistGate>
       </Provider>
     );
@@ -71,5 +67,4 @@ export default function App() {
 
 // firebase Initialization
 !firebase.apps.length ? firebase.initializeApp(firebaseConfig) : firebase.app();
-// firebase.firestore().settings({ timestampsInSnapshots: true });
-// firebase.initializeApp(firebaseConfig);
+// firestore().settings({ experimentalForceLongPolling: true });

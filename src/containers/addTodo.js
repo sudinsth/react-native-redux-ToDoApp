@@ -26,12 +26,9 @@ const AddTodo = () => {
           onChangeText={(val) => setText(val)}
         />
       </View>
-      <TouchableOpacity
-        style={{ backgroundColor: colors.orange }}
-        onPress={() => addToDo(text)}
-      >
+      <TouchableOpacity onPress={() => addToDo(text)}>
         <View style={styles.addIcon}>
-          <Ionicons name="md-add" size={40} style={{ color: colors.white }} />
+          <Ionicons name="md-add" size={40} color={colors.white} />
         </View>
       </TouchableOpacity>
     </View>
@@ -60,5 +57,6 @@ const styles = StyleSheet.create({
     height: 50,
     justifyContent: "center",
     borderRadius: 5,
+    backgroundColor: colors.orange,
   },
 });

@@ -33,7 +33,7 @@ const validateFields = (email, password) => {
   return isValid;
 };
 
-export const LoginScreen = ({ navigation }) => {
+export const LoginScreen = () => {
   const [emailField, setEmailField] = useState({
     text: "",
     errorMessage: "",
@@ -67,7 +67,7 @@ export const LoginScreen = ({ navigation }) => {
       .createUserWithEmailAndPassword(email, password)
       .then(({ user }) => {
         console.log("Creating user...");
-        firestore().collection("users").doc(user.uid).set({});
+        firestore().collection("users").doc(user.uid).set({ email, password });
       });
   };
   return (

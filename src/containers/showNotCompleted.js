@@ -18,11 +18,11 @@ import { PlaceholderScreen } from "../component/placeholderScreen";
 const ShowNotCompleted = () => {
   const list = useSelector((state) => state.getTodo.list);
   const dispatch = useDispatch();
-  const toggleTodo = (index) => {
-    dispatch(toggleItem(index));
+  const toggleTodo = (value, index) => {
+    dispatch(toggleItem(value, index));
   };
-  const removeTodo = (index) => {
-    dispatch(removeItem(index));
+  const removeTodo = (value, index) => {
+    dispatch(removeItem(value, index));
   };
 
   let falseCount = 0;
@@ -37,24 +37,16 @@ const ShowNotCompleted = () => {
       ) : (
         <ScrollView>
           <View>
-            <Text
-              style={{
-                textAlign: "center",
-                fontSize: 16,
-                fontFamily: "Poppins-Regular",
-              }}
-            >
-              {falseCount} Tasks Left
-            </Text>
+            <Text style={styles.labelText}>{falseCount} Tasks Left</Text>
           </View>
           {list.map((item, id) =>
             !item.finished ? (
               <View key={id} style={styles.listContent}>
-                <TouchableOpacity onPress={() => toggleTodo(id)}>
+                <TouchableOpacity onPress={() => toggleTodo(item.identify, id)}>
                   <RadioButton selected={item.finished} />
                 </TouchableOpacity>
                 <View style={{ flex: 2 }}>
-                  <View style={{ alignItems: "flex-start", marginLeft: 15 }}>
+                  <View style={styles.taskView}>
                     <Text
                       style={{
                         ...styles.item,
@@ -70,8 +62,10 @@ const ShowNotCompleted = () => {
                     </Text>
                   </View>
                 </View>
-                <View style={{ flex: 0.2, alignItems: "flex-end" }}>
-                  <TouchableOpacity onPress={() => removeTodo(id)}>
+                <View style={styles.removeButton}>
+                  <TouchableOpacity
+                    onPress={() => removeTodo(item.identify, id)}
+                  >
                     <MaterialIcons
                       name="delete"
                       size={24}
@@ -107,6 +101,19 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: colors.orange,
     borderRadius: 5,
+  },
+  labelText: {
+    textAlign: "center",
+    fontSize: 16,
+    fontFamily: "Poppins-Regular",
+  },
+  removeButton: {
+    flex: 0.2,
+    alignItems: "flex-end",
+  },
+  taskView: {
+    alignItems: "flex-start",
+    marginLeft: 15,
   },
 });
 
