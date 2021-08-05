@@ -68,7 +68,7 @@ export const DrawerContent = (props) => {
           <View>
             <View style={styles.userAvatarPin}>
               <TouchableOpacity onPress={() => setUserModal(true)}>
-                <Image source={avatarPin} style={{ height: 75, width: 75 }} />
+                <Image source={avatarPin} style={styles.avatarPin} />
               </TouchableOpacity>
             </View>
 
@@ -201,6 +201,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 28,
+  },
+  avatarPin: {
+    height: 70,
+    width: 65,
+    alignSelf: "center",
   },
   userAvatarPin: {
     backgroundColor: colors.white,

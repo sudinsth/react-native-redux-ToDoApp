@@ -67,4 +67,4 @@ export default function App() {
 
 // firebase Initialization
 !firebase.apps.length ? firebase.initializeApp(firebaseConfig) : firebase.app();
-// firestore().settings({ experimentalForceLongPolling: true });
+firestore().settings({ experimentalForceLongPolling: true, merge: true });

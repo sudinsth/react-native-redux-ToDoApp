@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { View, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+import { View, TouchableOpacity, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { connect, useDispatch } from "react-redux";
 import { addItem } from "../redux/actions";
 import { colors } from "../constants/color";
+import LabelInput from "../component/LabelInput";
 
 const AddTodo = () => {
   const [text, setText] = useState();
@@ -19,7 +20,7 @@ const AddTodo = () => {
   return (
     <View style={styles.container}>
       <View style={{ flex: 1 }}>
-        <TextInput
+        <LabelInput
           placeholder="Add ToDo"
           style={styles.textInput}
           defaultValue={text}

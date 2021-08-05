@@ -18,14 +18,14 @@ import { PlaceholderScreen } from "../component/placeholderScreen";
 const ImportantTodo = () => {
   const list = useSelector((state) => state.getTodo.list);
   const dispatch = useDispatch();
-  const toggleTodo = (index) => {
-    dispatch(toggleItem(index));
+  const toggleTodo = (value, index) => {
+    dispatch(toggleItem(value, index));
   };
-  const importantTodo = (index) => {
-    dispatch(importantItem(index));
+  const importantTodo = (value, index) => {
+    dispatch(importantItem(value, index));
   };
-  const removeTodo = (index) => {
-    dispatch(removeItem(index));
+  const removeTodo = (value, index) => {
+    dispatch(removeItem(value, index));
   };
 
   let importantCount = 0;
@@ -55,7 +55,7 @@ const ImportantTodo = () => {
                   },
                 ]}
               >
-                <TouchableOpacity onPress={() => toggleTodo(id)}>
+                <TouchableOpacity onPress={() => toggleTodo(item.identify, id)}>
                   <RadioButton selected={item.finished} />
                 </TouchableOpacity>
                 <View style={{ flex: 2 }}>
@@ -79,7 +79,7 @@ const ImportantTodo = () => {
                   {/* Important Button */}
                   <TouchableOpacity
                     style={{ marginRight: 8 }}
-                    onPress={() => importantTodo(id)}
+                    onPress={() => importantTodo(item.identify, id)}
                   >
                     <AntDesign
                       name={item.important ? "star" : "staro"}
@@ -90,7 +90,9 @@ const ImportantTodo = () => {
                     />
                   </TouchableOpacity>
                   {/* Important Button */}
-                  <TouchableOpacity onPress={() => removeTodo(id)}>
+                  <TouchableOpacity
+                    onPress={() => removeTodo(item.identify, item.id)}
+                  >
                     <MaterialIcons
                       name="delete"
                       size={24}

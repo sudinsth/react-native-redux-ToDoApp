@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import {
   View,
-  TextInput,
   TouchableOpacity,
   Text,
   StyleSheet,
+  TextInput,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";

@@ -25,13 +25,11 @@ export const Header = ({ navigation, showHeader }) => {
       <View style={styles.logo}>
         <Image
           source={require("../../assets/adaptive-icon.png")}
-          style={{ height: 35, width: 35, marginRight: 5 }}
+          style={styles.logoImg}
         />
         <Text style={styles.title}>
           ToDo
-          <Text style={{ color: colors.orange, fontFamily: "Poppins-Regular" }}>
-            App
-          </Text>
+          <Text style={styles.appText}>App</Text>
         </Text>
       </View>
     </View>
@@ -61,5 +59,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexDirection: "row",
     alignItems: "center",
+  },
+  logoImg: {
+    height: 35,
+    width: 35,
+    marginRight: 5,
+  },
+  appText: {
+    color: colors.orange,
+    fontFamily: "Poppins-Regular",
   },
 });

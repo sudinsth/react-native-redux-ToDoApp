@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignSelf: "center",
     marginTop: 80,
-    marginLeft: 40,
+    marginLeft: 30,
   },
   text: {
     color: colors.white_greyed,
