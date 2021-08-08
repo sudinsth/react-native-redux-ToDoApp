@@ -4,11 +4,9 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
-  TouchableWithoutFeedback,
   Text,
   Pressable,
   StatusBar as BarStatus,
-  Modal,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -17,53 +15,47 @@ import { colors } from "../constants/color";
 
 import ShowList from "../containers/showList";
 import AddTodo from "../containers/addTodo";
+import { CustModal } from "../component/modal";
 
 export const HomeScreen = ({ navigation }) => {
   const [modalOpen, setModalOpen] = useState(false);
-
+  const modalPressHandler = (action) => {
+    setModalOpen(action);
+  };
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
       <Header navigation={navigation} />
       <View style={styles.borderLine} />
       <View style={styles.content}>
-        <View style={{ flex: 1 }}>
-          <ShowList navigation={navigation} />
-        </View>
+        <ShowList navigation={navigation} />
       </View>
       <View style={styles.footer}>
-        <Pressable onPress={() => setModalOpen(true)}>
-          <View style={styles.addIcon}>
-            <Ionicons
-              name="md-add"
-              size={30}
-              style={{ color: colors.orange }}
-            />
-          </View>
+        <Pressable
+          style={styles.addIcon}
+          onPress={() => modalPressHandler(true)}
+        >
+          <Ionicons name="md-add" size={30} color={colors.orange} />
         </Pressable>
       </View>
 
-      <Modal visible={modalOpen} animationType="fade" transparent={true}>
+      <CustModal
+        pressHandler={modalPressHandler}
+        visible={modalOpen}
+        animationType="fade"
+        transparent={true}
+      >
+        <View style={styles.addTaskButton}>
+          <Text style={styles.addTaskText}>Add a Task</Text>
+        </View>
+        <AddTodo />
         <TouchableOpacity
-          style={styles.addTaskModal}
-          onPress={() => setModalOpen(false)}
+          onPress={() => modalPressHandler(false)}
+          style={styles.cancelButton}
         >
-          <TouchableWithoutFeedback>
-            <View style={styles.addTaskView}>
-              <View style={styles.addTaskButton}>
-                <Text style={styles.addTaskText}>Add a Task</Text>
-              </View>
-              <AddTodo />
-              <TouchableOpacity
-                onPress={() => setModalOpen(false)}
-                style={styles.cancelButton}
-              >
-                <Text style={styles.cancelText}>Cancel</Text>
-              </TouchableOpacity>
-            </View>
-          </TouchableWithoutFeedback>
+          <Text style={styles.cancelText}>Cancel</Text>
         </TouchableOpacity>
-      </Modal>
+      </CustModal>
     </View>
   );
 };
@@ -77,10 +69,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     paddingHorizontal: 10,
-    marginTop: 10,
+    marginTop: 5,
   },
   footer: {
-    flex: 0.17,
+    flex: 0.16,
   },
   borderLine: {
     borderWidth: 1,
@@ -88,12 +80,10 @@ const styles = StyleSheet.create({
     borderColor: "#d9dbda",
   },
   addIcon: {
-    alignItems: "center",
     borderWidth: 3,
     borderColor: colors.orange,
     borderRadius: 15,
     alignSelf: "center",
-    alignItems: "center",
     justifyContent: "center",
     padding: 15,
     backgroundColor: colors.white,
@@ -101,17 +91,6 @@ const styles = StyleSheet.create({
     shadowColor: colors.black,
     shadowOffset: { width: 30, height: 30 },
     shadowOpacity: 0.86,
-  },
-  addTaskModal: {
-    flex: 1,
-    backgroundColor: "#000000AA",
-    justifyContent: "flex-end",
-  },
-  addTaskView: {
-    backgroundColor: "#fff",
-    paddingTop: 20,
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15,
   },
   addTaskButton: {
     borderBottomWidth: 1,
@@ -124,15 +103,14 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins-Regular",
   },
   cancelButton: {
-    backgroundColor: "#fff",
+    backgroundColor: colors.white,
     padding: 10,
     margin: 10,
-    marginTop: 20,
+    marginVertical: 20,
     borderBottomWidth: 1,
     borderRadius: 5,
     borderColor: colors.orange,
-    elevation: 15,
-    marginBottom: 20,
+    elevation: 10,
   },
   cancelText: {
     fontSize: 16,

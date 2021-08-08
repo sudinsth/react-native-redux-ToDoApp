@@ -9,6 +9,7 @@ import { MaterialIcons, Feather, AntDesign } from "@expo/vector-icons";
 import { PlaceholderScreen } from "../component/placeholderScreen";
 
 import { toggleItem, removeItem, importantItem } from "../redux/actions";
+import { ScrollView } from "react-native-gesture-handler";
 
 export const ListView = ({ list, filter, navigation }) => {
   const dispatch = useDispatch();
@@ -23,7 +24,9 @@ export const ListView = ({ list, filter, navigation }) => {
   };
 
   let filteredList = list;
-  if (filter !== "all") {
+  if (filter == "important") {
+    filteredList = list.filter((item) => item.important === true);
+  } else if (filter !== "all") {
     filteredList = list.filter((item) => item.finished === filter);
   }
 
@@ -36,6 +39,8 @@ export const ListView = ({ list, filter, navigation }) => {
         totalTaskIndicator = " Completed";
       } else if (filter == false) {
         totalTaskIndicator = " Remaining";
+      } else if (filter == "important") {
+        totalTaskIndicator = " Important Tasks";
       } else {
         totalTaskIndicator = " Total Tasks";
       }
@@ -50,82 +55,84 @@ export const ListView = ({ list, filter, navigation }) => {
   return (
     <View>
       {emptyscreen()}
-      {filteredList.map((item, id) => (
-        <View
-          key={id}
-          style={[
-            styles.listContent,
-            {
-              backgroundColor: item.finished ? colors.grey : colors.white,
-            },
-          ]}
-        >
-          <TouchableOpacity onPress={() => toggleTodo(item.identify, id)}>
-            <RadioButton selected={item.finished} />
-          </TouchableOpacity>
-          <View style={{ flex: 2 }}>
-            <View style={styles.taskView}>
-              <Text
-                style={{
-                  ...styles.item,
-                  textDecorationLine: item.finished ? "line-through" : "none",
-                  color: item.finished ? colors.white_greyed : colors.black,
-                }}
+      <ScrollView>
+        {filteredList.map((item, id) => (
+          <View
+            key={id}
+            style={[
+              styles.listContent,
+              {
+                backgroundColor: item.finished ? colors.grey : colors.white,
+              },
+            ]}
+          >
+            <TouchableOpacity onPress={() => toggleTodo(item.identify, id)}>
+              <RadioButton selected={item.finished} />
+            </TouchableOpacity>
+            <View style={{ flex: 2 }}>
+              <View style={styles.taskView}>
+                <Text
+                  style={{
+                    ...styles.item,
+                    textDecorationLine: item.finished ? "line-through" : "none",
+                    color: item.finished ? colors.white_greyed : colors.black,
+                  }}
+                >
+                  {item.title}
+                </Text>
+              </View>
+            </View>
+            <View style={styles.icons}>
+              {/* Important Button */}
+              <TouchableOpacity
+                style={{ marginRight: 8 }}
+                onPress={() =>
+                  !item.finished ? importantTodo(item.identify, id) : null
+                }
               >
-                {item.title}
-              </Text>
+                <AntDesign
+                  name={item.important ? "star" : "staro"}
+                  size={24}
+                  color={item.finished ? colors.orange_greyed : colors.orange}
+                />
+              </TouchableOpacity>
+              {/* Important Button */}
+
+              {/* Edit Button */}
+              <TouchableOpacity
+                onPress={() =>
+                  !item.finished
+                    ? navigation.navigate("EditScreen", {
+                        currentTask: item.title,
+                        currentId: item.id,
+                        identify: item.identify,
+                      })
+                    : null
+                }
+                style={{ marginRight: 8 }}
+              >
+                <Feather
+                  name="edit"
+                  size={24}
+                  color={item.finished ? colors.orange_greyed : colors.orange}
+                />
+              </TouchableOpacity>
+              {/* Remove Button */}
+              <TouchableOpacity
+                onPress={() =>
+                  !item.finished ? removeTodo(item.identify, item.id) : null
+                }
+              >
+                <MaterialIcons
+                  name="delete"
+                  size={24}
+                  color={item.finished ? colors.orange_greyed : colors.orange}
+                />
+              </TouchableOpacity>
             </View>
           </View>
-          <View style={styles.icons}>
-            {/* Important Button */}
-            <TouchableOpacity
-              style={{ marginRight: 8 }}
-              onPress={() =>
-                !item.finished ? importantTodo(item.identify, id) : null
-              }
-            >
-              <AntDesign
-                name={item.important ? "star" : "staro"}
-                size={24}
-                color={item.finished ? colors.orange_greyed : colors.orange}
-              />
-            </TouchableOpacity>
-            {/* Important Button */}
-
-            {/* Edit Button */}
-            <TouchableOpacity
-              onPress={() =>
-                !item.finished
-                  ? navigation.navigate("EditScreen", {
-                      currentTask: item.title,
-                      currentId: item.id,
-                      identify: item.identify,
-                    })
-                  : null
-              }
-              style={{ marginRight: 8 }}
-            >
-              <Feather
-                name="edit"
-                size={24}
-                color={item.finished ? colors.orange_greyed : colors.orange}
-              />
-            </TouchableOpacity>
-            {/* Remove Button */}
-            <TouchableOpacity
-              onPress={() =>
-                !item.finished ? removeTodo(item.identify, item.id) : null
-              }
-            >
-              <MaterialIcons
-                name="delete"
-                size={24}
-                color={item.finished ? colors.orange_greyed : colors.orange}
-              />
-            </TouchableOpacity>
-          </View>
-        </View>
-      ))}
+        ))}
+      </ScrollView>
     </View>
   );
 };
@@ -163,5 +170,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 16,
     fontFamily: "Poppins-Regular",
+    marginVertical: 5,
   },
 });

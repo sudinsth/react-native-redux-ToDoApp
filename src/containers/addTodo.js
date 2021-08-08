@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, TouchableOpacity, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { connect, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addItem } from "../redux/actions";
 import { colors } from "../constants/color";
 import LabelInput from "../component/LabelInput";
@@ -36,7 +36,7 @@ const AddTodo = () => {
   );
 };
 
-export default connect()(AddTodo);
+export default AddTodo;
 
 const styles = StyleSheet.create({
   container: {

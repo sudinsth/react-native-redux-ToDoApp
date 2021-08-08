@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, StatusBar } from "react-native";
+import { View, StyleSheet, StatusBar } from "react-native";
 
 import { Header } from "../component/header";
 import { colors } from "../constants/color";
@@ -26,7 +26,6 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     padding: 10,
-    // justifyContent: "center",
   },
   borderLine: {
     borderWidth: 1,

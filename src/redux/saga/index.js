@@ -10,7 +10,9 @@ import {
 } from "../actions/actionTypes";
 
 import { auth, firestore } from "firebase";
+import moment from "moment";
 
+const currentDate = moment().format("YYYY-MM-DD");
 export const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export function* addItem(value) {
@@ -29,6 +31,7 @@ export function* addItemFlow() {
     let list = [];
     list = list.concat(tempList);
     const tempObj = {};
+    tempObj.createdDate = currentDate;
     tempObj.title = request.value;
     tempObj.id = list.length;
     tempObj.important = false;
@@ -41,7 +44,6 @@ export function* addItemFlow() {
       .doc(auth().currentUser.uid)
       .collection("lists");
     firestoreRef.doc(`${tempObj.identify}`).set(tempObj);
-    // firestoreRef.doc(`${tempObj.id}`).set(tempObj);
 
     yield put({
       type: UPDATE_TODO,

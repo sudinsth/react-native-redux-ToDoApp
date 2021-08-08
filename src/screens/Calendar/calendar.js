@@ -19,46 +19,54 @@ const CalendarScreen = () => {
   let currentDate = moment().format("YYYY-MM-DD");
   const list = useSelector((state) => state.getTodo.list);
 
-  const array = [];
-  const listObj = {};
-  list.forEach((object) => {
-    listObj.title = object.id;
-    array.push(listObj);
-  });
-
   const [items, setItems] = useState({});
 
+  let jsondata;
+  const loadItems = () => {
+    console.log("From list", list);
+    // if (isFocused) {
+    list.forEach((data) => {
+      const strTime = data.createdDate;
+      if (!items[strTime]) {
+        items[strTime] = [];
+        list.forEach((datalist) => {
+          items[strTime].push({
+            name: datalist.title,
+          });
+        });
+      }
+    });
+
+    const newItems = {};
+    Object.keys(items).forEach((key) => {
+      // console.log("key]", key);
+      newItems[key] = items[key];
+    });
+    jsondata = JSON.parse(JSON.stringify(newItems));
+
+    console.log("json", jsondata);
+    console.log("newItems", newItems);
+    // setItems(newItems);
+    setItems(jsondata);
+    // }
+  };
+
   useEffect(() => {
-    if (isFocused) {
-      const mappedData = list.map((post) => {
-        const date = moment().format("YYYY-MM-DD");
-
-        return {
-          ...post,
-          date,
-        };
-      });
-
-      const reduced = mappedData.reduce((acc, currenItem) => {
-        const { date, ...jestItem } = currenItem;
-
-        acc[date] = [jestItem];
-
-        return acc;
-      }, {});
-
-      // console.log(reduced);
-      setItems(reduced);
+    if (items == null) {
+      loadItems();
     }
-  }, [isFocused]);
+  }, [items]);
+
+  const reloadAgenda = () => {
+    setItems("");
+  };
+
   const renderItem = (item) => {
     return (
       <View style={styles.renderItemView}>
-        {list.map((item, id) => (
-          <View style={styles.taskView} key={id}>
-            <Text style={styles.taskText}>{item.title}</Text>
-          </View>
-        ))}
+        <View style={[styles.taskView]}>
+          <Text style={styles.taskText}>{item.name}</Text>
+        </View>
       </View>
     );
   };
@@ -70,27 +78,23 @@ const CalendarScreen = () => {
         <Agenda
           items={items}
           selected={currentDate}
+          loadItemsForMonth={loadItems}
           renderItem={renderItem}
           minDate="2021-07-01"
           maxDate="2022-12-31"
           pastScrollRange={1}
           futureScrollRange={1}
           theme={{
-            // agendaDayTextColor: "yellow",
-            // agendaDayNumColor: "green",
             agendaTodayColor: "black",
             agendaKnobColor: "grey",
             selectedDayBackgroundColor: "orange",
           }}
-          style={{
-            backgroundColor: "orange",
-            color: "red",
-          }}
         />
-
-        <Text style={{ margin: 8, textAlign: "right", marginBottom: 20 }}>
-          Date: {currentDate}
-        </Text>
+        <TouchableOpacity onPress={reloadAgenda}>
+          <Text style={{ margin: 8, textAlign: "right", marginBottom: 20 }}>
+            Date: {currentDate}
+          </Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -105,16 +109,18 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   renderItemView: {
-    backgroundColor: "white",
     margin: 5,
-    borderRadius: 15,
+    marginRight: 10,
   },
   taskView: {
     backgroundColor: "#d0dbd0",
     marginVertical: 2,
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: 16,
   },
   taskText: {
-    fontSize: 16,
+    fontSize: 18,
     fontFamily: "Poppins-Regular",
     margin: 3,
     textAlign: "center",

@@ -3,7 +3,7 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 
 import { TabNavigation } from "./tab.navigation";
 import { DrawerContent } from "../screens/DrawerContent";
-import { ImportantTaskScreen } from "../screens/ImportantTaskScreen";
+import { ImportantTaskScreen } from "../screens/importantTask.screen";
 import { NavigationContainer } from "@react-navigation/native";
 
 const Drawer = createDrawerNavigator();

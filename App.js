@@ -16,7 +16,7 @@ import { firebaseConfig } from "./src/constants/firebase_config";
 
 // Navigation imports
 import { AppNavigation } from "./src/navigation/drawer.navigation";
-import { AuthStackScreen } from "./src/screens/Auth.screen";
+import { AuthStackScreen } from "./src/navigation/auth.navigation";
 
 // Expo imports
 import AppLoading from "expo-app-loading";

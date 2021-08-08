@@ -1,8 +1,7 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { AppNavigation } from "../navigation/drawer.navigation";
-import { LoginScreen } from "./login.screen";
+import { LoginScreen } from "../screens/login.screen";
 
 const AuthStack = createStackNavigator();
 
@@ -20,8 +19,4 @@ export const AuthStackScreen = () => {
       </AuthStack.Navigator>
     </NavigationContainer>
   );
-};
-
-export const AuthScreens = () => {
-  return <AppNavigation />;
 };

@@ -1,30 +1,29 @@
 import React, { useState, useEffect } from "react";
-import {
-  StyleSheet,
-  TouchableOpacity,
-  Text,
-  View,
-  ScrollView,
-} from "react-native";
+import { View, ScrollView } from "react-native";
 
 import { useSelector, useDispatch } from "react-redux";
 
 import { updateTodo } from "../redux/actions";
 
-import { PlaceholderScreen } from "../component/placeholderScreen";
-
 import { onSnapshot } from "../services/collection";
 import { auth, firestore } from "firebase";
 
 import { ListView } from "../component/listView";
+import { CategoryButton } from "../component/listCategoryButton";
+
+const titleBtnNameMap = {
+  All: "All",
+  Completed: "Completed",
+  Remaining: "Remaining",
+};
 
 const ShowList = ({ navigation }) => {
-  const [clicked, setClicked] = useState(0);
   const list = useSelector((state) => state.getTodo.list);
   const dispatch = useDispatch();
 
+  const [clicked, setClicked] = useState(titleBtnNameMap.All);
   const pressHandler = (item, id) => {
-    setClicked(id);
+    setClicked(item);
   };
 
   let firestoreRef = firestore()
@@ -56,86 +55,26 @@ const ShowList = ({ navigation }) => {
     }
   }, []);
 
-  const buttons = ["All", "Completed", "Remaining"];
-
   let filter;
-  if (clicked === 0) {
+  if (clicked === titleBtnNameMap.All) {
     filter = "all";
-  } else if (clicked === 1) {
+  } else if (clicked === titleBtnNameMap.Completed) {
     filter = true;
-  } else {
+  } else if (clicked === titleBtnNameMap.Remaining) {
     filter = false;
   }
 
   return (
     <View style={{ flex: 1 }}>
-      {/* Button Start */}
-      <View style={styles.groupButton}>
-        {buttons.map((buttonLabel, index) => {
-          return (
-            <TouchableOpacity
-              onPress={(item) => pressHandler(item, index)}
-              key={index}
-              style={[index === clicked ? styles.buttonActive : styles.button]}
-            >
-              <Text
-                style={
-                  index === clicked ? styles.textActive : styles.textInactive
-                }
-              >
-                {buttonLabel}
-              </Text>
-            </TouchableOpacity>
-          );
-        })}
-      </View>
-      <ScrollView>
-        <View>
-          {/* Tasks Lists */}
-          <ListView list={list} navigation={navigation} filter={filter} />
-        </View>
-      </ScrollView>
+      {/* Task Category Button*/}
+      <CategoryButton
+        pressHandler={pressHandler}
+        btnNames={titleBtnNameMap}
+        clicked={clicked}
+      />
+      <ListView list={list} navigation={navigation} filter={filter} />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  groupButton: {
-    padding: 10,
-    flexDirection: "row",
-  },
-  button: {
-    flex: 1,
-    height: 40,
-    backgroundColor: "white",
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 1,
-    borderColor: "white",
-    borderTopLeftRadius: 10,
-    padding: 10,
-    elevation: 5,
-  },
-  buttonActive: {
-    flex: 1,
-    height: 40,
-    backgroundColor: "orange",
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 1,
-    borderColor: "white",
-    borderTopLeftRadius: 10,
-    padding: 10,
-    elevation: 5,
-  },
-  textActive: {
-    color: "white",
-    fontSize: 18,
-  },
-  textInactive: {
-    color: "black",
-    fontSize: 16,
-  },
-});
 
 export default ShowList;
