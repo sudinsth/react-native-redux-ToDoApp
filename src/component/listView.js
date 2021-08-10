@@ -118,11 +118,7 @@ export const ListView = ({ list, filter, navigation }) => {
                 />
               </TouchableOpacity>
               {/* Remove Button */}
-              <TouchableOpacity
-                onPress={() =>
-                  !item.finished ? removeTodo(item.identify, item.id) : null
-                }
-              >
+              <TouchableOpacity onPress={() => removeTodo(item.identify, id)}>
                 <MaterialIcons
                   name="delete"
                   size={24}

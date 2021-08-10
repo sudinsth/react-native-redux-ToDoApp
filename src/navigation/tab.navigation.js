@@ -26,12 +26,12 @@ const TabNavigation = () => {
           borderRadius: 10,
           borderTopWidth: 1,
           borderTopColor: colors.orange,
-          shadowColor: colors.black,
-          shadowOpacity: 0.86,
-          shadowOffset: {
-            width: 10,
-            height: 10,
-          },
+          // shadowColor: colors.black,
+          // shadowOpacity: 0.86,
+          // shadowOffset: {
+          //   width: 10,
+          //   height: 10,
+          // },
         },
         iconStyle: {
           width: 25,

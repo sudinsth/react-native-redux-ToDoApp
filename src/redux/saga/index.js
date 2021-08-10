@@ -1,4 +1,11 @@
-import { put, call, take, select } from "redux-saga/effects";
+import {
+  put,
+  call,
+  take,
+  select,
+  takeEvery,
+  takeLatest,
+} from "redux-saga/effects";
 import {
   ERROR,
   ADD_TODO,
@@ -13,30 +20,21 @@ import { auth, firestore } from "firebase";
 import moment from "moment";
 
 const currentDate = moment().format("YYYY-MM-DD");
-export const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-export function* addItem(value) {
+export function* addItem(action) {
   try {
-    return yield call(delay, 10);
-  } catch (err) {
-    yield put({ type: ERROR });
-  }
-}
-
-export function* addItemFlow() {
-  while (true) {
-    let request = yield take(ADD_TODO);
-    // let response = yield call(addItem, request.value);
+    // let request = yield take(ADD_TODO);
+    let request = action.value;
     let tempList = yield select((state) => state.getTodo.list);
     let list = [];
     list = list.concat(tempList);
     const tempObj = {};
     tempObj.createdDate = currentDate;
-    tempObj.title = request.value;
+    tempObj.title = request;
     tempObj.id = list.length;
     tempObj.important = false;
     tempObj.finished = false;
-    tempObj.identify = request.value;
+    tempObj.identify = request;
     list.push(tempObj);
 
     let firestoreRef = firestore()
@@ -45,55 +43,51 @@ export function* addItemFlow() {
       .collection("lists");
     firestoreRef.doc(`${tempObj.identify}`).set(tempObj);
 
+    // console.log(list);
     yield put({
       type: UPDATE_TODO,
       data: list,
     });
+  } catch (e) {
+    console.log("error", e);
   }
 }
 
-export function* importantItem(value) {
-  try {
-    return yield call(delay, 10);
-  } catch (err) {
-    yield put({ type: ERROR });
-  }
+export function* addItemFlow() {
+  yield takeLatest(ADD_TODO, addItem);
 }
-export function* importantItemFlow() {
-  while (true) {
-    let request = yield take(IMPORTANT_TODO);
-    // let response = yield call(importantItem, request.index);
+
+export function* importantItem(action) {
+  try {
+    // let request = yield take(IMPORTANT_TODO);
+    const index = action.index;
+    const identify = action.identify;
     let tempList = yield select((state) => state.getTodo.list);
     let list = [];
     list = list.concat(tempList);
-    let obj = list[request.index];
+    let obj = list[index];
     obj.important = !obj.important;
     let firestoreRef = firestore()
       .collection("users")
       .doc(auth().currentUser.uid)
       .collection("lists");
-    firestoreRef
-      .doc(`${request.identify}`)
-      .update({ important: obj.important });
+    firestoreRef.doc(`${identify}`).update({ important: obj.important });
     yield put({
       type: UPDATE_TODO,
       data: list,
     });
-  }
-}
-
-export function* removeItem() {
-  try {
-    return yield call(delay, 10);
   } catch (err) {
     yield put({ type: ERROR });
   }
 }
+export function* importantItemFlow() {
+  yield takeLatest(IMPORTANT_TODO, importantItem);
+}
 
-export function* removeItemFlow() {
-  while (true) {
-    let request = yield take(REMOVE_TODO);
-    // let response = yield call(removeItem, request.index);
+export function* removeItem(action) {
+  try {
+    // let request = yield take(REMOVE_TODO);
+    const identify = action.identify;
     let tempList = yield select((state) => state.getTodo.list);
     let list = [];
     list = list.concat(tempList);
@@ -103,27 +97,26 @@ export function* removeItemFlow() {
       .collection("users")
       .doc(auth().currentUser.uid)
       .collection("lists");
-    firestoreRef.doc(`${request.identify}`).delete();
+    firestoreRef.doc(`${identify}`).delete();
 
     yield put({
       type: UPDATE_TODO,
       data: list,
     });
-  }
-}
-
-export function* toggleItem(value) {
-  try {
-    return yield call(delay, 10);
   } catch (err) {
     yield put({ type: ERROR });
   }
 }
 
-export function* toggleItemFlow() {
-  while (true) {
-    let request = yield take(TOGGLE_TODO);
-    // let response = yield call(toggleItem, request.index);
+export function* removeItemFlow() {
+  yield takeLatest(REMOVE_TODO, removeItem);
+}
+
+export function* toggleItem(action) {
+  try {
+    // let request = yield take(TOGGLE_TODO);
+    const identify = action.identify;
+    const index = action.index;
     let tempList = yield select((state) => state.getTodo.list);
     let list = [];
     list = list.concat(tempList);
@@ -133,34 +126,29 @@ export function* toggleItemFlow() {
       .doc(auth().currentUser.uid)
       .collection("lists");
 
-    // console.log(list);
-    let obj = list[request.index];
-    // console.log(obj);
+    let obj = list[index];
     obj.finished = !obj.finished;
 
-    firestoreRef.doc(`${request.identify}`).update({ finished: obj.finished });
+    firestoreRef.doc(`${identify}`).update({ finished: obj.finished });
 
     yield put({
       type: UPDATE_TODO,
       data: list,
     });
-  }
-}
-
-export function* modifyItem(value) {
-  try {
-    return yield call(delay, 10);
   } catch (err) {
-    yield put({
-      type: ERROR,
-    });
+    yield put({ type: ERROR });
   }
 }
 
-export function* modifyItemFlow() {
-  while (true) {
-    let request = yield take(EDIT_TODO);
-    // let response = yield call(modifyItem, request.index);
+export function* toggleItemFlow() {
+  yield takeLatest(TOGGLE_TODO, toggleItem);
+}
+
+export function* modifyItem(action) {
+  try {
+    // let request = yield take(EDIT_TODO);
+    const identify = action.identify;
+    const value = action.value;
     let tempList = yield select((state) => state.getTodo.list);
     let list = [];
     list = list.concat(tempList);
@@ -170,13 +158,19 @@ export function* modifyItemFlow() {
       .collection("users")
       .doc(auth().currentUser.uid)
       .collection("lists");
-    firestoreRef
-      .doc(`${request.identify}`)
-      .update({ title: `${request.value}` });
+    firestoreRef.doc(`${identify}`).update({ title: `${value}` });
 
     yield put({
       type: UPDATE_TODO,
       data: list,
     });
+  } catch (err) {
+    yield put({
+      type: ERROR,
+    });
   }
+}
+
+export function* modifyItemFlow() {
+  yield takeLatest(EDIT_TODO, modifyItem);
 }

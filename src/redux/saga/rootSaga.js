@@ -1,4 +1,4 @@
-import { fork } from "redux-saga/effects";
+import { all, fork } from "redux-saga/effects";
 import {
   addItemFlow,
   modifyItemFlow,
@@ -8,9 +8,11 @@ import {
 } from ".";
 
 export default function* rootSaga() {
-  yield fork(importantItemFlow);
-  yield fork(addItemFlow);
-  yield fork(removeItemFlow);
-  yield fork(toggleItemFlow);
-  yield fork(modifyItemFlow);
+  yield all([
+    fork(addItemFlow),
+    fork(importantItemFlow),
+    fork(removeItemFlow),
+    fork(toggleItemFlow),
+    fork(modifyItemFlow),
+  ]);
 }

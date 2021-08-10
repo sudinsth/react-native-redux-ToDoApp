@@ -169,7 +169,6 @@ export const LoginScreen = () => {
                   setPasswordField({ ...passwordField });
                   isAllValid = false;
                 }
-                console.log(passwordField.text, passwordField.errorMessage);
 
                 if (
                   isCreateMode &&
