@@ -58,9 +58,7 @@ export default function App() {
     return (
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <SafeAreaView>
-            {isAuthenticated ? <AppNavigation /> : <AuthStackScreen />}
-          </SafeAreaView>
+          {isAuthenticated ? <AppNavigation /> : <AuthStackScreen />}
         </PersistGate>
       </Provider>
     );
