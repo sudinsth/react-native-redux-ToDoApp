@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
   },
   textActive: {
     color: "white",
-    fontSize: 18,
+    fontSize: 17,
   },
   textInactive: {
     color: "black",

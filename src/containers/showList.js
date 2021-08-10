@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, ScrollView } from "react-native";
+import { View, ActivityIndicator } from "react-native";
 
 import { useSelector, useDispatch } from "react-redux";
 
@@ -18,6 +18,8 @@ const titleBtnNameMap = {
 };
 
 const ShowList = ({ navigation }) => {
+  const [waitTime, setWaitTime] = useState(false);
+
   const list = useSelector((state) => state.getTodo.list);
   const dispatch = useDispatch();
 
@@ -50,6 +52,7 @@ const ShowList = ({ navigation }) => {
           },
         }
       );
+      setTimeout(() => setWaitTime(true), 1000);
     } catch (err) {
       console.log("Not found", err);
     }
@@ -72,7 +75,11 @@ const ShowList = ({ navigation }) => {
         btnNames={titleBtnNameMap}
         clicked={clicked}
       />
-      <ListView list={list} navigation={navigation} filter={filter} />
+      {waitTime ? (
+        <ListView list={list} navigation={navigation} filter={filter} />
+      ) : (
+        <ActivityIndicator color="orange" style={{ flex: 1 }} size="large" />
+      )}
     </View>
   );
 };

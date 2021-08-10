@@ -41,7 +41,6 @@ const CalendarScreen = () => {
         const strTime = data.createdDate;
         // if (!items[strTime]) {
         if (strTime == currentDate) {
-          console.log("From inside if state");
           items[strTime] = [];
           currentDateList.forEach((datalist) => {
             items[strTime].push({
