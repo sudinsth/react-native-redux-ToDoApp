@@ -2,7 +2,7 @@ import "react-native-gesture-handler";
 import "react-native-reanimated";
 import React, { useState, useEffect } from "react";
 import { enableScreens } from "react-native-screens";
-import { LogBox, SafeAreaView } from "react-native";
+import { LogBox } from "react-native";
 
 // Redux imports
 import { Provider } from "react-redux";

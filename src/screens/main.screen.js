@@ -7,6 +7,7 @@ import {
   Text,
   Pressable,
   StatusBar as BarStatus,
+  SafeAreaView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -23,7 +24,7 @@ export const HomeScreen = ({ navigation }) => {
     setModalOpen(action);
   };
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
       <Header navigation={navigation} />
       <View style={styles.borderLine} />
@@ -56,7 +57,7 @@ export const HomeScreen = ({ navigation }) => {
           <Text style={styles.cancelText}>Cancel</Text>
         </TouchableOpacity>
       </CustModal>
-    </View>
+    </SafeAreaView>
   );
 };
 
