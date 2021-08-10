@@ -2,7 +2,7 @@ import "react-native-gesture-handler";
 import "react-native-reanimated";
 import React, { useState, useEffect } from "react";
 import { enableScreens } from "react-native-screens";
-import { LogBox } from "react-native";
+import { LogBox, SafeAreaView } from "react-native";
 
 // Redux imports
 import { Provider } from "react-redux";
@@ -58,7 +58,9 @@ export default function App() {
     return (
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          {isAuthenticated ? <AppNavigation /> : <AuthStackScreen />}
+          <SafeAreaView>
+            {isAuthenticated ? <AppNavigation /> : <AuthStackScreen />}
+          </SafeAreaView>
         </PersistGate>
       </Provider>
     );

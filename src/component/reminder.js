@@ -64,7 +64,7 @@ export const ReminderTab = ({ notify }) => {
     await Notifications.scheduleNotificationAsync({
       content: {
         title: "REMINDER!!!! 📬",
-        body: `Task TODO: ${notify}`,
+        body: "Task TODO: ${notify}",
       },
       trigger: {
         seconds: sec * repeatSec,

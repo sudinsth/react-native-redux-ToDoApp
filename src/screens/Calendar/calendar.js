@@ -6,7 +6,6 @@ import {
   StatusBar,
   TouchableOpacity,
 } from "react-native";
-import { useIsFocused } from "@react-navigation/native";
 import { Agenda } from "react-native-calendars";
 
 import moment from "moment";
@@ -15,17 +14,14 @@ import { useSelector } from "react-redux";
 import { Header } from "../../component/header";
 
 const CalendarScreen = () => {
-  const isFocused = useIsFocused;
   let currentDate = moment().format("YYYY-MM-DD");
   const list = useSelector((state) => state.getTodo.list);
 
   const [items, setItems] = useState({});
 
   useEffect(() => {
-    if (isFocused) {
-      setItems({});
-      loadItems();
-    }
+    setItems({});
+    loadItems();
   }, [list]);
 
   const loadItems = () => {
