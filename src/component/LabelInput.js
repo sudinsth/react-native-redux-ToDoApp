@@ -16,7 +16,7 @@ export default ({
       {errorMessage ? (
         <View>
           <Text style={{ color: colors.red }}>
-            {errorMessage && "*${errorMessage}"}
+            {errorMessage && `*${errorMessage}`}
           </Text>
         </View>
       ) : null}

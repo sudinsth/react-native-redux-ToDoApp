@@ -23,7 +23,7 @@ export const HomeStack = () => {
         component={EditScreen}
         options={({ route }) => {
           return {
-            title: 'Edit "${route.params.currentTask}"',
+            title: `Edit "${route.params.currentTask}"`,
             headerTitleStyle: {
               fontSize: 22,
             },

@@ -41,7 +41,7 @@ export function* addItem(action) {
       .collection("users")
       .doc(auth().currentUser.uid)
       .collection("lists");
-    firestoreRef.doc("${tempObj.identify}").set(tempObj);
+    firestoreRef.doc(`${tempObj.identify}`).set(tempObj);
 
     // console.log(list);
     yield put({
@@ -71,7 +71,7 @@ export function* importantItem(action) {
       .collection("users")
       .doc(auth().currentUser.uid)
       .collection("lists");
-    firestoreRef.doc("${identify}").update({ important: obj.important });
+    firestoreRef.doc(`${identify}`).update({ important: obj.important });
     yield put({
       type: UPDATE_TODO,
       data: list,
@@ -97,7 +97,7 @@ export function* removeItem(action) {
       .collection("users")
       .doc(auth().currentUser.uid)
       .collection("lists");
-    firestoreRef.doc("${identify}").delete();
+    firestoreRef.doc(`${identify}`).delete();
 
     yield put({
       type: UPDATE_TODO,
@@ -129,7 +129,7 @@ export function* toggleItem(action) {
     let obj = list[index];
     obj.finished = !obj.finished;
 
-    firestoreRef.doc("${identify}").update({ finished: obj.finished });
+    firestoreRef.doc(`${identify}`).update({ finished: obj.finished });
 
     yield put({
       type: UPDATE_TODO,
@@ -158,7 +158,7 @@ export function* modifyItem(action) {
       .collection("users")
       .doc(auth().currentUser.uid)
       .collection("lists");
-    firestoreRef.doc("${identify}").update({ title: "${value}" });
+    firestoreRef.doc(`${identify}`).update({ title: `${value}` });
 
     yield put({
       type: UPDATE_TODO,

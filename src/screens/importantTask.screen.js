@@ -11,7 +11,7 @@ export const ImportantTaskScreen = ({ navigation }) => {
       <Header navigation={navigation} />
       <View style={styles.borderLine} />
       <View style={styles.content}>
-        <ImportantTodo />
+        <ImportantTodo navigation={navigation} />
       </View>
     </View>
   );
